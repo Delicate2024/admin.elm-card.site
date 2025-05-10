@@ -1,3 +1,9 @@
+#!/bin/bash
+
+# 设置用户名和密码为环境变量
+export GIT_USERNAME="ljx"
+export GIT_PASSWORD="Suda_2033"
+
 # 拉取远程仓库的代码
 git fetch origin
 
@@ -9,5 +15,5 @@ if [ $LOCAL = $REMOTE ]; then
     echo "has updated to latest."
 else
     echo "local repository has updated."
-    git pull origin master
+    git pull https://$GIT_USERNAME:$GIT_PASSWORD@gitea.apivot.fun/ljx/admin.elm-card.site.git master
 fi
