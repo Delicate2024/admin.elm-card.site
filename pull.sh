@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# 设置用户名和密码为环境变量
-export GIT_USERNAME="ljx"
-export GIT_PASSWORD="Suda_2033"
-
 # 拉取远程仓库的代码
 git fetch origin
 

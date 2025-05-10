@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# 设置用户名和密码为环境变量
-export GIT_USERNAME="ljx"
-export GIT_PASSWORD="Suda_2033"
-
 # 固定提交信息
 COMMIT_MESSAGE="auto: update"
 BRANCH_NAME="master"
