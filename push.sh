@@ -9,7 +9,7 @@ git add .
 git commit -m "$COMMIT_MESSAGE"
 
 # 推送到 master 分支
-git push "$BRANCH_NAME"
+git push origin "$BRANCH_NAME"
 
 # 确保同步远程标签
 git fetch --tags
@@ -30,7 +30,7 @@ if git ls-remote --tags https://gitea.apivot.fun/ljx/admin.elm-card.site.git | g
 else
     # 创建并推送新 tag
     git tag "$NEW_TAG"
-    git push "$NEW_TAG"
+    git push origin "$NEW_TAG"
     echo "Pushed to $BRANCH_NAME with tag $NEW_TAG"
 fi
 
