@@ -24,8 +24,13 @@ else
     NEW_TAG=$(printf "%.2f" "$(echo "$LATEST_TAG + 0.01" | bc)")
 fi
 
-# 创建并推送新 tag
-git tag "$NEW_TAG"
-git push https://$GIT_USERNAME:$GIT_PASSWORD@gitea.apivot.fun/ljx/admin.elm-card.site.git "$NEW_TAG"
+# 检查是否已有该 tag
+if git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
+    echo "Tag $NEW_TAG already exists, skipping tag creation."
+else
+    # 创建并推送新 tag
+    git tag "$NEW_TAG"
+    git push https://$GIT_USERNAME:$GIT_PASSWORD@gitea.apivot.fun/ljx/admin.elm-card.site.git "$NEW_TAG"
+    echo "Pushed to $BRANCH_NAME with tag $NEW_TAG"
+fi
 
-echo "Pushed to $BRANCH_NAME with tag $NEW_TAG"
