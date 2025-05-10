@@ -11,5 +11,7 @@ if [ $LOCAL = $REMOTE ]; then
     echo "has updated to latest."
 else
     echo "local repository has updated."
-    git pull https://$GIT_USERNAME:$GIT_PASSWORD@gitea.apivot.fun/ljx/admin.elm-card.site.git master
+    # 使用 origin 来拉取远程仓库的更新
+    git pull origin master
 fi
+
