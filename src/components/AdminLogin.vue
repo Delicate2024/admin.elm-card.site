@@ -4,29 +4,71 @@
     <form @submit.prevent="handleLogin">
       <div>
         <label for="username">用户名:</label>
-        <input type="text" id="username" v-model="username" required />
+        <input 
+          type="text" 
+          id="username" 
+          v-model="username" 
+          required 
+          placeholder="请输入用户名" 
+        />
       </div>
       <div>
         <label for="password">密码:</label>
-        <input type="password" id="password" v-model="password" required />
+        <input 
+          type="password" 
+          id="password" 
+          v-model="password" 
+          required 
+          placeholder="请输入密码" 
+        />
       </div>
-      <button type="submit">登录</button>
+      <button type="submit" :disabled="loading">
+        <span v-if="loading">登录中...</span>
+        <span v-else>登录</span>
+      </button>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       username: '',
       password: '',
+      loading: false,
+      errorMessage: '',
     };
   },
   methods: {
-    handleLogin() {
-      // 正确格式化 alert 语法
-      alert(`用户名: ${this.username}, 密码: ${this.password}`);
+    async handleLogin() {
+      if (!this.username || !this.password) {
+        this.errorMessage = "用户名和密码不能为空！";
+        return;
+      }
+      this.loading = true;
+      this.errorMessage = '';
+      
+      try {
+        const response = await axios.post('/api/login', {
+          username: this.username,
+          password: this.password,
+        });
+        
+        if (response.data.success) {
+          localStorage.setItem('authToken', response.data.token);
+          this.$router.push('/dashboard');
+        } else {
+          this.errorMessage = response.data.message || "登录失败，请重试！";
+        }
+      } catch (error) {
+        this.errorMessage = "无法连接服务器，请稍后重试！";
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
@@ -69,5 +111,10 @@ button {
 
 button:hover {
   background: #38a169;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
 </style>
