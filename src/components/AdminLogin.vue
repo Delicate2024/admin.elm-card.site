@@ -45,14 +45,17 @@ export default {
   },
   methods: {
     async handleLogin() {
+      console.log("Login attempt initiated");  // 打印登录尝试开始
       if (!this.username || !this.password) {
         this.errorMessage = "用户名和密码不能为空！";
+        console.log("Error: Username or password is missing."); // 打印用户名或密码为空
         return;
       }
       this.loading = true;
       this.errorMessage = '';
       
       try {
+        console.log("Sending login request...");  // 打印发送请求
         const response = await axios.post('/api/login', {
           username: this.username,
           password: this.password,
@@ -61,20 +64,25 @@ export default {
         });
         
         if (response.data.success) {
-          // 服务器返回的登录成功状态
+          console.log("Login successful, redirecting...");  // 打印登录成功
           this.$router.push('/dashboard');
         } else {
           this.errorMessage = response.data.message || "登录失败，请重试！";
+          console.log("Error: Login failed, message: ", this.errorMessage);  // 打印登录失败信息
         }
       } catch (error) {
         if (error.response) {
           this.errorMessage = error.response.data.message || "登录失败，请重试！";
+          console.log("Error response: ", error.response.data);  // 打印服务器返回的错误信息
         } else if (error.request) {
           this.errorMessage = "无法连接服务器，请稍后重试！";
+          console.log("Error: No response received, request: ", error.request);  // 打印没有收到响应时的请求信息
         } else {
           this.errorMessage = "发生未知错误，请重试！";
+          console.log("Error: Unknown error occurred: ", error.message);  // 打印未知错误信息
         }
       } finally {
+        console.log("Login process completed.");  // 打印登录过程结束
         this.loading = false;
       }
     },
