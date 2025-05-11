@@ -97,7 +97,14 @@ export default {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background: #f9f9f9;
+  background: #333; /* 背景色也改深一点，以搭配白字 */
+  color: white; /* 默认文字颜色白色 */
+}
+
+h2 {
+  color: white; /* 标题颜色为白色 */
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 form div {
@@ -107,16 +114,21 @@ form div {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #333; /* 修改标签字体颜色为深灰色 */
+  color: white; /* 标签颜色为白色 */
 }
 
 input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  color: #333; /* 修改输入框字体颜色为深灰色 */
+  color: white; /* 输入框文字颜色为白色 */
+  background-color: #444; /* 输入框背景深灰 */
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+input::placeholder {
+  color: #bbb; /* 占位符颜色为淡灰 */
 }
 
 button {
@@ -134,8 +146,9 @@ button:hover {
 }
 
 .error {
-  color: #d9534f; /* 修改错误信息字体颜色为红色 */
+  color: #ff6666; /* 错误信息颜色为亮红 */
   margin-top: 10px;
   font-size: 14px;
+  text-align: center;
 }
 </style>
