@@ -107,12 +107,16 @@ form div {
 label {
   display: block;
   margin-bottom: 5px;
+  color: #333; /* 修改标签字体颜色为深灰色 */
 }
 
 input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  color: #333; /* 修改输入框字体颜色为深灰色 */
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
@@ -130,7 +134,8 @@ button:hover {
 }
 
 .error {
-  color: red;
+  color: #d9534f; /* 修改错误信息字体颜色为红色 */
   margin-top: 10px;
+  font-size: 14px;
 }
 </style>
