@@ -56,16 +56,24 @@ export default {
         const response = await axios.post('/api/login', {
           username: this.username,
           password: this.password,
+        }, {
+          withCredentials: true,  // 允许发送/接收跨域的 HttpOnly cookie
         });
         
         if (response.data.success) {
-          localStorage.setItem('authToken', response.data.token);
+          // 服务器返回的登录成功状态
           this.$router.push('/dashboard');
         } else {
           this.errorMessage = response.data.message || "登录失败，请重试！";
         }
       } catch (error) {
-        this.errorMessage = "无法连接服务器，请稍后重试！";
+        if (error.response) {
+          this.errorMessage = error.response.data.message || "登录失败，请重试！";
+        } else if (error.request) {
+          this.errorMessage = "无法连接服务器，请稍后重试！";
+        } else {
+          this.errorMessage = "发生未知错误，请重试！";
+        }
       } finally {
         this.loading = false;
       }
