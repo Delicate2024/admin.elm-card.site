@@ -20,7 +20,7 @@ git push $GITHUB_REMOTE "$BRANCH_NAME"
 git fetch --tags
 
 # 获取 Gitea 上最新 tag（可选，也可以统一用本地）
-LATEST_TAG=$(git ls-remote --tags https://gitea.apivot.fun/ljx/admin.elm-card.site.git | \
+LATEST_TAG=$(git ls-remote --tags "$GITEA_REMOTE" | \
   grep -E 'refs/tags/[0-9]+\.[0-9]+' | sed 's/.*refs\/tags\///' | sort -V | tail -n 1)
 
 # 计算新 tag
@@ -31,7 +31,7 @@ else
 fi
 
 # 检查是否已有该 tag
-if git ls-remote --tags https://gitea.apivot.fun/ljx/admin.elm-card.site.git | grep -q "refs/tags/$NEW_TAG"; then
+if git ls-remote --tags "$GITEA_REMOTE" | grep -q "refs/tags/$NEW_TAG"; then
     echo "Tag $NEW_TAG already exists on remote, skipping tag creation."
 else
     git tag "$NEW_TAG"
