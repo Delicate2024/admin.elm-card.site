@@ -1,11 +1,12 @@
-<script setup>
-import AdminLogin from './components/AdminLogin.vue'
-</script>
-
+<!-- src/App.vue -->
 <template>
-  <AdminLogin />
+  <router-view />
 </template>
 
+<script setup>
+// 不再手动引入 AdminLogin，交由 router 管理
+</script>
+
 <style scoped>
-/* 可根据需要添加样式 */
+/* 样式可保留或扩展 */
 </style>
