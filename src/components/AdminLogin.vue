@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      // TODO: 添加登录逻辑，例如表单验证或 API 调用
+      // 正确格式化 alert 语法
       alert(`用户名: ${this.username}, 密码: ${this.password}`);
     },
   },
@@ -41,18 +41,22 @@ export default {
   border-radius: 5px;
   background: #f9f9f9;
 }
+
 form div {
   margin-bottom: 15px;
 }
+
 label {
   display: block;
   margin-bottom: 5px;
 }
+
 input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
 }
+
 button {
   width: 100%;
   padding: 10px;
@@ -62,6 +66,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+
 button:hover {
   background: #38a169;
 }
