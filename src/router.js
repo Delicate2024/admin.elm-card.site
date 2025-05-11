@@ -27,10 +27,16 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const isAuthenticated = await checkAuth();
 
-  // 如果访问的是受保护的页面，且没有有效的 Token，跳转到登录页
-  if (to.path === '/dashboard' && !isAuthenticated) {
+  // 如果访问的是登陆页，且已经登陆，跳转到 dashboard 页面
+  if (to.path === '/' && isAuthenticated) {
+    next('/dashboard');
+  }
+  // 如果访问的是受保护的 dashboard 页面，但没有有效的 Token，跳转到登陆页
+  else if (to.path === '/dashboard' && !isAuthenticated) {
     next('/');
-  } else {
+  }
+  // 默认情况下继续路由
+  else {
     next();
   }
 });
