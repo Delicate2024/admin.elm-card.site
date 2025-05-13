@@ -14,52 +14,60 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import jwt from 'jsonwebtoken';  // 确保你引入了 jsonwebtoken
+import jwtDecode from 'jwt-decode'; // ✅ 浏览器中解码 JWT 的正确方式
 
 const router = useRouter();
 const loading = ref(true);
 const authenticated = ref(false);
 
-// 跳转到登录页的逻辑封装
+// 跳转到登录页（延迟 1.5 秒）
 const redirectToLogin = () => {
-  setTimeout(() => router.replace('/'), 1500);  // 1.5秒后跳转
+  setTimeout(() => {
+    router.replace('/');
+  }, 1500);
 };
 
-// 认证逻辑
+// 页面加载后执行认证
 onMounted(() => {
-  // 1. 获取 redirectToken
   const redirectToken = localStorage.getItem('redirectToken');
-  if (redirectToken) {
-    try {
-      // 使用 jwt.verify 来验证并解码 token
-      const decoded = jwt.verify(redirectToken, 'invalid-key');  // 使用错误密钥来验证无效性
-    } catch (err) {
-      // 如果验证失败（例如 token 无效或过期）
-      console.error('Token 验证失败:', err);
-      redirectToLogin();
-      loading.value = false;
-      return;
-    }
-  } else {
-    // 如果没有 redirectToken，直接跳转
+
+  if (!redirectToken) {
     redirectToLogin();
     loading.value = false;
     return;
   }
 
-  // 2. 如果有 redirectToken，再验证cookie中的JWT token的有效性
+  try {
+    // 解码并检查是否过期
+    const decoded = jwtDecode(redirectToken);
+    const exp = decoded?.exp;
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    if (!exp || currentTime >= exp) {
+      console.warn('redirectToken 已过期');
+      redirectToLogin();
+      loading.value = false;
+      return;
+    }
+  } catch (err) {
+    console.error('redirectToken 解码失败:', err);
+    redirectToLogin();
+    loading.value = false;
+    return;
+  }
+
+  // 如果 redirectToken 合法，继续验证 Cookie 中的登录态
   axios.get('/api/verifyToken', { withCredentials: true })
     .then((response) => {
       if (response.data.success) {
         authenticated.value = true;
       } else {
-        authenticated.value = false;
-        redirectToLogin();  // 验证失败，跳转
+        redirectToLogin();
       }
     })
     .catch((error) => {
-      authenticated.value = false;
-      redirectToLogin();  // 请求失败，跳转
+      console.error('verifyToken 请求失败:', error);
+      redirectToLogin();
     })
     .finally(() => {
       loading.value = false;
