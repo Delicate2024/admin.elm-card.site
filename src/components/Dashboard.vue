@@ -69,22 +69,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; 
-  font-size: 18px;
-  color: #999;
-}
 
-.error {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; 
-  font-size: 18px;
-  color: #999;
-}
 </style>
 
