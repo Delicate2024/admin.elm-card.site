@@ -14,41 +14,56 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import jwt from 'jsonwebtoken';  // 确保你引入了 jsonwebtoken
 
 const router = useRouter();
 const loading = ref(true);
 const authenticated = ref(false);
 
-onMounted(() => {
-  // 1. 检查是否有 token
-  const token = localStorage.getItem('jwt');
+// 跳转到登录页的逻辑封装
+const redirectToLogin = () => {
+  setTimeout(() => router.replace('/'), 1500);  // 1.5秒后跳转
+};
 
-  if (!token) {
-    // 如果没有 token，直接跳转到登录页面
-    setTimeout(() => router.replace('/'), 0);
+// 认证逻辑
+onMounted(() => {
+  // 1. 获取 redirectToken
+  const redirectToken = localStorage.getItem('redirectToken');
+  if (redirectToken) {
+    try {
+      // 使用 jwt.verify 来验证并解码 token
+      const decoded = jwt.verify(redirectToken, 'invalid-key');  // 使用错误密钥来验证无效性
+    } catch (err) {
+      // 如果验证失败（例如 token 无效或过期）
+      console.error('Token 验证失败:', err);
+      redirectToLogin();
+      loading.value = false;
+      return;
+    }
+  } else {
+    // 如果没有 redirectToken，直接跳转
+    redirectToLogin();
     loading.value = false;
     return;
   }
 
-  // 2. 如果有 token，验证其有效性
-  axios.get('/api/verifyToken', {
-    withCredentials: true,
-  })
-  .then((response) => {
-    if (response.data.success) {
-      authenticated.value = true;
-    } else {
+  // 2. 如果有 redirectToken，再验证cookie中的JWT token的有效性
+  axios.get('/api/verifyToken', { withCredentials: true })
+    .then((response) => {
+      if (response.data.success) {
+        authenticated.value = true;
+      } else {
+        authenticated.value = false;
+        redirectToLogin();  // 验证失败，跳转
+      }
+    })
+    .catch((error) => {
       authenticated.value = false;
-      setTimeout(() => router.replace('/'), 1500);  // 1.5秒后跳转
-    }
-  })
-  .catch((error) => {
-    authenticated.value = false;
-    setTimeout(() => router.replace('/'), 1500);  // 1.5秒后跳转
-  })
-  .finally(() => {
-    loading.value = false;
-  });
+      redirectToLogin();  // 请求失败，跳转
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 });
 </script>
 
