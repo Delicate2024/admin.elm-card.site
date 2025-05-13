@@ -1,12 +1,14 @@
 <!-- src/components/Dashboard.vue -->
 <template>
-  <div v-if="loading" class="loading">验证身份中...</div>
+  <div v-if="loading" class="loading">
+    <h2>验证身份中...</h2>
+  </div>
   <div v-else-if="authenticated">
     <h2>欢迎来到 Dashboard</h2>
     <p>你已成功登录。</p>
   </div>
   <div v-else class="error">
-    <p>身份验证失败，正在返回登录页...</p>
+    <h2>身份验证失败，正在返回登录页...</h2>
   </div>
 </template>
 
