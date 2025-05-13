@@ -70,15 +70,19 @@ onMounted(() => {
 
 <style scoped>
 .loading {
-  text-align: center;
-  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
   font-size: 18px;
   color: #999;
 }
 
 .error {
-  text-align: center;
-  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
   font-size: 18px;
   color: #999;
 }
