@@ -19,24 +19,36 @@ const router = useRouter();
 const loading = ref(true);
 const authenticated = ref(false);
 
-onMounted(async () => {
-  try {
-    const response = await axios.get('/api/verifyToken', {
-      withCredentials: true,
-    });
+onMounted(() => {
+  // 1. 检查是否有 token
+  const token = localStorage.getItem('jwt');
 
+  if (!token) {
+    // 如果没有 token，直接跳转到登录页面
+    setTimeout(() => router.replace('/'), 0);
+    loading.value = false;
+    return;
+  }
+
+  // 2. 如果有 token，验证其有效性
+  axios.get('/api/verifyToken', {
+    withCredentials: true,
+  })
+  .then((response) => {
     if (response.data.success) {
       authenticated.value = true;
     } else {
       authenticated.value = false;
       setTimeout(() => router.replace('/'), 1500);  // 1.5秒后跳转
     }
-  } catch (error) {
+  })
+  .catch((error) => {
     authenticated.value = false;
-    setTimeout(() => router.replace('/'), 1500);
-  } finally {
+    setTimeout(() => router.replace('/'), 1500);  // 1.5秒后跳转
+  })
+  .finally(() => {
     loading.value = false;
-  }
+  });
 });
 </script>
 
