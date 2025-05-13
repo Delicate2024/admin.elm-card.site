@@ -14,7 +14,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import jwtDecode from 'jwt-decode'; // ✅ 浏览器中解码 JWT 的正确方式
+import { jwtDecode } from 'jwt-decode'; // ✅ 浏览器中解码 JWT 的正确方式
 
 const router = useRouter();
 const loading = ref(true);
