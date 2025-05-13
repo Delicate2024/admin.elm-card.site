@@ -25,20 +25,19 @@ const loading = ref(true);
 const redirectToLogin = () => {
   setTimeout(() => {
     router.replace('/login');
-	loading.value = false;
-  }, 2000);
+  }, 1000);
 };
 
 onMounted(() => {
+  setTimeout(() => {loading.value = false;}, 1000);
   const redirectToken = localStorage.getItem('redirectToken');
 
   if (!redirectToken) {
     redirectToLogin();
     return;
   }
-
+  
   try {
-	setTimeout(() => {loading.value = false;}, 1000);
     const decoded = jwtDecode(redirectToken);
     const exp = decoded?.exp;
     const currentTime = Math.floor(Date.now() / 1000);
