@@ -4,8 +4,8 @@ import AdminLogin from './components/AdminLogin.vue'
 import Dashboard from './components/Dashboard.vue'
 
 const routes = [
-  { path: '/', component: AdminLogin },
-  { path: '/dashboard', component: Dashboard },
+  { path: '/login', component: AdminLogin },
+  { path: '/', component: Dashboard },
 ]
 
 const router = createRouter({

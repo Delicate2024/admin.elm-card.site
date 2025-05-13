@@ -20,7 +20,7 @@ const authenticated = ref(false);
 
 const redirectToLogin = () => {
   setTimeout(() => {
-    router.replace('/');
+    router.replace('/login');
   }, 1500);
 };
 

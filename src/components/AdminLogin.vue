@@ -69,7 +69,7 @@ export default {
 		  console.log("Login successful, redirecting...");
 		  const redirectToken = response.data.redirectToken;
 		  localStorage.setItem('redirectToken', redirectToken);  
-		  this.$router.push('/dashboard');  // 登录成功后跳转到 Dashboard
+		  this.$router.push('/');  // 登录成功后跳转到 Dashboard
 		} else {
 		  this.errorMessage = response.data.message || "登录失败，请重试！";
 		  console.log("Error: Login failed, message: ", this.errorMessage);
