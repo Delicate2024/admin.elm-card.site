@@ -37,6 +37,7 @@ onMounted(() => {
   }
 
   try {
+	setTimeout(() => {loading.value = false;}, 1000);
     const decoded = jwtDecode(redirectToken);
     const exp = decoded?.exp;
     const currentTime = Math.floor(Date.now() / 1000);
@@ -63,9 +64,6 @@ onMounted(() => {
     .catch((error) => {
       console.error('verifyToken 请求失败:', error);
       redirectToLogin();
-    })
-    .finally(() => {
-	  setTimeout(() => {loading.value = false;}, 1000);
     });
 });
 </script>
