@@ -69,7 +69,7 @@ onMounted(() => {
       redirectToLogin();
     })
     .finally(() => {
-	  // 无事发生。
+	  loading.value = false
     });
 });
 </script>
