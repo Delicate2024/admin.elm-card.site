@@ -25,7 +25,7 @@ const loading = ref(true);
 const redirectToLogin = () => {
   setTimeout(() => {
     router.replace('/login');
-  }, 2000);
+  }, 3000);
 };
 
 onMounted(() => {
