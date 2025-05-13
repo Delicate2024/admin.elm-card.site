@@ -22,7 +22,9 @@ const authenticated = ref(false);
 
 // 跳转到登录页（延迟 1.5 秒）
 const redirectToLogin = () => {
+  loading.value = true;
   setTimeout(() => {
+	loading.value = false;
     router.replace('/');
   }, 1500);
 };
@@ -33,7 +35,6 @@ onMounted(() => {
 
   if (!redirectToken) {
     redirectToLogin();
-    loading.value = false;
     return;
   }
 
@@ -46,13 +47,11 @@ onMounted(() => {
     if (!exp || currentTime >= exp) {
       console.warn('redirectToken 已过期');
       redirectToLogin();
-      loading.value = false;
       return;
     }
   } catch (err) {
     console.error('redirectToken 解码失败:', err);
     redirectToLogin();
-    loading.value = false;
     return;
   }
 
@@ -70,7 +69,7 @@ onMounted(() => {
       redirectToLogin();
     })
     .finally(() => {
-      loading.value = false;
+	  // 无事发生。
     });
 });
 </script>
@@ -86,6 +85,6 @@ onMounted(() => {
   text-align: center;
   margin-top: 100px;
   font-size: 18px;
-  color: #ff6666;
+  color: #999;
 }
 </style>
