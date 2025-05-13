@@ -1,5 +1,4 @@
-// router.js
-
+// src/router.js
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminLogin from './components/AdminLogin.vue'
 import Dashboard from './components/Dashboard.vue'
@@ -14,16 +13,9 @@ const router = createRouter({
   routes,
 })
 
+// 不阻塞跳转 —— 仅初步限制
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token'); // 或检查 cookie
-
-  if (to.path === '/' && token) {
-    next('/dashboard');
-  } else if (to.path === '/dashboard' && !token) {
-    next('/');
-  } else {
-    next();
-  }
+  next(); // 所有跳转放行，验证交给页面组件自己做
 });
 
 export default router;
