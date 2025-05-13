@@ -1,6 +1,7 @@
 <!-- src/components/Dashboard.vue -->
 <template>
-  <div v-if="authenticated">
+  <div v-if="loading" class="loading">验证身份中...</div>
+  <div v-else-if="authenticated">
     <h2>欢迎来到 Dashboard</h2>
     <p>你已成功登录。</p>
   </div>
@@ -17,11 +18,12 @@ import { jwtDecode } from 'jwt-decode';
 
 const router = useRouter();
 const authenticated = ref(false);
+const loading = ref(true);
 
 const redirectToLogin = () => {
   setTimeout(() => {
     router.replace('/login');
-  }, 1500);
+  }, 1000);
 };
 
 onMounted(() => {
@@ -59,11 +61,21 @@ onMounted(() => {
     .catch((error) => {
       console.error('verifyToken 请求失败:', error);
       redirectToLogin();
+    })
+    .finally(() => {
+	  setTimeout(() => {loading.value = false;}, 1000);
     });
 });
 </script>
 
 <style scoped>
+.loading {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 18px;
+  color: #999;
+}
+
 .error {
   text-align: center;
   margin-top: 100px;
@@ -71,3 +83,4 @@ onMounted(() => {
   color: #999;
 }
 </style>
+
