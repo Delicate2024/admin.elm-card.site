@@ -290,7 +290,7 @@ const deleteFile = async (type, name) => {
 };
 const deleteSelectedFiles = async () => {
   if (selectedFiles.value.length === 0) return;
-
+  console.log('准备删除以下文件:', selectedFiles.value);
   const deletePromises = selectedFiles.value.map(file => 
     deleteFile(file.type, file.name) 
   );
