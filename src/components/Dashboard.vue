@@ -349,7 +349,7 @@ const deleteSelectedFiles = async () => {
 	  display: flex;
 	  align-items: center;
 	  gap: 8px;
-	  flex: 7;
+	  flex: 5;
 	  height: 40px;
 	  padding: 0 10px;
 	  background-color: #fff;
