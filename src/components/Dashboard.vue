@@ -21,6 +21,11 @@
       multiple
       @change="handleFileChange"
     />
+	<input
+	  type="text"
+	  v-model="uploadDirectory"
+	  placeholder="请输入上传子目录(可选)"
+	/>
     <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
       {{ uploading ? '上传中...' : '上传图片' }}
     </button>
@@ -53,6 +58,7 @@ const uploadError = ref(false);
 const errorMessage = ref('');
 const uploadedCount = ref(0);
 const objectURLs = ref(new Set());
+const uploadDirectory = ref('');
 
 const redirectToLogin = () => {
   setTimeout(() => {
@@ -165,7 +171,12 @@ const uploadImages = async () => {
     uploadError.value = false;
 	
 	const formData = new FormData();
-    webpFiles.value.forEach(file => formData.append('images', file));
+    webpFiles.value.forEach(file => {
+	  const filename = uploadDirectory.value
+		? `${uploadDirectory.value.replace(/\/+$/, '')}/${file.name}`
+		: file.name;
+	  formData.append('images', file, filename);
+	});
 
 	const csrfToken = localStorage.getItem('csrfToken'); 
     const res = await axios.post('/api/uploadAssets', formData, {
