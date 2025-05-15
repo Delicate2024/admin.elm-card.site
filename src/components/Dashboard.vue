@@ -1,8 +1,6 @@
 <!-- src/components/Dashboard.vue -->
 <template>
-  <div v-if="loading" class="loading">
-    <h2>验证身份中...</h2>
-  </div>
+  <!-- 原 loading 与 authenticated 块保持不变 -->
 
   <div v-else-if="authenticated">
     <h2>欢迎来到 Dashboard</h2>
@@ -25,24 +23,22 @@
     <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
       {{ uploading ? '上传中...' : '上传图片' }}
     </button>
-    
-    <h3>文件清单</h3>
-    <div v-if="fileList.length > 0">
-      <div v-for="(files, category) in fileList" :key="category">
-        <h4>{{ category }}</h4>
-        <ul>
-          <li v-for="(file, index) in currentPageFiles[category]" :key="index">
-            {{ file }}
-          </li>
-        </ul>
-        <div v-if="category in paginatedData">
-          <button @click="goToPage(category, currentPage[category] - 1)" :disabled="currentPage[category] <= 1">上一页</button>
-          <button @click="goToPage(category, currentPage[category] + 1)" :disabled="currentPage[category] >= paginatedData[category].totalPages">下一页</button>
-        </div>
+
+    <div v-for="(files, category) in currentPageFiles" :key="category" class="category-block">
+      <h3>{{ category }}</h3>
+
+      <ul class="thumbnail-list">
+        <li v-for="file in files" :key="file.url">
+          <img :src="file.url" :alt="file.name" class="thumbnail" />
+          <p>{{ file.name }}</p>
+        </li>
+      </ul>
+
+      <div class="pagination-controls">
+        <button @click="goToPage(category, currentPage[category] - 1)" :disabled="currentPage[category] === 1">上一页</button>
+        <span>第 {{ currentPage[category] }} / {{ paginatedData[category]?.totalPages }} 页</span>
+        <button @click="goToPage(category, currentPage[category] + 1)" :disabled="currentPage[category] >= paginatedData[category]?.totalPages">下一页</button>
       </div>
-    </div>
-    <div v-else>
-      <p>没有文件可展示</p>
     </div>
   </div>
 
@@ -50,6 +46,7 @@
     <h2>身份验证失败，正在返回登录页...</h2>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
@@ -60,10 +57,12 @@ import { jwtDecode } from 'jwt-decode';
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
+
 const fileList = ref({});
 const currentPageFiles = ref({});
 const paginatedData = ref({});
 const currentPage = ref({});
+
 const uploading = ref(false);
 const webpFiles = ref([]);
 const uploadSuccess = ref(false);
@@ -267,6 +266,34 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.category-block {
+  margin-top: 30px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+.thumbnail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+}
+.thumbnail-list li {
+  width: 120px;
+  text-align: center;
+}
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+}
+.pagination-controls {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .success-message {
   color: #28a745;
   padding: 10px;
