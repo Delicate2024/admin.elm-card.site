@@ -30,8 +30,8 @@
 	<div v-for="(files, type) in assets" :key="type">
 	  <h4>{{ formatAssetType(type) }}</h4>
 	  <ul>
-		<li v-for="(file, index) in files" :key="index" class="file-item">
-		  <span>{{ file }}</span>
+		<li v-for="(file, index) in files" :key="file.name" class="file-item">
+		  <span>{{ file.name }}</span>
 		  <button @click="downloadFile(file)">下载</button>
 		</li>
 	  </ul>
@@ -46,7 +46,7 @@
 
 <script setup>
 // 依赖区
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
@@ -55,6 +55,7 @@ import { jwtDecode } from 'jwt-decode';
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
+const error = ref('');
 
 // 变量——上传区
 const uploading = ref(false);
@@ -68,6 +69,7 @@ const objectURLs = ref(new Set());
 
 // 变量——文件清单区
 const assets = ref({});
+
 
 // 函数——基区
 const redirectToLogin = () => {
