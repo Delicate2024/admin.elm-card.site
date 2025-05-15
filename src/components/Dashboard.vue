@@ -324,86 +324,76 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 图片上传区 */
-.upload-section {
-  margin: 20px 0;
-}
-
-.asset-group {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  background-color: #f9f9f9;
-}
-
-.asset-group h4 {
-  margin: 0 0 10px;
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-}
-
-/* 上传成功和失败消息 */
-.success-message {
-  color: green;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.error-message {
-  color: red;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-/* 文件上传控件 */
-.upload-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.file-input-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-input[type="file"] {
-  padding: 10px;
-  height: 40px;
-  box-sizing: border-box;
-  font-size: 14px;
-  flex: 3;
-}
-
-button {
-  flex: 1;
-  padding: 10px;
-  height: 40px;
-  box-sizing: border-box;
-  font-size: 14px;
-  cursor: pointer;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  transition: background-color 0.3s;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-button:hover:enabled {
-  background-color: #2980b9;
-}
-
-/* 文件选择状态文本 */
-.file-input-wrapper span {
-  margin-left: 10px;
-  font-size: 14px;
-  color: #555;
-}
+	.upload-section {
+	  margin: 20px 0;
+	}
+	.asset-group {
+	  border: 1px solid #ddd;
+	  border-radius: 8px;
+	  padding: 20px;
+	  background-color: #f9f9f9;
+	}
+	.asset-group h4 {
+	  margin: 0 0 10px;
+	  font-size: 16px;
+	  color: #333;
+	  font-weight: bold;
+	}
+	.success-message {
+	  color: green;
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	}
+	.error-message {
+	  color: red;
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	}
+	.upload-controls {
+	  display: flex;
+	  align-items: center;
+	  gap: 10px;
+	}
+	.file-input-wrapper {
+	  display: flex;
+	  align-items: center;
+	}
+	input[type="file"] {
+	  padding: 10px;
+	  height: 40px;
+	  box-sizing: border-box;
+	  font-size: 14px;
+	  flex: 3;
+	}
+	button {
+	  flex: 1;
+	  padding: 10px;
+	  height: 40px;
+	  box-sizing: border-box;
+	  font-size: 14px;
+	  cursor: pointer;
+	  background-color: #3498db;
+	  color: white;
+	  border: none;
+	  border-radius: 6px;
+	  transition: background-color 0.3s;
+	}
+	button:disabled {
+	  background-color: #ccc;
+	  cursor: not-allowed;
+	}
+	button:hover:enabled {
+	  background-color: #2980b9;
+	}
+	.file-input-wrapper span {
+	  display: inline-block;  
+	  margin: 0;  
+	  font-size: 14px;
+	  color: #555;
+	}
+	.file-input-wrapper span + span {
+	  margin-left: 10px;  /* 为第二个span添加间距 */
+	}
 	
 /* 文件清单区 */
 	/* 去掉 ul 默认的黑点 */
