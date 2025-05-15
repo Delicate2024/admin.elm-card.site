@@ -231,7 +231,7 @@ const uploadFiles = async (options) => {
 		formData.append(fieldName, file);
 
 		return axios.post(url, formData, {
-		  timeout: 10000,
+		  timeout: 20000,
 		  headers: {
 			'X-CSRF-Token': csrfToken,
 			'Content-Type': 'multipart/form-data',
