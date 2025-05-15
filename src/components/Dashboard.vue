@@ -59,14 +59,13 @@
 		  <label :for="`${type}-${file.name}`">{{ file.name }}</label>
 		</li>
 	  </ul>
+	  <button v-if="selectedFiles.length > 0"
+		@click="deleteSelectedFiles"
+		class="delete-button"
+		>
+		删除选中的文件
+	  </button>
 	</div>
-	<button
-	  v-if="selectedFiles.length > 0"
-	  @click="deleteSelectedFiles"
-	  class="delete-button"
-	>
-	  删除选中的文件
-	</button>
 	
   </div>
   
