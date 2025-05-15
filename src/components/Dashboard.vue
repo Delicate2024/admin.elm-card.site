@@ -31,11 +31,23 @@
 	  <h4>{{ formatAssetType(type) }}</h4>
 	  <ul>
 		<li v-for="(file, index) in files" :key="file.name" class="file-item">
+		  <input
+			type="checkbox"
+			v-model="selectedFiles"
+			:value="file.name"
+			:id="file.name"
+		  />
 		  <span>{{ file.name }}</span>
-		  <button @click="deleteFile(type, file.name)" class="delete-button">删除</button>
 		</li>
 	  </ul>
 	</div>
+	<button
+	  v-if="selectedFiles.length > 0"
+	  @click="deleteSelectedFiles"
+	  class="delete-button"
+	>
+	  删除选中的文件
+	</button>
 	
   </div>
   
@@ -69,6 +81,7 @@ const objectURLs = ref(new Set());
 
 // 变量——文件清单区
 const assets = ref({});
+const selectedFiles = ref([]);
 
 
 // 函数——基区
@@ -268,13 +281,26 @@ const deleteFile = async (type, name) => {
     });
 
     if (res.data.success) {
-      // 删除成功后，刷新文件清单
-      fetchAssets();
     } else {
       error.value = '删除文件失败';
     }
   } catch (err) {
     error.value = '请求失败，请稍后再试';
+  }
+};
+const deleteSelectedFiles = async () => {
+  if (selectedFiles.value.length === 0) return;
+
+  const deletePromises = selectedFiles.value.map(file => 
+    deleteFile(file.type, file.name) 
+  );
+
+  try {
+    await Promise.all(deletePromises); 
+	fetchAssets();
+    selectedFiles.value = [];
+  } catch (err) {
+    console.error('删除文件失败:', err);
   }
 };
 
