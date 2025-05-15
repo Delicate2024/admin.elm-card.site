@@ -349,7 +349,7 @@ const deleteSelectedFiles = async () => {
 	  display: flex;
 	  align-items: center;
 	  gap: 8px;
-	  flex: 5;
+	  flex: 7;
 	  height: 40px;
 	  padding: 0 10px;
 	  background-color: #fff;
@@ -378,7 +378,7 @@ const deleteSelectedFiles = async () => {
 	}
 	/* 上传按钮 */
 	button {
-	  flex: 2;
+	  flex: 3;
 	  padding: 10px;
 	  height: 40px;
 	  box-sizing: border-box;
