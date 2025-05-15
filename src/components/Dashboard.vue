@@ -206,7 +206,7 @@ const uploadImages = async () => {
     uploadedCount.value = webpFiles.value.length;
     uploadSuccess.value = true;
     setTimeout(() => uploadSuccess.value = false, 3000);
-
+    fetchAssets();
     webpFiles.value = [];
     if (fileInput.value) fileInput.value.value = null;
   } catch (err) {
