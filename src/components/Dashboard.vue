@@ -8,29 +8,41 @@
     <h2>欢迎来到 Dashboard</h2>
     <p>你已成功登录，可以上传图片资源。</p>
 	
-	<!-- 文件上传区 -->
+	<!-- 图片上传区 -->
 	<div class="upload-section">
-	  <div class="asset-group">
-		<h4>文件上传</h4>
-		<div v-if="uploadSuccess" class="success-message">
-		  ✓ 上传成功！已上传{{ uploadedCount }}个文件
+		<div class="asset-group">
+		  <h4>文件上传</h4>
+		  <!-- 上传成功消息 -->
+		  <div v-if="uploadSuccess" class="success-message">
+			✓ 上传成功！已上传{{ uploadedCount }}个文件
+		  </div>
+		  <!-- 上传失败消息 -->
+		  <div v-if="uploadError" class="error-message">
+			⚠ {{ errorMessage }}
+		  </div>
+		  <!-- 文件上传控件 -->
+		  <div class="upload-controls">
+			<label class="file-input-wrapper">
+			  <input
+				type="file"
+				ref="fileInput"
+				accept="image/*"
+				multiple
+				@change="handleFileChange"
+			  />
+			  <span v-if="webpFiles.length > 0">
+				已选中{{ webpFiles.length }}个图片
+			  </span>
+			  <span v-else>选择文件</span>
+			</label>
+			<button
+			  @click="uploadImages"
+			  :disabled="!webpFiles.length || uploading"
+			>
+			  {{ uploading ? '上传中...' : '上传图片' }}
+			</button>
+		  </div>
 		</div>
-		<div v-if="uploadError" class="error-message">
-		  ⚠ {{ errorMessage }}
-		</div>
-		<div class="upload-controls">
-		  <input
-			type="file"
-			ref="fileInput"
-			accept="image/*"
-			multiple
-			@change="handleFileChange"
-		  />
-		  <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
-			{{ uploading ? '上传中...' : '上传图片' }}
-		  </button>
-		</div>
-	  </div>
 	</div>
 	
     <!-- 文件清单区 -->
@@ -76,7 +88,7 @@ const authenticated = ref(false);
 const loading = ref(true);
 const error = ref('');
 
-// 变量——上传区
+// 变量——图片上传区
 const uploading = ref(false);
 const webpFiles = ref([]);
 const uploadSuccess = ref(false);
@@ -311,16 +323,16 @@ const deleteSelectedFiles = async () => {
 </script>
 
 <style scoped>
-/* 文件上传区 */
+/* 图片上传区 */
 .upload-section {
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
 .asset-group {
-  border: 1px solid #ddd; /* 添加边框 */
-  border-radius: 8px; /* 圆角 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
   padding: 20px;
-  background-color: #f9f9f9; /* 背景颜色 */
+  background-color: #f9f9f9;
 }
 
 .asset-group h4 {
@@ -330,35 +342,7 @@ const deleteSelectedFiles = async () => {
   font-weight: bold;
 }
 
-/* 文件上传区的控制区域 */
-.upload-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-input[type="file"] {
-  padding: 10px;
-  height: 40px;
-  box-sizing: border-box;
-  flex: 3;
-  font-size: 14px;
-}
-
-button {
-  flex: 1;
-  padding: 10px;
-  height: 40px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* 上传区的状态消息 */
+/* 上传成功和失败消息 */
 .success-message {
   color: green;
   font-weight: bold;
@@ -369,6 +353,56 @@ button:disabled {
   color: red;
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+/* 文件上传控件 */
+.upload-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+input[type="file"] {
+  padding: 10px;
+  height: 40px;
+  box-sizing: border-box;
+  font-size: 14px;
+  flex: 3;
+}
+
+button {
+  flex: 1;
+  padding: 10px;
+  height: 40px;
+  box-sizing: border-box;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
+  background-color: #2980b9;
+}
+
+/* 文件选择状态文本 */
+.file-input-wrapper span {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #555;
 }
 	
 /* 文件清单区 */
