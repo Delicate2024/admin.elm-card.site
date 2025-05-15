@@ -28,7 +28,7 @@
 				ref="fileInput"
 				accept="image/*"
 				multiple
-				@change="handleFileChange"
+				@change="handleImageChange"
 			  />
 			  <span v-if="webpFiles.length > 0">
 				已选中{{ webpFiles.length }}个图片
@@ -154,7 +154,7 @@ onUnmounted(() => {
 });
 
 // 函数——上传区
-const handleFileChange = async (event) => {
+const handleImageChange = async (event) => {
   const files = Array.from(event.target.files);
   const batchSize = 5;
   webpFiles.value = [];
@@ -214,17 +214,25 @@ const convertToWebP = (file) => {
     img.src = objectURL;
   });
 };
-const uploadImages = async () => {
+const uploadFiles = async ({
+  fieldName,
+  files,
+  url = '/api/uploadAssets',
+}: {
+  fieldName: string,
+  files: File[],
+  url?: string
+}) => {
   try {
     uploading.value = true;
     uploadSuccess.value = false;
     uploadError.value = false;
 
     const formData = new FormData();
-    webpFiles.value.forEach(file => formData.append('images', file));
+    files.forEach(file => formData.append(fieldName, file));
 
     const csrfToken = localStorage.getItem('csrfToken');
-    const res = await axios.post('/api/uploadAssets', formData, {
+    const res = await axios.post(url, formData, {
       timeout: 10000,
       headers: {
         'X-CSRF-Token': csrfToken,
@@ -233,11 +241,12 @@ const uploadImages = async () => {
       withCredentials: true,
     });
 
-    uploadedCount.value = webpFiles.value.length;
+    uploadedCount.value = files.length;
     uploadSuccess.value = true;
     setTimeout(() => uploadSuccess.value = false, 3000);
-    fetchAssets();
-    webpFiles.value = [];
+
+    fetchAssets?.(); // 如果有就执行
+    files.length = 0;
     if (fileInput.value) fileInput.value.value = null;
   } catch (err) {
     if (err.code === 'ECONNABORTED') {
@@ -250,6 +259,13 @@ const uploadImages = async () => {
     uploading.value = false;
   }
 };
+const uploadImages = () => {
+  uploadFiles({
+    fieldName: 'images',
+    files: webpFiles.value
+  });
+};
+
 
 // 函数——文件清单区
 const fetchAssets = async () => {
