@@ -318,38 +318,49 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 文件上传区 */
-	.upload-controls {
-	  display: flex;
-	  align-items: center;
-	  gap: 10px;
-	}
-	.input-container {
-	  display: flex;
-	  flex-direction: column;
-	  flex: 3; /* input容器占3/4 */
-	  position: relative;
-	}
-	.file-input-wrapper {
-	  display: block;
-	}
-	input[type="file"] {
-	  width: 100%;
-	  padding: 10px;
-	}
-	.message {
-	  position: absolute;
-	  bottom: -20px;
-	  left: 0;
-	  font-size: 12px;
-	  color: gray;
-	}
-	button {
-	  flex: 1; /* button占1/4 */
-	}
-	button:disabled {
-	  background-color: #ccc;
-	  cursor: not-allowed;
-	}
+.upload-controls {
+  display: flex;
+  align-items: stretch; /* 使子元素在垂直方向上拉伸，保持一致高度 */
+  gap: 10px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  position: relative;
+}
+
+.file-input-wrapper {
+  display: block;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  height: 100%; /* 确保input和button高度一致 */
+  box-sizing: border-box; /* 包括padding在内计算高度 */
+}
+
+.message {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: 12px;
+  color: gray;
+}
+
+button {
+  flex: 1;
+  height: 100%; /* 设置与input相同的高度 */
+  padding: 10px;
+  box-sizing: border-box; /* 包括padding在内计算高度 */
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
 	
 /* 文件清单区 */
 	/* 去掉 ul 默认的黑点 */
