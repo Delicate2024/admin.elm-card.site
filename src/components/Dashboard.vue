@@ -324,72 +324,97 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 图片上传区 */
-	.upload-section {
-	  margin: 20px 0;
-	}
-	.asset-group {
-	  border: 1px solid #ddd;
-	  border-radius: 8px;
-	  padding: 20px;
-	  background-color: #f9f9f9;
-	}
-	.asset-group h4 {
-	  margin: 0 0 10px;
-	  font-size: 16px;
-	  color: #333;
-	  font-weight: bold;
-	}
-	.success-message {
-	  color: green;
-	  font-weight: bold;
-	  margin-bottom: 10px;
-	}
-	.error-message {
-	  color: red;
-	  font-weight: bold;
-	  margin-bottom: 10px;
-	}
-	.upload-controls {
-	  display: flex;
-	  align-items: center;
-	  gap: 10px;
-	}
-	input[type="file"] {
-	  padding: 10px;
-	  height: 40px;
-	  box-sizing: border-box;
-	  font-size: 14px;
-	  flex: 3;
-	}
-	button {
-	  flex: 1;
-	  padding: 10px;
-	  height: 40px;
-	  box-sizing: border-box;
-	  font-size: 14px;
-	  cursor: pointer;
-	  background-color: #3498db;
-	  color: white;
-	  border: none;
-	  border-radius: 6px;
-	  transition: background-color 0.3s;
-	}
-	button:disabled {
-	  background-color: #ccc;
-	  cursor: not-allowed;
-	}
-	button:hover:enabled {
-	  background-color: #2980b9;
-	}
-	.file-input-wrapper span {
-	  display: inline-block;  
-	  margin: 0;  
-	  font-size: 14px;
-	  color: #555;
-	}
-	.file-input-wrapper span + span {
-	  margin-left: 10px;  /* 为第二个span添加间距 */
-	}
+.upload-section {
+  margin: 10px 0;
+}
+
+.asset-group {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.asset-group h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+.upload-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 文件选择 input 和说明文字包裹容器 */
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 3;
+  height: 40px;
+  padding: 0 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+}
+
+/* 隐藏原始文件选择框 */
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* 文字提示 */
+.file-input-wrapper span {
+  display: inline-block;
+  white-space: nowrap;
+  color: #555;
+}
+
+/* 上传按钮 */
+button {
+  flex: 1;
+  padding: 10px;
+  height: 40px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* 消息样式 */
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 	
 /* 文件清单区 */
 	/* 去掉 ul 默认的黑点 */
