@@ -1,5 +1,6 @@
 <!-- src/components/Dashboard.vue -->
 <template>
+  <!-- 原 loading 与 authenticated 块保持不变 -->
   <div v-if="loading">
     <h2>加载中...</h2>
   </div>
@@ -31,8 +32,8 @@
 
       <ul class="thumbnail-list">
         <li v-for="file in files" :key="file.url">
-          <img :src="file.url" :alt="file.name" class="thumbnail" />
-          <p>{{ file.name }}</p>
+          <!-- 这里改为显示文件路径而非图片 -->
+          <p>{{ file.name }} - 文件路径: {{ file.url }}</p>
         </li>
       </ul>
 
