@@ -224,7 +224,15 @@ const uploadImages = async () => {
 // 函数——文件清单区
 const fetchAssets = async () => {
   try {
-    const response = await axios.get('/api/getAssetFileList', { withCredentials: true });
+    const csrfToken = localStorage.getItem('csrfToken');
+    const response = await axios.post('/api/getAssetFileList', formData, {
+      timeout: 10000,
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'multipart/form-data',
+      },
+      withCredentials: true,
+    });
 
     if (response.data.success) {
       assets.value = response.data.assets;
