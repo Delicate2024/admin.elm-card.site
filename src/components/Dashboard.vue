@@ -119,7 +119,16 @@ onMounted(() => {
 
 const fetchFileList = async () => {
   try {
-    const response = await axios.post('/api/getAssetFileList', {}, { withCredentials: true });
+    const csrfToken = localStorage.getItem('csrfToken');
+	const response = await axios.post('/api/getAssetFileList', {}, {
+	  timeout: 10000,
+	  headers: {
+		'X-CSRF-Token': csrfToken,
+		'Content-Type': 'application/json', 
+	  },
+	  withCredentials: true,
+	});
+	
     if (response.data.success) {
       fileList.value = response.data.assets;
       paginateFiles(); // 对文件进行分页处理
