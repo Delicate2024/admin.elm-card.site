@@ -10,32 +10,26 @@
 	
 	<!-- 文件上传区 -->
 	<div class="upload-section">
-	  <div class="upload-controls">
-		<div class="input-container">
-		  <label class="file-input-wrapper">
-			<input
-			  type="file"
-			  ref="fileInput"
-			  accept="image/*"
-			  multiple
-			  @change="handleFileChange"
-			/>
-		  </label>
-		  <div class="message">
-			<div v-if="uploadSuccess" class="success-message">
-			  ✓ 上传成功！已上传{{ uploadedCount }}个文件
-			</div>
-			<div v-else-if="uploadError" class="error-message">
-			  ⚠ {{ errorMessage }}
-			</div>
-			<div v-else class="default-message">
-			  未选中文件
-			</div>
-		  </div>
+	  <div class="asset-group">
+		<h4>文件上传</h4>
+		<div v-if="uploadSuccess" class="success-message">
+		  ✓ 上传成功！已上传{{ uploadedCount }}个文件
 		</div>
-		<button @click="uploadImages" :disabled="!webpFiles.length || uploading">
-		  {{ uploading ? '上传中...' : '上传图片' }}
-		</button>
+		<div v-if="uploadError" class="error-message">
+		  ⚠ {{ errorMessage }}
+		</div>
+		<div class="upload-controls">
+		  <input
+			type="file"
+			ref="fileInput"
+			accept="image/*"
+			multiple
+			@change="handleFileChange"
+		  />
+		  <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
+			{{ uploading ? '上传中...' : '上传图片' }}
+		  </button>
+		</div>
 	  </div>
 	</div>
 	
@@ -82,7 +76,7 @@ const authenticated = ref(false);
 const loading = ref(true);
 const error = ref('');
 
-// 变量——文件上传区
+// 变量——上传区
 const uploading = ref(false);
 const webpFiles = ref([]);
 const uploadSuccess = ref(false);
@@ -318,50 +312,63 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 文件上传区 */
+.upload-section {
+  margin: 10px 0;
+}
+
+.asset-group {
+  border: 1px solid #ddd; /* 添加边框 */
+  border-radius: 8px; /* 圆角 */
+  padding: 20px;
+  background-color: #f9f9f9; /* 背景颜色 */
+}
+
+.asset-group h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* 文件上传区的控制区域 */
 .upload-controls {
   display: flex;
-  align-items: center; /* 使按钮和input垂直居中 */
+  align-items: center;
   gap: 10px;
 }
 
-.input-container {
-  display: flex;
-  flex-direction: column;
-  flex: 3;
-  position: relative;
-}
-
-.file-input-wrapper {
-  display: block;
-}
-
 input[type="file"] {
-  width: 100%;
   padding: 10px;
-  height: 40px; /* 确定输入框的高度 */
-  box-sizing: border-box; /* 包括padding在内计算高度 */
-  line-height: 20px; /* 使文本垂直居中 */
-}
-
-.message {
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  font-size: 12px;
-  color: gray;
+  height: 40px;
+  box-sizing: border-box;
+  flex: 3;
+  font-size: 14px;
 }
 
 button {
   flex: 1;
   padding: 10px;
-  height: 40px; /* 确定按钮的高度 */
-  box-sizing: border-box; /* 包括padding在内计算高度 */
-  line-height: 20px; /* 使文本垂直居中 */
+  height: 40px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+/* 上传区的状态消息 */
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 	
 /* 文件清单区 */
