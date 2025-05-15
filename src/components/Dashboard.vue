@@ -7,14 +7,14 @@
   <div v-else-if="authenticated">
     <h2>欢迎来到 Dashboard</h2>
     <p>你已成功登录，可以上传图片资源。</p>
-
+	
+	<!-- 上传区 -->
     <div v-if="uploadSuccess" class="success-message">
       ✓ 上传成功！已上传{{ uploadedCount }}个文件
     </div>
     <div v-if="uploadError" class="error-message">
       ⚠ {{ errorMessage }}
     </div>
-
     <input
       type="file"
       ref="fileInput"
@@ -26,44 +26,24 @@
       {{ uploading ? '上传中...' : '上传图片' }}
     </button>
 
-    <div v-for="(files, category) in currentPageFiles" :key="category" class="category-block">
-      <h3>{{ category }}</h3>
-
-      <ul class="thumbnail-list">
-        <li v-for="file in files" :key="file.url">
-          <!-- 仅打印文件名 -->
-          <p>{{ file.name }}</p>
-        </li>
-      </ul>
-
-      <div class="pagination-controls">
-        <button @click="goToPage(category, currentPage[category] - 1)" :disabled="currentPage[category] === 1">上一页</button>
-        <span>第 {{ currentPage[category] }} / {{ paginatedData[category]?.totalPages }} 页</span>
-        <button @click="goToPage(category, currentPage[category] + 1)" :disabled="currentPage[category] >= paginatedData[category]?.totalPages">下一页</button>
-      </div>
-    </div>
-  </div>
-
   <div v-else class="error">
     <h2>身份验证失败，正在返回登录页...</h2>
   </div>
 </template>
 
 <script setup>
+// 依赖区
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 
+// 变量区——身份验证
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
 
-const fileList = ref({});
-const currentPageFiles = ref({});
-const paginatedData = ref({});
-const currentPage = ref({});
-
+// 变量区——上传
 const uploading = ref(false);
 const webpFiles = ref([]);
 const uploadSuccess = ref(false);
@@ -118,47 +98,6 @@ onMounted(() => {
       redirectToLogin();
     });
 });
-
-const fetchFileList = async () => {
-  try {
-    const csrfToken = localStorage.getItem('csrfToken');
-    const response = await axios.post('/api/getAssetFileList', {}, {
-      timeout: 10000,
-      headers: {
-        'X-CSRF-Token': csrfToken,
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    });
-
-    if (response.data.success) {
-      fileList.value = response.data.assets;
-      paginateFiles();
-    }
-  } catch (error) {
-    console.error('获取文件清单失败:', error);
-  }
-};
-
-const paginateFiles = () => {
-  Object.keys(fileList.value).forEach(category => {
-    const files = fileList.value[category];
-    const perPage = 10;
-    const totalPages = Math.ceil(files.length / perPage);
-
-    paginatedData.value[category] = { totalPages };
-    currentPage[category] = 1;
-    currentPageFiles.value[category] = files.slice(0, perPage);
-  });
-};
-
-const goToPage = (category, pageNumber) => {
-  if (pageNumber < 1 || pageNumber > paginatedData.value[category].totalPages) return;
-  const files = fileList.value[category];
-  const perPage = 10;
-  currentPage[category] = pageNumber;
-  currentPageFiles.value[category] = files.slice((pageNumber - 1) * perPage, pageNumber * perPage);
-};
 
 const handleFileChange = async (event) => {
   const files = Array.from(event.target.files);
@@ -264,6 +203,7 @@ onUnmounted(() => {
   objectURLs.value.forEach(url => URL.revokeObjectURL(url));
   objectURLs.value.clear();
 });
+
 </script>
 
 <style scoped>
