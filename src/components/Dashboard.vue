@@ -88,7 +88,6 @@ onMounted(() => {
     .then((response) => {
       if (response.data.success) {
         authenticated.value = true;
-        fetchFileList();
       } else {
         redirectToLogin();
       }
