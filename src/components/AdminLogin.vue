@@ -68,8 +68,9 @@ export default {
 		if (response.data.success) {
 		  console.log("Login successful, redirecting...");
 		  const redirectToken = response.data.redirectToken;
-		  const csrfToken = response.data.csrfToken;
 		  localStorage.setItem('redirectToken', redirectToken);  
+		  const csrfToken = response.data.csrfToken;
+		  localStorage.setItem('csrfToken', csrfToken);  
 		  this.$router.push('/');  // 登录成功后跳转到 Dashboard
 		} else {
 		  this.errorMessage = response.data.message || "登录失败，请重试！";
