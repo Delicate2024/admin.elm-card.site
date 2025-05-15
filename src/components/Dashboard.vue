@@ -31,7 +31,7 @@
 
       <ul class="thumbnail-list">
         <li v-for="file in files" :key="file.url">
-          <img :src="file.url" :alt="file.name" class="thumbnail" />
+          <!-- 仅打印文件名 -->
           <p>{{ file.name }}</p>
         </li>
       </ul>
@@ -132,7 +132,6 @@ const fetchFileList = async () => {
     });
 
     if (response.data.success) {
-	  console.log('返回的文件结构：', response.data.assets);
       fileList.value = response.data.assets;
       paginateFiles();
     }
