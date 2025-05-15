@@ -167,6 +167,7 @@ const uploadImages = async () => {
 	const formData = new FormData();
     webpFiles.value.forEach(file => formData.append('images', file));
 
+	const csrfToken = localStorage.getItem('csrfToken'); 
     const res = await axios.post('/api/uploadAssets', formData, {
       timeout: 10000,
       headers: {
