@@ -10,26 +10,32 @@
 	
 	<!-- 文件上传区 -->
 	<div class="upload-section">
-	  <div v-if="uploadSuccess" class="success-message">
-		✓ 上传成功！已上传{{ uploadedCount }}个文件
+	  <div class="message">
+		<div v-if="uploadSuccess" class="success-message">
+		  ✓ 上传成功！已上传{{ uploadedCount }}个文件
+		</div>
+		<div v-else-if="uploadError" class="error-message">
+		  ⚠ {{ errorMessage }}
+		</div>
+		<div v-else class="default-message">
+		  未选中文件
+		</div>
 	  </div>
-	  <div v-if="uploadError" class="error-message">
-		⚠ {{ errorMessage }}
+	  <div class="upload-controls">
+		<label class="file-input-wrapper">
+		  <input
+			type="file"
+			ref="fileInput"
+			accept="image/*"
+			multiple
+			@change="handleFileChange"
+		  />
+		  选择文件
+		</label>
+		<button @click="uploadImages" :disabled="!webpFiles.length || uploading">
+		  {{ uploading ? '上传中...' : '上传图片' }}
+		</button>
 	  </div>
-	  <label class="file-label">
-		选择图片文件
-		<input
-		  type="file"
-		  ref="fileInput"
-		  accept="image/*"
-		  multiple
-		  @change="handleFileChange"
-		  hidden
-		/>
-	  </label>
-	  <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
-		{{ uploading ? '上传中...' : '上传图片' }}
-	  </button>
 	</div>
 	
     <!-- 文件清单区 -->
@@ -311,60 +317,49 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 文件上传区 */
-	/* 上传区域容器 */
 	.upload-section {
-	  border: 1px solid #ccc;
-	  padding: 16px;
-	  border-radius: 8px;
-	  background-color: #fefefe;
-	  margin-top: 20px;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 1em;
 	}
-	/* 成功提示样式 */
+	.message {
+	  font-size: 14px;
+	  color: #666;
+	}
 	.success-message {
-	  color: #27ae60;
-	  margin-bottom: 10px;
-	  font-weight: bold;
+	  color: green;
 	}
-	/* 错误提示样式 */
 	.error-message {
-	  color: #e74c3c;
-	  margin-bottom: 10px;
-	  font-weight: bold;
+	  color: red;
 	}
-	/* 上传按钮样式 */
-	.upload-section button {
-	  padding: 10px 16px;
-	  background-color: #3498db;
-	  color: white;
-	  border: none;
-	  border-radius: 6px;
-	  cursor: pointer;
-	  margin-top: 10px;
+	.default-message {
+	  color: #999;
 	}
-	.upload-section button:disabled {
-	  background-color: #95a5a6;
-	  cursor: not-allowed;
+	.upload-controls {
+	  display: flex;
+	  gap: 1em;
+	  align-items: stretch;
 	}
-	.upload-section button:hover:enabled {
-	  background-color: #2980b9;
-	}
-	/* 文件选择框样式 */
-	.upload-section input[type="file"] {
-	  margin-bottom: 10px;
-	}
-	/* 模拟按钮样式的 label */
-	.file-label {
+	.file-input-wrapper {
+	  position: relative;
 	  display: inline-block;
-	  padding: 10px 16px;
-	  background-color: #3498db;
-	  color: white;
-	  border-radius: 6px;
+	  height: 40px;
+	  line-height: 40px;
+	  padding: 0 12px;
+	  background-color: #f0f0f0;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
 	  cursor: pointer;
-	  margin-bottom: 10px;
-	  text-align: center;
+	  user-select: none;
 	}
-	.file-label:hover {
-	  background-color: #2980b9;
+	.file-input-wrapper input[type="file"] {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  opacity: 0;
+	  height: 100%;
+	  width: 100%;
+	  cursor: pointer;
 	}
 	
 /* 文件清单区 */
