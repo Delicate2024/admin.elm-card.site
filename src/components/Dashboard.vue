@@ -224,7 +224,7 @@ const uploadImages = async () => {
 // 函数——文件清单区
 const fetchAssets = async () => {
   try {
-    const response = await axios.get('/api/getAssets', { withCredentials: true });
+    const response = await axios.get('/api/getAssetFileList', { withCredentials: true });
 
     if (response.data.success) {
       assets.value = response.data.assets;
