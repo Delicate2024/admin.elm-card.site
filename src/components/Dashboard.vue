@@ -25,7 +25,20 @@
     <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
       {{ uploading ? '上传中...' : '上传图片' }}
     </button>
+	
+    <!-- 文件清单区 -->
+	<div v-for="(files, type) in assets" :key="type">
+	  <h4>{{ formatAssetType(type) }}</h4>
+	  <ul>
+		<li v-for="(file, index) in files" :key="index" class="file-item">
+		  <span>{{ file }}</span>
+		  <button @click="downloadFile(file)">下载</button>
+		</li>
+	  </ul>
+	</div>
+	
   </div>
+  
   <div v-else class="error">
     <h2>身份验证失败，正在返回登录页...</h2>
   </div>
@@ -38,12 +51,12 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 
-// 变量区——身份验证
+// 变量——身份验证区
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
 
-// 变量区——上传
+// 变量——上传区
 const uploading = ref(false);
 const webpFiles = ref([]);
 const uploadSuccess = ref(false);
@@ -53,6 +66,10 @@ const uploadedCount = ref(0);
 const fileInput = ref(null);
 const objectURLs = ref(new Set()); 
 
+// 变量——文件清单区
+const assets = ref({});
+
+// 函数——基区
 const redirectToLogin = () => {
   setTimeout(() => {
     router.replace('/login');
@@ -87,6 +104,7 @@ onMounted(() => {
   axios.get('/api/verifyToken', { withCredentials: true })
     .then((response) => {
       if (response.data.success) {
+		fetchAssets();
         authenticated.value = true;
       } else {
         redirectToLogin();
@@ -98,7 +116,12 @@ onMounted(() => {
     });
 });
 
-// 上传区函数
+onUnmounted(() => {
+  objectURLs.value.forEach(url => URL.revokeObjectURL(url));
+  objectURLs.value.clear();
+});
+
+// 函数——上传区
 const handleFileChange = async (event) => {
   const files = Array.from(event.target.files);
   const batchSize = 5;
@@ -196,10 +219,35 @@ const uploadImages = async () => {
   }
 };
 
-onUnmounted(() => {
-  objectURLs.value.forEach(url => URL.revokeObjectURL(url));
-  objectURLs.value.clear();
+// 函数——文件清单区
+const fetchAssets = async () => {
+  try {
+    const response = await axios.get('/api/getAssets', { withCredentials: true });
+
+    if (response.data.success) {
+      assets.value = response.data.assets;
+    } else {
+      error.value = '获取文件清单失败';
+    }
+  } catch (err) {
+    error.value = '请求失败，请稍后再试';
+  } finally {
+    loading.value = false;
+  }
+};
+function formatAssetType(type) {
+  const typeMapping = {
+    images: '图片',
+    documents: '文档',
+    audio: '音频'
+  };
+  return typeMapping[type] || '其他';
+}
+const hasAssets = computed(() => {
+  return Object.keys(assets.value).length > 0;
 });
+
+
 
 </script>
 
