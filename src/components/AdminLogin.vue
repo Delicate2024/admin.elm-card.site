@@ -1,4 +1,4 @@
-<!-- src/componentsAdminLogin.vue -->
+<!-- src/components/AdminLogin.vue -->
 <template>
   <div class="login-container">
     <h2>管理员登录</h2>
