@@ -6,7 +6,8 @@
 
   <div v-else-if="authenticated">
     <h2>欢迎来到 Dashboard</h2>
-    <p>你已成功登录，可以上传图片资源。</p>    
+    <p>你已成功登录，可以上传图片资源。</p>
+
     <div v-if="uploadSuccess" class="success-message">
       ✓ 上传成功！已上传{{ uploadedCount }}个文件
     </div>
@@ -24,11 +25,25 @@
     <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
       {{ uploading ? '上传中...' : '上传图片' }}
     </button>
-    <ul>
-      <li v-for="(file, index) in webpFiles" :key="`${file.name}-${file.size}-${index}`">
-        {{ file.name }} ({{ (file.size / 1024).toFixed(1) }} KB)
-      </li>
-    </ul>
+    
+    <h3>文件清单</h3>
+    <div v-if="fileList.length > 0">
+      <div v-for="(files, category) in fileList" :key="category">
+        <h4>{{ category }}</h4>
+        <ul>
+          <li v-for="(file, index) in currentPageFiles[category]" :key="index">
+            {{ file }}
+          </li>
+        </ul>
+        <div v-if="category in paginatedData">
+          <button @click="goToPage(category, currentPage[category] - 1)" :disabled="currentPage[category] <= 1">上一页</button>
+          <button @click="goToPage(category, currentPage[category] + 1)" :disabled="currentPage[category] >= paginatedData[category].totalPages">下一页</button>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <p>没有文件可展示</p>
+    </div>
   </div>
 
   <div v-else class="error">
@@ -45,14 +60,16 @@ import { jwtDecode } from 'jwt-decode';
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
-const webpFiles = ref([]);
+const fileList = ref({});
+const currentPageFiles = ref({});
+const paginatedData = ref({});
+const currentPage = ref({});
 const uploading = ref(false);
-const fileInput = ref(null);
+const webpFiles = ref([]);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
 const errorMessage = ref('');
 const uploadedCount = ref(0);
-const objectURLs = ref(new Set());
 
 const redirectToLogin = () => {
   setTimeout(() => {
@@ -89,6 +106,7 @@ onMounted(() => {
     .then((response) => {
       if (response.data.success) {
         authenticated.value = true;
+        fetchFileList(); // 获取文件清单
       } else {
         redirectToLogin();
       }
@@ -98,6 +116,40 @@ onMounted(() => {
       redirectToLogin();
     });
 });
+
+const fetchFileList = async () => {
+  try {
+    const response = await axios.post('/api/getAssetFileList', {}, { withCredentials: true });
+    if (response.data.success) {
+      fileList.value = response.data.assets;
+      paginateFiles(); // 对文件进行分页处理
+    }
+  } catch (error) {
+    console.error('获取文件清单失败:', error);
+  }
+};
+
+// 分页函数
+const paginateFiles = () => {
+  Object.keys(fileList.value).forEach(category => {
+    const files = fileList.value[category];
+    const perPage = 10;
+    const totalPages = Math.ceil(files.length / perPage);
+    
+    paginatedData.value[category] = { totalPages };
+    currentPage[category] = 1;
+    currentPageFiles.value[category] = files.slice(0, perPage);
+  });
+};
+
+// 翻页函数
+const goToPage = (category, pageNumber) => {
+  if (pageNumber < 1 || pageNumber > paginatedData.value[category].totalPages) return;
+  const files = fileList.value[category];
+  const perPage = 10;
+  currentPage[category] = pageNumber;
+  currentPageFiles.value[category] = files.slice((pageNumber - 1) * perPage, pageNumber * perPage);
+};
 
 const handleFileChange = async (event) => {
   const files = Array.from(event.target.files);
@@ -126,14 +178,13 @@ const convertToWebP = (file) => {
   return new Promise((resolve) => {
     const img = new Image();
     const objectURL = URL.createObjectURL(file);
-    objectURLs.value.add(objectURL);
 
     img.onerror = () => {
-	  URL.revokeObjectURL(objectURL); 
-	  resolve(null);
-	};
+      URL.revokeObjectURL(objectURL); 
+      resolve(null);
+    };
     img.onload = () => {
-	  URL.revokeObjectURL(objectURL);
+      URL.revokeObjectURL(objectURL);
       const canvas = document.createElement('canvas');
       canvas.width = img.width;
       canvas.height = img.height;
@@ -154,7 +205,7 @@ const convertToWebP = (file) => {
         }
       }, 'image/webp', 0.8);
     };
-	img.src = objectURL;
+    img.src = objectURL;
   });
 };
 
@@ -199,11 +250,6 @@ onUnmounted(() => {
   objectURLs.value.forEach(url => URL.revokeObjectURL(url));
   objectURLs.value.clear();
 });
-
-const getCookie = (name) => {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : '';
-};
 </script>
 
 <style scoped>
