@@ -90,7 +90,6 @@ const redirectToLogin = () => {
     router.replace('/login');
   }, 2000);
 };
-
 onMounted(() => {
   setTimeout(() => { loading.value = false; }, 1000);
 
@@ -130,7 +129,6 @@ onMounted(() => {
       redirectToLogin();
     });
 });
-
 onUnmounted(() => {
   objectURLs.value.forEach(url => URL.revokeObjectURL(url));
   objectURLs.value.clear();
@@ -290,7 +288,6 @@ const deleteFile = async (type, name) => {
 };
 const deleteSelectedFiles = async () => {
   if (selectedFiles.value.length === 0) return;
-  console.log('准备删除以下文件:', selectedFiles.value);
   const deletePromises = selectedFiles.value.map(file => 
     deleteFile(file.type, file.name) 
   );
@@ -304,8 +301,42 @@ const deleteSelectedFiles = async () => {
   }
 };
 
-
 </script>
 
 <style scoped>
+/* 文件清单区 */
+	/* 去掉 ul 默认的黑点 */
+	ul {
+	  list-style: none;
+	  padding: 0;
+	  margin: 0 0 16px 0;
+	}
+	/* 单个文件项样式 */
+	.file-item {
+	  display: flex;
+	  align-items: center;
+	  padding: 8px 12px;
+	  border: 1px solid #ccc;
+	  border-radius: 6px;
+	  margin-bottom: 6px;
+	  background-color: #fafafa;
+	}
+	/* 复选框间距 */
+	input[type="checkbox"] {
+	  margin-right: 10px;
+	}
+	/* 删除按钮样式 */
+	.delete-button {
+	  padding: 10px 16px;
+	  background-color: #e74c3c;
+	  color: white;
+	  border: none;
+	  border-radius: 6px;
+	  cursor: pointer;
+	  margin-top: 12px;
+	}
+	.delete-button:hover {
+	  background-color: #c0392b;
+	}
+
 </style>
