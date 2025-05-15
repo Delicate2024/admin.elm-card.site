@@ -225,14 +225,14 @@ const uploadImages = async () => {
 const fetchAssets = async () => {
   try {
     const csrfToken = localStorage.getItem('csrfToken');
-    const response = await axios.post('/api/getAssetFileList', formData, {
+    const response = await axios.post('/api/getAssetFileList', {}, {
       timeout: 10000,
       headers: {
         'X-CSRF-Token': csrfToken,
-        'Content-Type': 'multipart/form-data',
       },
       withCredentials: true,
     });
+	console.log('Response data:', response.data);
 
     if (response.data.success) {
       assets.value = response.data.assets;
