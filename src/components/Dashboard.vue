@@ -214,15 +214,13 @@ const convertToWebP = (file) => {
     img.src = objectURL;
   });
 };
-const uploadFiles = async ({
-  fieldName,
-  files,
-  url = '/api/uploadAssets',
-}: {
-  fieldName: string,
-  files: File[],
-  url?: string
-}) => {
+const uploadFiles = async (options) => {
+  const {
+    fieldName,
+    files,
+    url = '/api/uploadAssets',
+  } = options;
+
   try {
     uploading.value = true;
     uploadSuccess.value = false;
@@ -245,7 +243,7 @@ const uploadFiles = async ({
     uploadSuccess.value = true;
     setTimeout(() => uploadSuccess.value = false, 3000);
 
-    fetchAssets?.(); // 如果有就执行
+    fetchAssets?.();
     files.length = 0;
     if (fileInput.value) fileInput.value.value = null;
   } catch (err) {
