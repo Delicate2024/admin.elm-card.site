@@ -34,10 +34,10 @@
 		  <input
 			type="checkbox"
 			v-model="selectedFiles"
-			:value="file.name"
-			:id="file.name"
+			:value="{ type, name: file.name }"
+			:id="`${type}-${file.name}`"
 		  />
-		  <span>{{ file.name }}</span>
+		  <label :for="`${type}-${file.name}`">{{ file.name }}</label>
 		</li>
 	  </ul>
 	</div>
