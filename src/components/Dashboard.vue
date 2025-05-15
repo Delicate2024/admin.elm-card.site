@@ -219,42 +219,61 @@ const uploadFiles = async (options) => {
     files,
     url = '/api/uploadAssets',
   } = options;
+	uploading.value = true;
+	uploadSuccess.value = false;
+	uploadError.value = false;
+	errorMessage.value = ''; // 可选：显示错误原因
+	try {
+	  const csrfToken = localStorage.getItem('csrfToken');
 
-  try {
-    uploading.value = true;
-    uploadSuccess.value = false;
-    uploadError.value = false;
+	  const uploadPromises = files.map(file => {
+		const formData = new FormData();
+		formData.append(fieldName, file);
 
-    const formData = new FormData();
-    files.forEach(file => formData.append(fieldName, file));
+		return axios.post(url, formData, {
+		  timeout: 10000,
+		  headers: {
+			'X-CSRF-Token': csrfToken,
+			'Content-Type': 'multipart/form-data',
+		  },
+		  withCredentials: true,
+		});
+	  });
 
-    const csrfToken = localStorage.getItem('csrfToken');
-    const res = await axios.post(url, formData, {
-      timeout: 10000,
-      headers: {
-        'X-CSRF-Token': csrfToken,
-        'Content-Type': 'multipart/form-data',
-      },
-      withCredentials: true,
-    });
+	  const results = await Promise.allSettled(uploadPromises);
 
-    uploadedCount.value = files.length;
-    uploadSuccess.value = true;
-    setTimeout(() => uploadSuccess.value = false, 3000);
+	  const successCount = results.filter(r => r.status === 'fulfilled').length;
+	  const failCount = results.filter(r => r.status === 'rejected').length;
 
-    fetchAssets?.();
-    files.length = 0;
-    if (fileInput.value) fileInput.value.value = null;
-  } catch (err) {
-    if (err.code === 'ECONNABORTED') {
-      errorMessage.value = '上传超时，请检查网络连接';
-    } else {
-      errorMessage.value = err.response?.data?.message || err.message;
-    }
-    uploadError.value = true;
-  } finally {
-    uploading.value = false;
-  }
+	  uploadedCount.value = successCount;
+
+	  if (failCount > 0) {
+		uploadError.value = true;
+		errorMessage.value = `共 ${failCount} 个文件上传失败`;
+		console.warn(`${failCount} files failed to upload`, results.filter(r => r.status === 'rejected'));
+	  } else {
+		uploadSuccess.value = true;
+		setTimeout(() => uploadSuccess.value = false, 3000);
+	  }
+	  
+	  return {
+		  successCount,
+		  failCount,
+		  results,
+	  };
+
+	} catch (err) {
+	  uploadError.value = true;
+	  errorMessage.value = '上传过程中发生未知错误';
+	  console.error('Unexpected error during upload:', err);
+	} finally {
+	  fetchAssets?.();
+	  files.length = 0;
+	  if (fileInput.value instanceof HTMLInputElement) {
+		fileInput.value.value = '';
+	  }
+	  uploading.value = false;
+	}
 };
 const uploadImages = () => {
   uploadFiles({
@@ -269,7 +288,7 @@ const fetchAssets = async () => {
   try {
     const csrfToken = localStorage.getItem('csrfToken');
     const response = await axios.post('/api/getAssetFileList', {}, {
-      timeout: 10000,
+      timeout: 20000,
       headers: {
         'X-CSRF-Token': csrfToken,
       },
