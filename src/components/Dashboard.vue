@@ -70,6 +70,8 @@ const uploadSuccess = ref(false);
 const uploadError = ref(false);
 const errorMessage = ref('');
 const uploadedCount = ref(0);
+const fileInput = ref(null);
+const objectURLs = ref(new Set()); 
 
 const redirectToLogin = () => {
   setTimeout(() => {
@@ -106,7 +108,7 @@ onMounted(() => {
     .then((response) => {
       if (response.data.success) {
         authenticated.value = true;
-        fetchFileList(); // 获取文件清单
+        fetchFileList();
       } else {
         redirectToLogin();
       }
@@ -120,38 +122,36 @@ onMounted(() => {
 const fetchFileList = async () => {
   try {
     const csrfToken = localStorage.getItem('csrfToken');
-	const response = await axios.post('/api/getAssetFileList', {}, {
-	  timeout: 10000,
-	  headers: {
-		'X-CSRF-Token': csrfToken,
-		'Content-Type': 'application/json', 
-	  },
-	  withCredentials: true,
-	});
-	
+    const response = await axios.post('/api/getAssetFileList', {}, {
+      timeout: 10000,
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+
     if (response.data.success) {
       fileList.value = response.data.assets;
-      paginateFiles(); // 对文件进行分页处理
+      paginateFiles();
     }
   } catch (error) {
     console.error('获取文件清单失败:', error);
   }
 };
 
-// 分页函数
 const paginateFiles = () => {
   Object.keys(fileList.value).forEach(category => {
     const files = fileList.value[category];
     const perPage = 10;
     const totalPages = Math.ceil(files.length / perPage);
-    
+
     paginatedData.value[category] = { totalPages };
     currentPage[category] = 1;
     currentPageFiles.value[category] = files.slice(0, perPage);
   });
 };
 
-// 翻页函数
 const goToPage = (category, pageNumber) => {
   if (pageNumber < 1 || pageNumber > paginatedData.value[category].totalPages) return;
   const files = fileList.value[category];
@@ -164,7 +164,7 @@ const handleFileChange = async (event) => {
   const files = Array.from(event.target.files);
   const batchSize = 5;
   webpFiles.value = [];
-  
+
   for (let i = 0; i < files.length; i += batchSize) {
     const batch = files.slice(i, i + batchSize);
     const converted = await Promise.all(
@@ -187,17 +187,21 @@ const convertToWebP = (file) => {
   return new Promise((resolve) => {
     const img = new Image();
     const objectURL = URL.createObjectURL(file);
+    objectURLs.value.add(objectURL); // 添加至Set
 
     img.onerror = () => {
-      URL.revokeObjectURL(objectURL); 
+      URL.revokeObjectURL(objectURL);
+      objectURLs.value.delete(objectURL);
       resolve(null);
     };
     img.onload = () => {
       URL.revokeObjectURL(objectURL);
+      objectURLs.value.delete(objectURL);
+
       const canvas = document.createElement('canvas');
       canvas.width = img.width;
       canvas.height = img.height;
-      
+
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0);
 
@@ -223,11 +227,11 @@ const uploadImages = async () => {
     uploading.value = true;
     uploadSuccess.value = false;
     uploadError.value = false;
-	
-	const formData = new FormData();
+
+    const formData = new FormData();
     webpFiles.value.forEach(file => formData.append('images', file));
 
-	const csrfToken = localStorage.getItem('csrfToken'); 
+    const csrfToken = localStorage.getItem('csrfToken');
     const res = await axios.post('/api/uploadAssets', formData, {
       timeout: 10000,
       headers: {
@@ -240,9 +244,10 @@ const uploadImages = async () => {
     uploadedCount.value = webpFiles.value.length;
     uploadSuccess.value = true;
     setTimeout(() => uploadSuccess.value = false, 3000);
-    
+
     webpFiles.value = [];
     if (fileInput.value) fileInput.value.value = null;
+    fetchFileList(); // 上传后刷新列表
   } catch (err) {
     if (err.code === 'ECONNABORTED') {
       errorMessage.value = '上传超时，请检查网络连接';
