@@ -184,7 +184,6 @@ const uploadImages = async () => {
 
     webpFiles.value = [];
     if (fileInput.value) fileInput.value.value = null;
-    fetchFileList(); // 上传后刷新列表
   } catch (err) {
     if (err.code === 'ECONNABORTED') {
       errorMessage.value = '上传超时，请检查网络连接';
