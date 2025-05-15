@@ -1,6 +1,8 @@
 <!-- src/components/Dashboard.vue -->
 <template>
-  <!-- 原 loading 与 authenticated 块保持不变 -->
+  <div v-if="loading">
+    <h2>加载中...</h2>
+  </div>
 
   <div v-else-if="authenticated">
     <h2>欢迎来到 Dashboard</h2>
@@ -46,7 +48,6 @@
     <h2>身份验证失败，正在返回登录页...</h2>
   </div>
 </template>
-
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
