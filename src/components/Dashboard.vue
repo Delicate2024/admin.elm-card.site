@@ -318,9 +318,10 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 文件上传区 */
+	.upload-controls {
 .upload-controls {
   display: flex;
-  align-items: stretch; /* 使子元素在垂直方向上拉伸，保持一致高度 */
+  align-items: center; /* 使按钮和input垂直居中 */
   gap: 10px;
 }
 
@@ -338,8 +339,9 @@ const deleteSelectedFiles = async () => {
 input[type="file"] {
   width: 100%;
   padding: 10px;
-  height: 100%; /* 确保input和button高度一致 */
+  height: 40px; /* 确定输入框的高度 */
   box-sizing: border-box; /* 包括padding在内计算高度 */
+  line-height: 20px; /* 使文本垂直居中 */
 }
 
 .message {
@@ -352,9 +354,10 @@ input[type="file"] {
 
 button {
   flex: 1;
-  height: 100%; /* 设置与input相同的高度 */
   padding: 10px;
+  height: 40px; /* 确定按钮的高度 */
   box-sizing: border-box; /* 包括padding在内计算高度 */
+  line-height: 20px; /* 使文本垂直居中 */
 }
 
 button:disabled {
