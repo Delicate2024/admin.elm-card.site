@@ -27,7 +27,7 @@
     </button>
 	
     <!-- 文件清单区 -->
-	<div v-for="(files, type) in assets" :key="type">
+	<div v-for="(files, type) in assets" :key="type" class="asset-group">
 	  <h4>{{ formatAssetType(type) }}</h4>
 	  <ul>
 		<li v-for="(file, index) in files" :key="file.name" class="file-item">
@@ -320,6 +320,7 @@ const deleteSelectedFiles = async () => {
 	  border-radius: 6px;
 	  margin-bottom: 6px;
 	  background-color: #fafafa;
+	  color: #555; /* 加上字体颜色，更浅一些 */
 	}
 	/* 复选框间距 */
 	input[type="checkbox"] {
@@ -338,5 +339,18 @@ const deleteSelectedFiles = async () => {
 	.delete-button:hover {
 	  background-color: #c0392b;
 	}
-
+	/* 每组文件类型块的样式 */
+	.asset-group {
+	  border: 1px solid #ddd;
+	  padding: 12px;
+	  margin-bottom: 16px;
+	  border-radius: 8px;
+	  background-color: #fff;
+	}
+	/* 类型标题样式 */
+	.asset-group h4 {
+	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
+	  margin-bottom: 10px;
+	}
+	
 </style>
