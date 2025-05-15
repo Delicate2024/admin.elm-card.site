@@ -16,13 +16,17 @@
 	  <div v-if="uploadError" class="error-message">
 		⚠ {{ errorMessage }}
 	  </div>
-	  <input
-		type="file"
-		ref="fileInput"
-		accept="image/*"
-		multiple
-		@change="handleFileChange"
-	  />
+	  <label class="file-label">
+		选择图片文件
+		<input
+		  type="file"
+		  ref="fileInput"
+		  accept="image/*"
+		  multiple
+		  @change="handleFileChange"
+		  hidden
+		/>
+	  </label>
 	  <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
 		{{ uploading ? '上传中...' : '上传图片' }}
 	  </button>
@@ -347,6 +351,20 @@ const deleteSelectedFiles = async () => {
 	/* 文件选择框样式 */
 	.upload-section input[type="file"] {
 	  margin-bottom: 10px;
+	}
+	/* 模拟按钮样式的 label */
+	.file-label {
+	  display: inline-block;
+	  padding: 10px 16px;
+	  background-color: #3498db;
+	  color: white;
+	  border-radius: 6px;
+	  cursor: pointer;
+	  margin-bottom: 10px;
+	  text-align: center;
+	}
+	.file-label:hover {
+	  background-color: #2980b9;
 	}
 	
 /* 文件清单区 */
