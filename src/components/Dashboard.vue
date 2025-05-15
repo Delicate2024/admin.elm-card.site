@@ -11,25 +11,26 @@
 	<!-- 文件上传区 -->
 	<div class="upload-section">
 	  <div class="upload-controls">
-		<label class="file-input-wrapper">
-		  <input
-			type="file"
-			ref="fileInput"
-			accept="image/*"
-			multiple
-			@change="handleFileChange"
-		  />
-		  选择文件
-		</label>
-		<div class="message">
-		  <div v-if="uploadSuccess" class="success-message">
-			✓ 上传成功！已上传{{ uploadedCount }}个文件
-		  </div>
-		  <div v-else-if="uploadError" class="error-message">
-			⚠ {{ errorMessage }}
-		  </div>
-		  <div v-else class="default-message">
-			未选中文件
+		<div class="input-container">
+		  <label class="file-input-wrapper">
+			<input
+			  type="file"
+			  ref="fileInput"
+			  accept="image/*"
+			  multiple
+			  @change="handleFileChange"
+			/>
+		  </label>
+		  <div class="message">
+			<div v-if="uploadSuccess" class="success-message">
+			  ✓ 上传成功！已上传{{ uploadedCount }}个文件
+			</div>
+			<div v-else-if="uploadError" class="error-message">
+			  ⚠ {{ errorMessage }}
+			</div>
+			<div v-else class="default-message">
+			  未选中文件
+			</div>
 		  </div>
 		</div>
 		<button @click="uploadImages" :disabled="!webpFiles.length || uploading">
@@ -317,60 +318,33 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 文件上传区 */
-	.upload-section {
-	  display: flex;
-	  flex-direction: column;
-	  gap: 1em;
-	}
 	.upload-controls {
 	  display: flex;
-	  gap: 1em;
 	  align-items: center;
+	  gap: 10px;
 	}
-	.message {
-	  font-size: 14px;
-	  color: #666;
-	  flex-grow: 1; /* 让message区占据剩余空间 */
-	  text-align: center;
-	}
-	.success-message {
-	  color: green;
-	}
-	.error-message {
-	  color: red;
-	}
-	.default-message {
-	  color: #999;
+	.input-container {
+	  display: flex;
+	  flex-direction: column;
+	  flex: 3; /* input容器占3/4 */
+	  position: relative;
 	}
 	.file-input-wrapper {
-	  position: relative;
-	  display: inline-block;
-	  height: 40px;
-	  line-height: 40px;
-	  padding: 0 12px;
-	  background-color: #f0f0f0;
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	  cursor: pointer;
-	  user-select: none;
+	  display: block;
 	}
-	.file-input-wrapper input[type="file"] {
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  opacity: 0;
-	  height: 100%;
+	input[type="file"] {
 	  width: 100%;
-	  cursor: pointer;
+	  padding: 10px;
+	}
+	.message {
+	  position: absolute;
+	  bottom: -20px;
+	  left: 0;
+	  font-size: 12px;
+	  color: gray;
 	}
 	button {
-	  height: 40px;
-	  padding: 0 12px;
-	  background-color: #007bff;
-	  color: white;
-	  border: none;
-	  border-radius: 4px;
-	  cursor: pointer;
+	  flex: 1; /* button占1/4 */
 	}
 	button:disabled {
 	  background-color: #ccc;
