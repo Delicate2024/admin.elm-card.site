@@ -10,17 +10,6 @@
 	
 	<!-- 文件上传区 -->
 	<div class="upload-section">
-	  <div class="message">
-		<div v-if="uploadSuccess" class="success-message">
-		  ✓ 上传成功！已上传{{ uploadedCount }}个文件
-		</div>
-		<div v-else-if="uploadError" class="error-message">
-		  ⚠ {{ errorMessage }}
-		</div>
-		<div v-else class="default-message">
-		  未选中文件
-		</div>
-	  </div>
 	  <div class="upload-controls">
 		<label class="file-input-wrapper">
 		  <input
@@ -32,6 +21,17 @@
 		  />
 		  选择文件
 		</label>
+		<div class="message">
+		  <div v-if="uploadSuccess" class="success-message">
+			✓ 上传成功！已上传{{ uploadedCount }}个文件
+		  </div>
+		  <div v-else-if="uploadError" class="error-message">
+			⚠ {{ errorMessage }}
+		  </div>
+		  <div v-else class="default-message">
+			未选中文件
+		  </div>
+		</div>
 		<button @click="uploadImages" :disabled="!webpFiles.length || uploading">
 		  {{ uploading ? '上传中...' : '上传图片' }}
 		</button>
@@ -322,9 +322,16 @@ const deleteSelectedFiles = async () => {
 	  flex-direction: column;
 	  gap: 1em;
 	}
+	.upload-controls {
+	  display: flex;
+	  gap: 1em;
+	  align-items: center;
+	}
 	.message {
 	  font-size: 14px;
 	  color: #666;
+	  flex-grow: 1; /* 让message区占据剩余空间 */
+	  text-align: center;
 	}
 	.success-message {
 	  color: green;
@@ -334,11 +341,6 @@ const deleteSelectedFiles = async () => {
 	}
 	.default-message {
 	  color: #999;
-	}
-	.upload-controls {
-	  display: flex;
-	  gap: 1em;
-	  align-items: stretch;
 	}
 	.file-input-wrapper {
 	  position: relative;
@@ -360,6 +362,19 @@ const deleteSelectedFiles = async () => {
 	  height: 100%;
 	  width: 100%;
 	  cursor: pointer;
+	}
+	button {
+	  height: 40px;
+	  padding: 0 12px;
+	  background-color: #007bff;
+	  color: white;
+	  border: none;
+	  border-radius: 4px;
+	  cursor: pointer;
+	}
+	button:disabled {
+	  background-color: #ccc;
+	  cursor: not-allowed;
 	}
 	
 /* 文件清单区 */
