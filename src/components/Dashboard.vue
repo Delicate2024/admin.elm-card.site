@@ -6,9 +6,7 @@
 
   <div v-else-if="authenticated">
     <h2>欢迎来到 Dashboard</h2>
-    <p>你已成功登录，可以上传图片资源。</p>
-    
-    <!-- 改进点4：可视化反馈 -->
+    <p>你已成功登录，可以上传图片资源。</p>    
     <div v-if="uploadSuccess" class="success-message">
       ✓ 上传成功！已上传{{ uploadedCount }}个文件
     </div>
@@ -168,7 +166,6 @@ const uploadImages = async () => {
 	
 	const formData = new FormData();
     webpFiles.value.forEach(file => formData.append('images', file));
-    const csrfToken = getCookie('csrfToken');
 
     const res = await axios.post('/api/uploadAssets', formData, {
       timeout: 10000,
