@@ -318,7 +318,6 @@ const deleteSelectedFiles = async () => {
 
 <style scoped>
 /* 文件上传区 */
-	.upload-controls {
 .upload-controls {
   display: flex;
   align-items: center; /* 使按钮和input垂直居中 */
