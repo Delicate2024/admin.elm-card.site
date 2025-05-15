@@ -32,7 +32,7 @@
 	  <ul>
 		<li v-for="(file, index) in files" :key="file.name" class="file-item">
 		  <span>{{ file.name }}</span>
-		  <button @click="downloadFile(file)">下载</button>
+		  <button @click="deleteFile(type, file.name)" class="delete-button">删除</button>
 		</li>
 	  </ul>
 	</div>
@@ -256,7 +256,27 @@ function formatAssetType(type) {
 const hasAssets = computed(() => {
   return Object.keys(assets.value).length > 0;
 });
+const deleteFile = async (type, name) => {
+  try {
+    const csrfToken = localStorage.getItem('csrfToken');
+    const res = await axios.post('/api/deleteAssetFile', { type, name }, {
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
 
+    if (res.data.success) {
+      // 删除成功后，刷新文件清单
+      fetchAssets();
+    } else {
+      error.value = '删除文件失败';
+    }
+  } catch (err) {
+    error.value = '请求失败，请稍后再试';
+  }
+};
 
 
 </script>
