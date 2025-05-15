@@ -1,6 +1,5 @@
 <!-- src/components/Dashboard.vue -->
 <template>
-  <!-- 原 loading 与 authenticated 块保持不变 -->
   <div v-if="loading">
     <h2>加载中...</h2>
   </div>
@@ -30,10 +29,9 @@
     <div v-for="(files, category) in currentPageFiles" :key="category" class="category-block">
       <h3>{{ category }}</h3>
 
-      <ul class="thumbnail-list">
+      <ul class="file-list">
         <li v-for="file in files" :key="file.url">
-          <!-- 这里改为显示文件路径而非图片 -->
-          <p>{{ file.name }} - 文件路径: {{ file.url }}</p>
+          <p>{{ file.name }} - 文件路径: {{ file.url || '无效文件路径' }}</p> <!-- 显示文件路径或“无效文件路径” -->
         </li>
       </ul>
 
@@ -273,6 +271,12 @@ onUnmounted(() => {
   border-top: 1px solid #ccc;
   padding-top: 10px;
 }
+.file-list {
+  padding: 0;
+}
+.file-list li {
+  margin-bottom: 10px;
+}
 .thumbnail-list {
   display: flex;
   flex-wrap: wrap;
@@ -300,30 +304,14 @@ onUnmounted(() => {
   color: #28a745;
   padding: 10px;
   background: #e8f5e9;
-  border-radius: 4px;
-  margin: 10px 0;
+  border-radius: 5px;
+  margin-top: 20px;
 }
 .error-message {
   color: #dc3545;
   padding: 10px;
   background: #f8d7da;
-  border-radius: 4px;
-  margin: 10px 0;
-}
-.loading, .error {
-  text-align: center;
-  margin-top: 50px;
-}
-input[type="file"] {
+  border-radius: 5px;
   margin-top: 20px;
-}
-button {
-  margin-top: 10px;
-  padding: 5px 15px;
-}
-ul {
-  margin-top: 10px;
-  list-style: none;
-  padding: 0;
 }
 </style>
