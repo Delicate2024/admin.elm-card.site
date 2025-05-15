@@ -8,23 +8,25 @@
     <h2>欢迎来到 Dashboard</h2>
     <p>你已成功登录，可以上传图片资源。</p>
 	
-	<!-- 上传区 -->
-    <div v-if="uploadSuccess" class="success-message">
-      ✓ 上传成功！已上传{{ uploadedCount }}个文件
-    </div>
-    <div v-if="uploadError" class="error-message">
-      ⚠ {{ errorMessage }}
-    </div>
-    <input
-      type="file"
-      ref="fileInput"
-      accept="image/*"
-      multiple
-      @change="handleFileChange"
-    />
-    <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
-      {{ uploading ? '上传中...' : '上传图片' }}
-    </button>
+	<!-- 文件上传区 -->
+	<div class="upload-section">
+	  <div v-if="uploadSuccess" class="success-message">
+		✓ 上传成功！已上传{{ uploadedCount }}个文件
+	  </div>
+	  <div v-if="uploadError" class="error-message">
+		⚠ {{ errorMessage }}
+	  </div>
+	  <input
+		type="file"
+		ref="fileInput"
+		accept="image/*"
+		multiple
+		@change="handleFileChange"
+	  />
+	  <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
+		{{ uploading ? '上传中...' : '上传图片' }}
+	  </button>
+	</div>
 	
     <!-- 文件清单区 -->
 	<div v-for="(files, type) in assets" :key="type" class="asset-group">
@@ -69,7 +71,7 @@ const authenticated = ref(false);
 const loading = ref(true);
 const error = ref('');
 
-// 变量——上传区
+// 变量——文件上传区
 const uploading = ref(false);
 const webpFiles = ref([]);
 const uploadSuccess = ref(false);
@@ -304,6 +306,49 @@ const deleteSelectedFiles = async () => {
 </script>
 
 <style scoped>
+/* 文件上传区 */
+	/* 上传区域容器 */
+	.upload-section {
+	  border: 1px solid #ccc;
+	  padding: 16px;
+	  border-radius: 8px;
+	  background-color: #fefefe;
+	  margin-top: 20px;
+	}
+	/* 成功提示样式 */
+	.success-message {
+	  color: #27ae60;
+	  margin-bottom: 10px;
+	  font-weight: bold;
+	}
+	/* 错误提示样式 */
+	.error-message {
+	  color: #e74c3c;
+	  margin-bottom: 10px;
+	  font-weight: bold;
+	}
+	/* 上传按钮样式 */
+	.upload-section button {
+	  padding: 10px 16px;
+	  background-color: #3498db;
+	  color: white;
+	  border: none;
+	  border-radius: 6px;
+	  cursor: pointer;
+	  margin-top: 10px;
+	}
+	.upload-section button:disabled {
+	  background-color: #95a5a6;
+	  cursor: not-allowed;
+	}
+	.upload-section button:hover:enabled {
+	  background-color: #2980b9;
+	}
+	/* 文件选择框样式 */
+	.upload-section input[type="file"] {
+	  margin-bottom: 10px;
+	}
+	
 /* 文件清单区 */
 	/* 去掉 ul 默认的黑点 */
 	ul {
