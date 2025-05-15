@@ -99,6 +99,7 @@ onMounted(() => {
     });
 });
 
+// 上传区函数
 const handleFileChange = async (event) => {
   const files = Array.from(event.target.files);
   const batchSize = 5;
@@ -112,7 +113,6 @@ const handleFileChange = async (event) => {
     webpFiles.value.push(...converted.filter(f => f));
   }
 };
-
 const convertToWebP = (file) => {
   if (!HTMLCanvasElement.prototype.toBlob) {
     console.warn('当前浏览器不支持WebP转换');
@@ -160,7 +160,6 @@ const convertToWebP = (file) => {
     img.src = objectURL;
   });
 };
-
 const uploadImages = async () => {
   try {
     uploading.value = true;
@@ -207,62 +206,4 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.category-block {
-  margin-top: 30px;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-}
-.thumbnail-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 0;
-}
-.thumbnail-list li {
-  width: 120px;
-  text-align: center;
-}
-.thumbnail {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border: 1px solid #aaa;
-  border-radius: 6px;
-}
-.pagination-controls {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.success-message {
-  color: #28a745;
-  padding: 10px;
-  background: #e8f5e9;
-  border-radius: 4px;
-  margin: 10px 0;
-}
-.error-message {
-  color: #dc3545;
-  padding: 10px;
-  background: #f8d7da;
-  border-radius: 4px;
-  margin: 10px 0;
-}
-.loading, .error {
-  text-align: center;
-  margin-top: 50px;
-}
-input[type="file"] {
-  margin-top: 20px;
-}
-button {
-  margin-top: 10px;
-  padding: 5px 15px;
-}
-ul {
-  margin-top: 10px;
-  list-style: none;
-  padding: 0;
-}
 </style>
