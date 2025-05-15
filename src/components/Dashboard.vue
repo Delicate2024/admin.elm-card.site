@@ -25,7 +25,7 @@
     <button @click="uploadImages" :disabled="!webpFiles.length || uploading">
       {{ uploading ? '上传中...' : '上传图片' }}
     </button>
-
+  </div>
   <div v-else class="error">
     <h2>身份验证失败，正在返回登录页...</h2>
   </div>
