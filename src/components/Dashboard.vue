@@ -354,10 +354,6 @@ const deleteSelectedFiles = async () => {
 	  align-items: center;
 	  gap: 10px;
 	}
-	.file-input-wrapper {
-	  display: flex;
-	  align-items: center;
-	}
 	input[type="file"] {
 	  padding: 10px;
 	  height: 40px;
