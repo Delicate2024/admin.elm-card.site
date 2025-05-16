@@ -428,8 +428,8 @@ const changePage = (page) => {
 	/* 每组文件类型块区 */
 	.asset-group {
 	  border: 1px solid #ddd;
-	  padding: 12px;
-	  margin-bottom: 2px;
+	  padding: 2px;
+	  margin-bottom: 16px;
 	  border-radius: 8px;
 	  background-color: #fff;
 	}
