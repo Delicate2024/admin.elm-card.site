@@ -79,7 +79,7 @@ const objectURLs = ref(new Set());
 // 变量——文件清单区
 const assets = ref({});
 const selectedFiles = ref([]);
-const pageSize = ref(7);    // 每页显示的文件数
+const pageSize = ref(10);    // 每页显示的文件数
 const currentPageMap = ref({});
 const totalPagesMap = computed(() => {
   const result = {};
