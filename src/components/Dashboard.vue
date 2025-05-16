@@ -35,7 +35,7 @@
 							<label :for="`${type}-${file.name}`">{{ file.name }}</label>
 						</li>
 					</ul>
-					<!-- 分页控件 --><div>
+					<!-- 分页控件 --><div class="pageController">
 						<button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
 						<span>第 {{ currentPage }}/{{ totalPages }} 页</span>
 						<button @click="changePage(currentPage + 1)">下一页</button>
@@ -353,66 +353,69 @@ const changePage = (page) => {
 
 <style scoped>
 /* 图片上传区 */	
+	/* 消息提示区 */
+		.success-message {
+		  color: green;
+		  font-weight: bold;
+		  margin-bottom: 10px;
+		}
+		.error-message {
+		  color: red;
+		  font-weight: bold;
+		  margin-bottom: 10px;
+		}
+	/* 消息提示区结尾 */
+	
 	/* 选择文件区 */
-	.upload-group {
-	  border: 1px solid #ddd;
-	  padding: 12px;
-	  margin-bottom: 16px;
-	  border-radius: 8px;
-	  background-color: #fff;
-	}
-	.upload-group h4 {
-	  margin: 0 0 10px 0;
-	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
-	  margin-bottom: 10px;
-	}
-	.upload-row {
-	  display: flex;
-	  align-items: center; /* 垂直居中 */
-	}
-	/* 文件选择 input 和说明文字包裹容器 */.file-input-wrapper {
-	  display: flex;
-	  align-items: center;
-	  gap: 8px;
-	  flex: 5;
-	  height: 40px;
-	  padding: 0 10px;
-	  background-color: #fff;
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	  font-size: 14px;
-	  box-sizing: border-box;
-	  cursor: pointer;
-	  position: relative;
-	}
-	/* 隐藏原始文件选择框 */.file-input-wrapper input[type="file"] {
-	  position: absolute;
-	  left: 0;
-	  top: 0;
-	  opacity: 0;
-	  width: 100%;
-	  height: 100%;
-	  cursor: pointer;
-	}
-	/* 文字提示 */.file-input-wrapper span {
-	  display: inline-block;
-	  white-space: nowrap;
-	  color: #555;
-	}
+		.upload-group {
+		  border: 1px solid #ddd;
+		  padding: 12px;
+		  margin-bottom: 16px;
+		  border-radius: 8px;
+		  background-color: #fff;
+		}
+		.upload-group h4 {
+		  margin: 0 0 10px 0;
+		  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
+		  margin-bottom: 10px;
+		}
+		.upload-row {
+		  display: flex;
+		  align-items: center; /* 垂直居中 */
+		}
+		/* 文件选择 input 和说明文字包裹容器 */.file-input-wrapper {
+		  display: flex;
+		  align-items: center;
+		  gap: 8px;
+		  flex: 5;
+		  height: 40px;
+		  padding: 0 10px;
+		  background-color: #fff;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  font-size: 14px;
+		  box-sizing: border-box;
+		  cursor: pointer;
+		  position: relative;
+		}
+		/* 隐藏原始文件选择框 */.file-input-wrapper input[type="file"] {
+		  position: absolute;
+		  left: 0;
+		  top: 0;
+		  opacity: 0;
+		  width: 100%;
+		  height: 100%;
+		  cursor: pointer;
+		}
+		/* 文字提示 */.file-input-wrapper span {
+		  display: inline-block;
+		  white-space: nowrap;
+		  color: #555;
+		}
 	/* 选择文件区结尾 */
 	
-	/* 消息提示区 */
-	.success-message {
-	  color: green;
-	  font-weight: bold;
-	  margin-bottom: 10px;
-	}
-	.error-message {
-	  color: red;
-	  font-weight: bold;
-	  margin-bottom: 10px;
-	}
-
+/* 图片上传区结尾 */	
+	
 	
 /* 文件清单区 */
 	.asset-group {
@@ -441,7 +444,7 @@ const changePage = (page) => {
 	.file-list {
 	  flex: 1 1 auto;            /* 填满剩余空间 */
 	  overflow-y: auto;          /* 内容超出时滚动 */
-	  margin-bottom: 12px;       /* 留出分页控件间距 */
+	  margin-bottom: 16px;       /* 留出分页控件间距 */
 	  padding-right: 4px;        /* 防止滚动条遮挡内容 */
 	  list-style: none;
 	  padding: 0;
@@ -470,9 +473,13 @@ const changePage = (page) => {
 	  margin-top: 2px;
 	  align-self: flex-end;
 	}
+	.pageController span {
+	  color: black;
+	}
 	.delete-button:hover {
 	  background-color: #c0392b;
 	}
+/* 文件清单区结尾 */
 
 /* 公共资源区 */ 
 	/* 按钮区 */
