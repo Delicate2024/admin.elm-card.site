@@ -9,7 +9,7 @@
 		<p>你已成功登录，可以上传图片资源。</p>
 		
 		<!-- 图片上传区 -->
-		<div class="asset-group">
+		<div class="upload-group">
 			<h4>文件上传</h4>
 			<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
 			<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
@@ -351,6 +351,18 @@ const changePage = (page) => {
 <style scoped>
 /* 图片上传区 */	
 	/* 选择文件区 */
+	.upload-group {
+	  border: 1px solid #ddd;
+	  padding: 12px;
+	  margin-bottom: 16px;
+	  border-radius: 8px;
+	  background-color: #fff;
+	}
+	.upload-group h4 {
+	  margin: 0 0 10px 0;
+	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
+	  margin-bottom: 10px;
+	}
 	.upload-row {
 	  display: flex;
 	  align-items: center; /* 垂直居中 */
@@ -400,31 +412,6 @@ const changePage = (page) => {
 
 	
 /* 文件清单区 */
-	/* 去掉 ul 默认的黑点 */
-	ul {
-	  list-style: none;
-	  padding: 0;
-	  margin: 0 0 16px 0;
-	}
-	/* 单个文件项样式 */
-	.file-item {
-	  display: flex;
-	  align-items: center;
-	  padding: 8px 12px;
-	  border: 1px solid #ccc;
-	  border-radius: 6px;
-	  margin-bottom: 6px;
-	  background-color: #fafafa;
-	  color: #555; /* 加上字体颜色，更浅一些 */
-	}
-	/* 复选框间距 */
-	input[type="checkbox"] {
-	  margin-right: 10px;
-	}
-	
-
-/* 公共资源区 */ 
-	/* 每组文件类型块区 */
 	.asset-group {
 	  border: 1px solid #ddd;
 	  padding: 12px;
@@ -448,7 +435,29 @@ const changePage = (page) => {
 	  background-color: #f9f9f9;
 	  box-sizing: border-box;
 	}
+	/* 去掉 ul 默认的黑点 */ul {
+	  list-style: none;
+	  padding: 0;
+	  margin: 0 0 16px 0;
+	}
+	/* 单个文件项样式 */
+	.file-item {
+	  display: flex;
+	  align-items: center;
+	  padding: 8px 12px;
+	  border: 1px solid #ccc;
+	  border-radius: 6px;
+	  margin-bottom: 6px;
+	  background-color: #fafafa;
+	  color: #555; /* 加上字体颜色，更浅一些 */
+	}
+	/* 复选框间距 */
+	input[type="checkbox"] {
+	  margin-right: 10px;
+	}
 	
+
+/* 公共资源区 */ 
 	/* 按钮区 */
 	/* 普通按钮 */button {
 	  padding: 10px;
