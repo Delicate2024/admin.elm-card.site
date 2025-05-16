@@ -63,7 +63,7 @@ const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
 const error = ref('');
-const username = ref('');
+const username = localStorage.getItem('username');
 
 // 变量——图片上传区
 const uploading = ref(false);
@@ -98,7 +98,7 @@ const redirectToLogin = () => {
 };
 onMounted(() => {
   setTimeout(() => { loading.value = false; }, 1000);
-  username.value = localStorage.getItem('username');
+  
   const redirectToken = localStorage.getItem('redirectToken');
   if (!redirectToken) {
     redirectToLogin();
