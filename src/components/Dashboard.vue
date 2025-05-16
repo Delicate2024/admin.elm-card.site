@@ -9,22 +9,22 @@
 		<p>你已成功登录，可以上传图片资源。</p>
 		
 		<!-- 图片上传区 -->
-		<div class="upload-group">
+		<div class="column-group">
 			<h4>文件上传</h4>
 			<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
 			<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
 			<!-- 文件上传控件 --><div class="upload-row">
 				<label class="file-input-wrapper">
 					<input type="file" ref="fileInput" accept="image/*" multiple @change="handleImageChange" />
-					<span v-if="webpFiles.length > 0"> 已选中{{ webpFiles.length }}个图片 </span>
+					<span v-if="webpFiles.length > 0"> 已生成{{ webpFiles.length }}个webp图片，还剩{{ files.length - webpFiles.length}}个图片文件未被转换。 </span>
 					<span v-else>选择文件</span>
 				</label>
-				<button @click="uploadImages" :disabled="!webpFiles.length || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
+				<button @click="uploadImages" :disabled="!webpFiles.length || !(files.length-webpFiles.length) || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
 			</div>
 		</div>
 		
 		<!-- 文件清单区 -->
-		<div class="upload-group">
+		<div class="column-group">
 			<div class="asset-group">
 				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgroup">
 					<h4>{{ formatAssetType(type) }}</h4>
@@ -372,14 +372,14 @@ function changePage(type, newPage) {
 	/* 消息提示区结尾 */
 	
 	/* 选择文件区 */
-		.upload-group {
+		.column-group {
 		  border: 1px solid #ddd;
 		  padding: 12px;
 		  margin-bottom: 16px;
 		  border-radius: 8px;
 		  background-color: #fff;
 		}
-		.upload-group h4 {
+		.column-group h4 {
 		  margin: 0 0 10px 0;
 		  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
 		}
