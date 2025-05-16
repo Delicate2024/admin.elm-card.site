@@ -68,7 +68,6 @@ export default {
 		if (response.data.success) {
 		  console.log("Login successful, redirecting...");
 		  
-		  localStorage.setItem('username', this.username); 
 		  const redirectToken = response.data.redirectToken;
 		  localStorage.setItem('redirectToken', redirectToken);  
 		  const csrfToken = response.data.csrfToken;

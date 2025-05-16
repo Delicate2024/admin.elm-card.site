@@ -5,7 +5,7 @@
 	</div>
 
 	<div v-else-if="authenticated">
-		<h2>欢迎来到 Dashboard, {{username}}</h2>
+		<h2>欢迎来到 Dashboard !!</h2>
 		
 		<!-- 图片上传区 -->
 		<div class="column-group">
@@ -63,7 +63,6 @@ const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
 const error = ref('');
-const username = localStorage.getItem('username');
 
 // 变量——图片上传区
 const uploading = ref(false);
