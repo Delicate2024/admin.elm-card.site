@@ -5,8 +5,7 @@
 	</div>
 
 	<div v-else-if="authenticated">
-		<h2>欢迎来到 Dashboard</h2>
-		<p>你已成功登录，可以上传图片资源。</p>
+		<h2>欢迎来到 Dashboard, {{username}}</h2>
 		
 		<!-- 图片上传区 -->
 		<div class="column-group">
@@ -60,6 +59,7 @@ import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 
 // 变量——身份验证区
+const username = localStorage.getItem('username');
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
@@ -98,7 +98,7 @@ const redirectToLogin = () => {
 };
 onMounted(() => {
   setTimeout(() => { loading.value = false; }, 1000);
-
+  
   const redirectToken = localStorage.getItem('redirectToken');
   if (!redirectToken) {
     redirectToLogin();
@@ -437,7 +437,7 @@ function changePage(type, newPage) {
 	}
 	/* 每个子分组样式 */.asset-subgroup {
 	  width: calc((100% - 32px) / 3);
-	  height: 600px;              /* 或你想要的固定高度 */
+	  height: 620px;              /* 或你想要的固定高度 */
 	  display: flex;
 	  flex-direction: column;
 	  border: 1px solid #ccc;
