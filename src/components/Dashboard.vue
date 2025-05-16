@@ -432,12 +432,12 @@ function changePage(type, newPage) {
 	  background-color: #fff;
 	  display: flex;
 	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
-	  gap: 16px;       /* 子组之间留白 */
 	  flex-direction: row;
+	  gap: 16px;       /* 子组之间留白 */
 	}
 	/* 每个子分组样式 */.asset-subgroup {
 	  width: calc((100% - 32px) / 3);
-	  height: 320px;              /* 或你想要的固定高度 */
+	  height: 600px;              /* 或你想要的固定高度 */
 	  display: flex;
 	  flex-direction: column;
 	  border: 1px solid #ccc;
@@ -477,7 +477,12 @@ function changePage(type, newPage) {
 	  border-radius: 6px;
 	  cursor: pointer;
 	  margin-top: 2px;
-	  align-self: flex-end;
+	}
+	.pageController {
+		padding: 4px;
+		display: flex;
+		flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
+		flex-direction: row;
 	}
 	.pageController span {
 	  color: black;
