@@ -26,7 +26,7 @@
 		<!-- 文件清单区 -->
 		<div class="upload-group">
 			<div class="asset-group">
-				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgruop">
+				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgroup">
 					<h4>{{ formatAssetType(type) }}</h4>
 					<!-- 列表控件 -->
 					<ul class="file-list">
@@ -425,11 +425,6 @@ const changePage = (page) => {
 	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
 	  gap: 16px;       /* 子组之间留白 */
 	  flex-direction: row;
-	}
-	/* 类型标题样式 */.asset-group h4 {
-	  margin: 0 0 10px 0;
-	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
-	  margin-bottom: 10px;
 	}
 	/* 每个子分组样式 */.asset-subgroup {
 	  height: 320px;              /* 或你想要的固定高度 */
