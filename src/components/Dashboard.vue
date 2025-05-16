@@ -59,11 +59,11 @@ import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 
 // 变量——身份验证区
-const username = localStorage.getItem('username');
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
 const error = ref('');
+const username = ref('');
 
 // 变量——图片上传区
 const uploading = ref(false);
@@ -98,7 +98,7 @@ const redirectToLogin = () => {
 };
 onMounted(() => {
   setTimeout(() => { loading.value = false; }, 1000);
-  
+  username.value = localStorage.getItem('username');
   const redirectToken = localStorage.getItem('redirectToken');
   if (!redirectToken) {
     redirectToLogin();
@@ -481,11 +481,9 @@ function changePage(type, newPage) {
 	.pageController {
 		padding: 4px;
 		display: flex;
-		flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
+		flex-wrap: wrap;
 		flex-direction: row;
-	}
-	.pageController span {
-	  color: black;
+		justify-content: space-evenly; /* 均匀分布子元素，首尾也留间距 */
 	}
 	.delete-button:hover {
 	  background-color: #c0392b;
