@@ -428,7 +428,7 @@ function changePage(type, newPage) {
 	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
 	  flex-direction: row;
 	  gap: 16px;       /* 子组之间留白 */
-	  margin-bottom: 12px;
+	  padding: 12px
 	}
 	/* 每个子分组样式 */.asset-subgroup {
 	  width: calc((100% - 32px) / 3);
