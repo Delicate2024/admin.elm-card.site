@@ -437,7 +437,7 @@ function changePage(type, newPage) {
 	}
 	/* 每个子分组样式 */.asset-subgroup {
 	  width: calc((100% - 32px) / 3);
-	  height: 620px;              /* 或你想要的固定高度 */
+	  height: 610px;              /* 或你想要的固定高度 */
 	  display: flex;
 	  flex-direction: column;
 	  border: 1px solid #ccc;
