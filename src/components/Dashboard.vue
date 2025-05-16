@@ -25,7 +25,7 @@
 		
 		<!-- 文件清单区 -->
 		<div class="asset-group">
-			<div v-for="(files, type) in paginatedAssets" :key="type">
+			<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgruop">
 				<h4>{{ formatAssetType(type) }}</h4>
 				<!-- 列表控件 --><ul>
 					<li v-for="(file, index) in files" :key="file.name" class="file-item">
@@ -431,12 +431,22 @@ const changePage = (page) => {
 	  margin-bottom: 16px;
 	  border-radius: 8px;
 	  background-color: #fff;
+	  display: flex;
+	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
+	  gap: 16px;       /* 子组之间留白 */
 	}
-	/* 类型标题样式 */
-	.asset-group h4 {
+	/* 类型标题样式 */.asset-group h4 {
 	  margin: 0 0 10px 0;
 	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
 	  margin-bottom: 10px;
+	}
+	/* 每个子分组样式 */.asset-subgroup {
+	  flex: 1 1 300px;     /* 最小宽度 300px，自适应拉伸 */
+	  border: 1px solid #ccc;
+	  border-radius: 8px;
+	  padding: 12px;
+	  background-color: #f9f9f9;
+	  box-sizing: border-box;
 	}
 	
 	/* 按钮区 */
