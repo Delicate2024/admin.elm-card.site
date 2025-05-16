@@ -36,9 +36,9 @@
 						</li>
 					</ul>
 					<!-- 分页控件 --><div class="pageController">
-						<button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
-						<span>第 {{ currentPage }}/{{ totalPages }} 页</span>
-						<button @click="changePage(currentPage + 1)">下一页</button>
+						<button @click="changePage(type, getCurrentPage(type) - 1)" :disabled="getCurrentPage(type) <= 1">上一页</button>
+						<span>第 {{ getCurrentPage(type) }}/{{ totalPagesMap[type] }} 页</span>
+						<button @click="changePage(type, getCurrentPage(type) + 1)" :disabled="getCurrentPage(type) >= totalPagesMap[type]">下一页</button>
 					</div>
 				</div>
 			</div>
@@ -78,13 +78,16 @@ const objectURLs = ref(new Set());
 // 变量——文件清单区
 const assets = ref({});
 const selectedFiles = ref([]);
-const currentPage = ref(1); // 当前页
 const pageSize = ref(7);    // 每页显示的文件数
-const totalPages = computed(() => {
-  const totalFiles = Object.values(assets.value).reduce((acc, files) => acc + files.length, 0);
-  return Math.max(1,Math.ceil(totalFiles / pageSize.value));
+const currentPageMap = ref({});
+const totalPagesMap = computed(() => {
+  const result = {};
+  for (const type in assets.value) {
+    result[type] = Math.max(1, Math.ceil(assets.value[type].length / pageSize));
+  }
+  return result;
 });
-
+const getCurrentPage = (type) => currentPageMap.value[type] || 1;
 
 // 函数——基区
 const redirectToLogin = () => {
@@ -336,18 +339,20 @@ const deleteSelectedFiles = async () => {
   }
 };
 const paginatedAssets = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
   const result = {};
-  for (const [type, files] of Object.entries(assets.value)) {
-    result[type] = files.slice(start, end);
+  for (const type in assets.value) {
+    const page = getCurrentPage(type);
+    const start = (page - 1) * pageSize;
+    result[type] = assets.value[type].slice(start, start + pageSize);
   }
   return result;
 });
-const changePage = (page) => {
-  if (page < 1 || page > totalPages.value) currentPage.value = 1;
-  else currentPage.value = page;
-};
+function changePage(type, newPage) {
+  const total = totalPagesMap.value[type];
+  if (newPage >= 1 && newPage <= total) {
+    currentPageMap.value[type] = newPage;
+  }
+}
 
 </script>
 
