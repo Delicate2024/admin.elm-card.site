@@ -9,19 +9,17 @@
 		<p>你已成功登录，可以上传图片资源。</p>
 		
 		<!-- 图片上传区 -->
-		<div class="upload-section">
-			<div class="asset-group">
-				<h4>文件上传</h4>
-				<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
-				<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
-				<!-- 文件上传控件 --><div class="upload-controls">
-					<label class="file-input-wrapper">
-						<input type="file" ref="fileInput" accept="image/*" multiple @change="handleImageChange" />
-						<span v-if="webpFiles.length > 0"> 已选中{{ webpFiles.length }}个图片 </span>
-						<span v-else>选择文件</span>
-					</label>
-					<button @click="uploadImages" :disabled="!webpFiles.length || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
-				</div>
+		<div class="asset-group">
+			<h4>文件上传</h4>
+			<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
+			<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
+			<!-- 文件上传控件 --><div>
+				<label class="file-input-wrapper">
+					<input type="file" ref="fileInput" accept="image/*" multiple @change="handleImageChange" />
+					<span v-if="webpFiles.length > 0"> 已选中{{ webpFiles.length }}个图片 </span>
+					<span v-else>选择文件</span>
+				</label>
+				<button @click="uploadImages" :disabled="!webpFiles.length || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
 			</div>
 		</div>
 		
@@ -35,7 +33,7 @@
 						<label :for="`${type}-${file.name}`">{{ file.name }}</label>
 					</li>
 				</ul>
-				<!-- 分页控件 --><div class="pagination-controls">
+				<!-- 分页控件 --><div>
 					<button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
 					<span>第 {{ currentPage }}/{{ totalPages }} 页</span>
 					<button @click="changePage(currentPage + 1)" :disabled="currentPage > totalPages">下一页</button>
@@ -351,29 +349,9 @@ const changePage = (page) => {
 </script>
 
 <style scoped>
-/* 图片上传区 */
-	.upload-section {
-	  margin: 10px 0;
-	}
-	.asset-group {
-	  border: 1px solid #ddd;
-	  border-radius: 8px;
-	  padding: 20px;
-	  background-color: #f9f9f9;
-	}
-	.asset-group h4 {
-	  margin: 0 0 10px;
-	  font-size: 16px;
-	  color: #333;
-	  font-weight: bold;
-	}
-	.upload-controls {
-	  display: flex;
-	  align-items: center;
-	  gap: 10px;
-	}
-	/* 文件选择 input 和说明文字包裹容器 */
-	.file-input-wrapper {
+/* 图片上传区 */	
+	/* 选择文件区 */
+	/* 文件选择 input 和说明文字包裹容器 */.file-input-wrapper {
 	  display: flex;
 	  align-items: center;
 	  gap: 8px;
@@ -388,8 +366,7 @@ const changePage = (page) => {
 	  cursor: pointer;
 	  position: relative;
 	}
-	/* 隐藏原始文件选择框 */
-	.file-input-wrapper input[type="file"] {
+	/* 隐藏原始文件选择框 */.file-input-wrapper input[type="file"] {
 	  position: absolute;
 	  left: 0;
 	  top: 0;
@@ -398,30 +375,14 @@ const changePage = (page) => {
 	  height: 100%;
 	  cursor: pointer;
 	}
-	/* 文字提示 */
-	.file-input-wrapper span {
+	/* 文字提示 */.file-input-wrapper span {
 	  display: inline-block;
 	  white-space: nowrap;
 	  color: #555;
 	}
-	/* 上传按钮 */
-	button {
-	  flex: 3;
-	  padding: 10px;
-	  height: 40px;
-	  box-sizing: border-box;
-	  font-size: 14px;
-	  background-color: #007bff;
-	  color: white;
-	  border: none;
-	  border-radius: 4px;
-	  cursor: pointer;
-	}
-	button:disabled {
-	  background-color: #ccc;
-	  cursor: not-allowed;
-	}
-	/* 消息样式 */
+	/* 选择文件区结尾 */
+	
+	/* 消息提示区 */
 	.success-message {
 	  color: green;
 	  font-weight: bold;
@@ -456,20 +417,10 @@ const changePage = (page) => {
 	input[type="checkbox"] {
 	  margin-right: 10px;
 	}
-	/* 删除按钮样式 */
-	.delete-button {
-	  padding: 10px 16px;
-	  background-color: #e74c3c;
-	  color: white;
-	  border: none;
-	  border-radius: 6px;
-	  cursor: pointer;
-	  margin-top: 12px;
-	}
-	.delete-button:hover {
-	  background-color: #c0392b;
-	}
-	/* 每组文件类型块的样式 */
+	
+
+/* 公共资源区 */ 
+	/* 每组文件类型块区 */
 	.asset-group {
 	  border: 1px solid #ddd;
 	  padding: 12px;
@@ -482,21 +433,35 @@ const changePage = (page) => {
 	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
 	  margin-bottom: 10px;
 	}
-	/* 分页区 */
-	.pagination-controls {
-	  margin-top: 20px;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	}
-	.pagination-controls button {
-	  padding: 5px 10px;
-	  margin: 0 10px;
+	
+	/* 按钮区 */
+	/* 普通按钮 */button {
+	  flex: 3;
+	  padding: 10px;
+	  height: 40px;
+	  box-sizing: border-box;
+	  font-size: 14px;
+	  background-color: #007bff;
+	  color: white;
+	  border: none;
+	  border-radius: 4px;
 	  cursor: pointer;
 	}
-	.pagination-controls button:disabled {
+	button:disabled {
+	  background-color: #ccc;
 	  cursor: not-allowed;
-	  opacity: 0.5;
-	}/* 分页区结尾 */
-	
+	}
+	/* 删除按钮样式 */.delete-button {
+	  padding: 10px 16px;
+	  background-color: #e74c3c;
+	  color: white;
+	  border: none;
+	  border-radius: 6px;
+	  cursor: pointer;
+	  margin-top: 12px;
+	}
+	.delete-button:hover {
+	  background-color: #c0392b;
+	}
+	/* 按钮区结尾 */
 </style>
