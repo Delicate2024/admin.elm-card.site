@@ -434,6 +434,7 @@ const changePage = (page) => {
 	}
 	/* 类型标题样式 */
 	.asset-group h4 {
+	  margin: 0 0 10px 0;
 	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
 	  margin-bottom: 10px;
 	}
