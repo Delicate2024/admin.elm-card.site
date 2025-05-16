@@ -367,8 +367,10 @@ const paginatedAssets = computed(() => {
   return result;
 });
 const changePage = (page) => {
-  if (page < 1 || page > totalPages.value) currentPage.value=1;
-  currentPage.value = page;
+  const pageNumber = Number(page);
+  if (Number.isNaN(pageNumber)) return;
+  if (pageNumber < 1 || pageNumber > totalPages.value) return;
+  currentPage.value = pageNumber;
 };
 
 </script>
