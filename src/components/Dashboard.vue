@@ -143,7 +143,7 @@ onUnmounted(() => {
 // 函数——上传区
 const handleImageChange = async (event) => {
   handleImageFiles.value = Array.from(event.target.files);
-  const batchSize = 5;
+  const batchSize = 3;
   webpFiles.value = [];
 
   for (let i = 0; i < handleImageFiles.value.length; i += batchSize) {
