@@ -83,7 +83,7 @@ const currentPageMap = ref({});
 const totalPagesMap = computed(() => {
   const result = {};
   for (const type in assets.value) {
-    result[type] = Math.max(1, Math.ceil(assets.value[type].length / pageSize));
+    result[type] = Math.max(1, Math.ceil(assets.value[type].length / pageSize.value));
   }
   return result;
 });
