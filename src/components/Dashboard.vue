@@ -373,6 +373,7 @@ function changePage(type, newPage) {
 	
 	/* 选择文件区 */
 		.column-group {
+		  width: 960px;
 		  border: 1px solid #ddd;
 		  padding: 12px;
 		  margin-bottom: 16px;
@@ -423,12 +424,6 @@ function changePage(type, newPage) {
 	
 /* 文件清单区 */
 	.asset-group {
-	  width: 960px;
-	  border: 1px solid #ddd;
-	  padding: 12px;
-	  margin-bottom: 16px;
-	  border-radius: 8px;
-	  background-color: #fff;
 	  display: flex;
 	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
 	  flex-direction: row;
