@@ -76,7 +76,7 @@ const objectURLs = ref(new Set());
 const assets = ref({});
 const selectedFiles = ref([]);
 const currentPage = ref(1); // 当前页
-const pageSize = ref(10);    // 每页显示的文件数
+const pageSize = ref(7);    // 每页显示的文件数
 const totalPages = computed(() => {
   const totalFiles = Object.values(assets.value).reduce((acc, files) => acc + files.length, 0);
   return Math.max(1,Math.ceil(totalFiles / pageSize.value));
@@ -421,6 +421,7 @@ const changePage = (page) => {
 	  display: flex;
 	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
 	  gap: 16px;       /* 子组之间留白 */
+	  flex-direction: row;
 	}
 	/* 类型标题样式 */.asset-group h4 {
 	  margin: 0 0 10px 0;
@@ -428,20 +429,26 @@ const changePage = (page) => {
 	  margin-bottom: 10px;
 	}
 	/* 每个子分组样式 */.asset-subgroup {
-	  flex: 1 1 300px;     /* 最小宽度 300px，自适应拉伸 */
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: space-between; /* 让分页控件靠底部 */
+	  flex: 1 1 300px;                 /* 最小宽度，自动伸缩 */
 	  border: 1px solid #ccc;
 	  border-radius: 8px;
 	  padding: 12px;
 	  background-color: #f9f9f9;
+	  min-height: 320px;              /* 控制统一高度，可根据内容调整 */
 	  box-sizing: border-box;
+	}
+	.asset-subgroup > div:last-of-type {
+	  margin-top: auto;               /* 确保分页按钮推到底部 */
 	}
 	/* 去掉 ul 默认的黑点 */ul {
 	  list-style: none;
 	  padding: 0;
 	  margin: 0 0 16px 0;
 	}
-	/* 单个文件项样式 */
-	.file-item {
+	/* 单个文件项样式 */.file-item {
 	  display: flex;
 	  align-items: center;
 	  padding: 8px 12px;
@@ -451,11 +458,22 @@ const changePage = (page) => {
 	  background-color: #fafafa;
 	  color: #555; /* 加上字体颜色，更浅一些 */
 	}
-	/* 复选框间距 */
-	input[type="checkbox"] {
+	/* 复选框间距 */input[type="checkbox"] {
 	  margin-right: 10px;
 	}
-	
+	/* 删除按钮样式 */.delete-button {
+	  padding: 10px 16px;
+	  background-color: #e74c3c;
+	  color: white;
+	  border: none;
+	  border-radius: 6px;
+	  cursor: pointer;
+	  margin-top: 12px;
+	  align-self: flex-start;
+	}
+	.delete-button:hover {
+	  background-color: #c0392b;
+	}
 
 /* 公共资源区 */ 
 	/* 按钮区 */
@@ -473,18 +491,6 @@ const changePage = (page) => {
 	button:disabled {
 	  background-color: #ccc;
 	  cursor: not-allowed;
-	}
-	/* 删除按钮样式 */.delete-button {
-	  padding: 10px 16px;
-	  background-color: #e74c3c;
-	  color: white;
-	  border: none;
-	  border-radius: 6px;
-	  cursor: pointer;
-	  margin-top: 12px;
-	}
-	.delete-button:hover {
-	  background-color: #c0392b;
 	}
 	/* 按钮区结尾 */
 </style>
