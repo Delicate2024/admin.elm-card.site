@@ -59,14 +59,12 @@
 		  <label :for="`${type}-${file.name}`">{{ file.name }}</label>
 		</li>
 	  </ul>
-	  <button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">
-		删除选中的文件
-	  </button>
-	</div>
-	<div class="pagination-controls"><!-- 分页控件 -->
+	  <div class="pagination-controls"><!-- 分页控件 -->
 	  <button @click="changePage(currentPage.value - 1)" :disabled="currentPage.value <= 1">上一页</button>
-	  <span>第 {{ currentPage }} 页</span>
+	  <span>第 {{ currentPage }}/{{ totalPages }} 页</span>
+	  <button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
 	  <button @click="changePage(currentPage.value + 1)" :disabled="currentPage.value >= totalPages">下一页</button>
+	  </div>
 	</div>
 	
   </div><!-- 图片上传区结尾 -->
