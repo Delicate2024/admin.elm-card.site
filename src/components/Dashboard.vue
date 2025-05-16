@@ -60,10 +60,10 @@
 		</li>
 	  </ul>
 	  <div class="pagination-controls"><!-- 分页控件 -->
-	  <button @click="changePage(currentPage.value - 1)" :disabled="currentPage.value <= 1">上一页</button>
+	  <button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
 	  <span>第 {{ currentPage }}/{{ totalPages }} 页</span>
 	  <button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
-	  <button @click="changePage(currentPage.value + 1)" :disabled="currentPage.value >= totalPages.value">下一页</button>
+	  <button @click="changePage(currentPage + 1)" :disabled="currentPage > totalPages">下一页</button>
 	  </div>
 	</div>
 	
@@ -367,9 +367,7 @@ const paginatedAssets = computed(() => {
   return result;
 });
 const changePage = (page) => {
-  const pageNumber = Number(page);
-  if (Number.isNaN(pageNumber)) return;
-  if (pageNumber < 1 || pageNumber > totalPages.value) return;
+  if (page < 1 || page > totalPages.value) currentPage.value = 1;
   currentPage.value = pageNumber;
 };
 
