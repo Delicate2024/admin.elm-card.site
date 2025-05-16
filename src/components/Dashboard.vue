@@ -13,7 +13,7 @@
 			<h4>文件上传</h4>
 			<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
 			<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
-			<!-- 文件上传控件 --><div>
+			<!-- 文件上传控件 --><div class="upload-row">
 				<label class="file-input-wrapper">
 					<input type="file" ref="fileInput" accept="image/*" multiple @change="handleImageChange" />
 					<span v-if="webpFiles.length > 0"> 已选中{{ webpFiles.length }}个图片 </span>
@@ -351,6 +351,11 @@ const changePage = (page) => {
 <style scoped>
 /* 图片上传区 */	
 	/* 选择文件区 */
+	.upload-row {
+	  display: flex;
+	  align-items: center; /* 垂直居中 */
+	  gap: 16px; /* 元素间距 */
+	}
 	/* 文件选择 input 和说明文字包裹容器 */.file-input-wrapper {
 	  display: flex;
 	  align-items: center;
@@ -436,7 +441,6 @@ const changePage = (page) => {
 	
 	/* 按钮区 */
 	/* 普通按钮 */button {
-	  flex: 3;
 	  padding: 10px;
 	  height: 40px;
 	  box-sizing: border-box;
