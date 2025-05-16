@@ -46,7 +46,7 @@
 	</div>
 	
     <!-- 文件清单区 -->
-	<div v-for="(files, type) in assets" :key="type" class="asset-group">
+	<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-group">
 	  <h4>{{ formatAssetType(type) }}</h4>
 	  <ul>
 		<li v-for="(file, index) in files" :key="file.name" class="file-item">
@@ -59,15 +59,17 @@
 		  <label :for="`${type}-${file.name}`">{{ file.name }}</label>
 		</li>
 	  </ul>
-	  <button v-if="selectedFiles.length > 0"
-		@click="deleteSelectedFiles"
-		class="delete-button"
-		>
+	  <button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">
 		删除选中的文件
 	  </button>
 	</div>
+	<div class="pagination-controls"><!-- 分页控件 -->
+	  <button @click="changePage(currentPage.value - 1)" :disabled="currentPage.value <= 1">上一页</button>
+	  <span>第 {{ currentPage }} 页</span>
+	  <button @click="changePage(currentPage.value + 1)" :disabled="currentPage.value >= totalPages">下一页</button>
+	</div>
 	
-  </div>
+  </div><!-- 图片上传区结尾 -->
   
   <div v-else class="error">
     <h2>身份验证失败，正在返回登录页...</h2>
@@ -100,6 +102,12 @@ const objectURLs = ref(new Set());
 // 变量——文件清单区
 const assets = ref({});
 const selectedFiles = ref([]);
+const currentPage = ref(1); // 当前页
+const pageSize = ref(10);    // 每页显示的文件数
+const totalPages = computed(() => {
+  const totalFiles = Object.values(assets.value).reduce((acc, files) => acc + files.length, 0);
+  return Math.ceil(totalFiles / pageSize.value);
+});
 
 
 // 函数——基区
@@ -351,6 +359,19 @@ const deleteSelectedFiles = async () => {
     console.error('删除文件失败:', err);
   }
 };
+const paginatedAssets = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  const result = {};
+  for (const [type, files] of Object.entries(assets.value)) {
+    result[type] = files.slice(start, end);
+  }
+  return result;
+});
+const changePage = (page) => {
+  if (page < 1 || page > totalPages.value) return;
+  currentPage.value = page;
+};
 
 </script>
 
@@ -486,5 +507,21 @@ const deleteSelectedFiles = async () => {
 	  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
 	  margin-bottom: 10px;
 	}
+	/* 分页区 */
+	.pagination-controls {
+	  margin-top: 20px;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+	.pagination-controls button {
+	  padding: 5px 10px;
+	  margin: 0 10px;
+	  cursor: pointer;
+	}
+	.pagination-controls button:disabled {
+	  cursor: not-allowed;
+	  opacity: 0.5;
+	}/* 分页区结尾 */
 	
 </style>
