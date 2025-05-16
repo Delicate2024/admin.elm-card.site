@@ -429,7 +429,7 @@ const changePage = (page) => {
 	.asset-group {
 	  border: 1px solid #ddd;
 	  padding: 12px;
-	  margin-bottom: 16px;
+	  margin-bottom: 2px;
 	  border-radius: 8px;
 	  background-color: #fff;
 	}
