@@ -342,7 +342,7 @@ const paginatedAssets = computed(() => {
   const result = {};
   for (const type in assets.value) {
     const page = getCurrentPage(type);
-    const start = (page - 1) * pageSize;
+    const start = (page - 1) * pageSize.value;
     result[type] = assets.value[type].slice(start, start + pageSize.value);
   }
   return result;
