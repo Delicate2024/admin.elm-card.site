@@ -443,11 +443,11 @@ const changePage = (page) => {
 	.file-list {
 	  flex: 1 1 auto;            /* 填满剩余空间 */
 	  overflow-y: auto;          /* 内容超出时滚动 */
-	  margin-bottom: 16px;       /* 留出分页控件间距 */
+	  margin-bottom: 12px;       /* 留出分页控件间距 */
 	  padding-right: 4px;        /* 防止滚动条遮挡内容 */
 	  list-style: none;
 	  scrollbar-width: thin;  /* 现代浏览器更细的滚动条 */
-	  padding: 0;
+	  padding: 4px;
 	  margin: 0 0 16px 0;
 	}
 	/* 单个文件项样式 */.file-item {
