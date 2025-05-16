@@ -16,10 +16,10 @@
 			<!-- 文件上传控件 --><div class="upload-row">
 				<label class="file-input-wrapper">
 					<input type="file" ref="fileInput" accept="image/*" multiple @change="handleImageChange" />
-					<span v-if="webpFiles.length > 0"> 已生成{{ webpFiles.length }}个webp图片，还剩{{ handlefiles.length - webpFiles.length}}个图片文件未被转换。 </span>
+					<span v-if="webpFiles.length > 0"> 已生成{{ webpFiles.length }}个webp图片，还剩{{ handleImageFiles.length - webpFiles.length}}个图片文件未被转换。 </span>
 					<span v-else>选择文件</span>
 				</label>
-				<button @click="uploadImages" :disabled="!webpFiles.length || !(handlefiles.length-webpFiles.length) || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
+				<button @click="uploadImages" :disabled="!webpFiles.length || (handleImageFiles.length-webpFiles.length) || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
 			</div>
 		</div>
 		
@@ -67,7 +67,7 @@ const error = ref('');
 
 // 变量——图片上传区
 const uploading = ref(false);
-const handlefiles = ref([]);
+const handleImageFiles = ref([]);
 const webpFiles = ref([]);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
@@ -142,12 +142,12 @@ onUnmounted(() => {
 
 // 函数——上传区
 const handleImageChange = async (event) => {
-  handlefiles.value = Array.from(event.target.files);
+  handleImageFiles.value = Array.from(event.target.files);
   const batchSize = 5;
   webpFiles.value = [];
 
-  for (let i = 0; i < handlefiles.value.length; i += batchSize) {
-    const batch = handlefiles.value.slice(i, i + batchSize);
+  for (let i = 0; i < handleImageFiles.value.length; i += batchSize) {
+    const batch = handleImageFiles.value.slice(i, i + batchSize);
     const converted = await Promise.all(
       batch.map(file => convertToWebP(file).catch(() => null))
     );
