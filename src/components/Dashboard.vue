@@ -28,7 +28,8 @@
 			<div class="asset-group">
 				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgruop">
 					<h4>{{ formatAssetType(type) }}</h4>
-					<!-- 列表控件 --><ul>
+					<!-- 列表控件 -->
+					<ul class="file-list">
 						<li v-for="(file, index) in files" :key="file.name" class="file-item">
 							<input type="checkbox" v-model="selectedFiles" :value="{ type, name: file.name }" :id="`${type}-${file.name}`" />
 							<label :for="`${type}-${file.name}`">{{ file.name }}</label>
@@ -431,18 +432,20 @@ const changePage = (page) => {
 	  margin-bottom: 10px;
 	}
 	/* 每个子分组样式 */.asset-subgroup {
+	  height: 320px;              /* 或你想要的固定高度 */
 	  display: flex;
 	  flex-direction: column;
-	  justify-content: space-between; /* 让分页控件靠底部 */
-	  flex: 1 1 300px;                 /* 最小宽度，自动伸缩 */
 	  border: 1px solid #ccc;
 	  border-radius: 8px;
 	  padding: 12px;
 	  background-color: #f9f9f9;
-	  min-height: 320px;              /* 控制统一高度，可根据内容调整 */
 	  box-sizing: border-box;
 	}
-	/* 去掉 ul 默认的黑点 */ul {
+	.file-list {
+	  flex: 1 1 auto;            /* 填满剩余空间 */
+	  overflow-y: auto;          /* 内容超出时滚动 */
+	  margin-bottom: 12px;       /* 留出分页控件间距 */
+	  padding-right: 4px;        /* 防止滚动条遮挡内容 */
 	  list-style: none;
 	  padding: 0;
 	  margin: 0 0 16px 0;
@@ -467,7 +470,7 @@ const changePage = (page) => {
 	  border: none;
 	  border-radius: 6px;
 	  cursor: pointer;
-	  margin-top: 12px;
+	  margin-top: 2px;
 	  align-self: flex-end;
 	}
 	.delete-button:hover {
