@@ -1,77 +1,54 @@
 <!-- src/components/Dashboard.vue -->
 <template>
-  <div v-if="loading">
-    <h2>加载中...</h2>
-  </div>
+	<div v-if="loading">
+		<h2>加载中...</h2>
+	</div>
 
-  <div v-else-if="authenticated">
-    <h2>欢迎来到 Dashboard</h2>
-    <p>你已成功登录，可以上传图片资源。</p>
-	
-	<!-- 图片上传区 -->
-	<div class="upload-section">
-		<div class="asset-group">
-		  <h4>文件上传</h4>
-		  <!-- 上传成功消息 -->
-		  <div v-if="uploadSuccess" class="success-message">
-			✓ 上传成功！已上传{{ uploadedCount }}个文件
-		  </div>
-		  <!-- 上传失败消息 -->
-		  <div v-if="uploadError" class="error-message">
-			⚠ {{ errorMessage }}
-		  </div>
-		  <!-- 文件上传控件 -->
-		  <div class="upload-controls">
-			<label class="file-input-wrapper">
-			  <input
-				type="file"
-				ref="fileInput"
-				accept="image/*"
-				multiple
-				@change="handleImageChange"
-			  />
-			  <span v-if="webpFiles.length > 0">
-				已选中{{ webpFiles.length }}个图片
-			  </span>
-			  <span v-else>选择文件</span>
-			</label>
-			<button
-			  @click="uploadImages"
-			  :disabled="!webpFiles.length || uploading"
-			>
-			  {{ uploading ? '上传中...' : '上传图片' }}
-			</button>
-		  </div>
+	<div v-else-if="authenticated">
+		<h2>欢迎来到 Dashboard</h2>
+		<p>你已成功登录，可以上传图片资源。</p>
+		
+		<!-- 图片上传区 -->
+		<div class="upload-section">
+			<div class="asset-group">
+				<h4>文件上传</h4>
+				<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
+				<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
+				<!-- 文件上传控件 --><div class="upload-controls">
+					<label class="file-input-wrapper">
+						<input type="file" ref="fileInput" accept="image/*" multiple @change="handleImageChange" />
+						<span v-if="webpFiles.length > 0"> 已选中{{ webpFiles.length }}个图片 </span>
+						<span v-else>选择文件</span>
+					</label>
+					<button @click="uploadImages" :disabled="!webpFiles.length || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
+				</div>
+			</div>
 		</div>
-	</div>
+		
+		<!-- 文件清单区 -->
+		<div class="asset-group">
+			<div v-for="(files, type) in paginatedAssets" :key="type">
+				<h4>{{ formatAssetType(type) }}</h4>
+				<!-- 列表控件 --><ul>
+					<li v-for="(file, index) in files" :key="file.name" class="file-item">
+						<input type="checkbox" v-model="selectedFiles" :value="{ type, name: file.name }" :id="`${type}-${file.name}`" />
+						<label :for="`${type}-${file.name}`">{{ file.name }}</label>
+					</li>
+				</ul>
+				<!-- 分页控件 --><div class="pagination-controls">
+					<button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
+					<span>第 {{ currentPage }}/{{ totalPages }} 页</span>
+					<button @click="changePage(currentPage + 1)" :disabled="currentPage > totalPages">下一页</button>
+				</div>
+			</div>
+			<button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
+		</div>
 	
-    <!-- 文件清单区 -->
-	<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-group">
-	  <h4>{{ formatAssetType(type) }}</h4>
-	  <ul>
-		<li v-for="(file, index) in files" :key="file.name" class="file-item">
-		  <input
-			type="checkbox"
-			v-model="selectedFiles"
-			:value="{ type, name: file.name }"
-			:id="`${type}-${file.name}`"
-		  />
-		  <label :for="`${type}-${file.name}`">{{ file.name }}</label>
-		</li>
-	  </ul>
-	  <div class="pagination-controls"><!-- 分页控件 -->
-	  <button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
-	  <span>第 {{ currentPage }}/{{ totalPages }} 页</span>
-	  <button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
-	  <button @click="changePage(currentPage + 1)" :disabled="currentPage > totalPages">下一页</button>
-	  </div>
-	</div>
-	
-  </div><!-- 图片上传区结尾 -->
+	</div><!-- 图片上传区结尾 -->
   
-  <div v-else class="error">
-    <h2>身份验证失败，正在返回登录页...</h2>
-  </div>
+	<div v-else class="error">
+		<h2>身份验证失败，正在返回登录页...</h2>
+	</div>
 </template>
 
 <script setup>
@@ -104,7 +81,7 @@ const currentPage = ref(1); // 当前页
 const pageSize = ref(10);    // 每页显示的文件数
 const totalPages = computed(() => {
   const totalFiles = Object.values(assets.value).reduce((acc, files) => acc + files.length, 0);
-  return Math.ceil(totalFiles / pageSize.value);
+  return Math.max(1,Math.ceil(totalFiles / pageSize.value));
 });
 
 
