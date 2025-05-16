@@ -24,19 +24,21 @@
 		</div>
 		
 		<!-- 文件清单区 -->
-		<div class="asset-group">
-			<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgruop">
-				<h4>{{ formatAssetType(type) }}</h4>
-				<!-- 列表控件 --><ul>
-					<li v-for="(file, index) in files" :key="file.name" class="file-item">
-						<input type="checkbox" v-model="selectedFiles" :value="{ type, name: file.name }" :id="`${type}-${file.name}`" />
-						<label :for="`${type}-${file.name}`">{{ file.name }}</label>
-					</li>
-				</ul>
-				<!-- 分页控件 --><div>
-					<button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
-					<span>第 {{ currentPage }}/{{ totalPages }} 页</span>
-					<button @click="changePage(currentPage + 1)" :disabled="currentPage > totalPages">下一页</button>
+		<div class="upload-group">
+			<div class="asset-group">
+				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgruop">
+					<h4>{{ formatAssetType(type) }}</h4>
+					<!-- 列表控件 --><ul>
+						<li v-for="(file, index) in files" :key="file.name" class="file-item">
+							<input type="checkbox" v-model="selectedFiles" :value="{ type, name: file.name }" :id="`${type}-${file.name}`" />
+							<label :for="`${type}-${file.name}`">{{ file.name }}</label>
+						</li>
+					</ul>
+					<!-- 分页控件 --><div>
+						<button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
+						<span>第 {{ currentPage }}/{{ totalPages }} 页</span>
+						<button @click="changePage(currentPage + 1)" :disabled="currentPage > totalPages">下一页</button>
+					</div>
 				</div>
 			</div>
 			<button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
@@ -440,9 +442,6 @@ const changePage = (page) => {
 	  min-height: 320px;              /* 控制统一高度，可根据内容调整 */
 	  box-sizing: border-box;
 	}
-	.asset-subgroup > div:last-of-type {
-	  margin-top: auto;               /* 确保分页按钮推到底部 */
-	}
 	/* 去掉 ul 默认的黑点 */ul {
 	  list-style: none;
 	  padding: 0;
@@ -469,7 +468,7 @@ const changePage = (page) => {
 	  border-radius: 6px;
 	  cursor: pointer;
 	  margin-top: 12px;
-	  align-self: flex-start;
+	  align-self: flex-end;
 	}
 	.delete-button:hover {
 	  background-color: #c0392b;
