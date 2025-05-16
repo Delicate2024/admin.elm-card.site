@@ -63,7 +63,7 @@
 	  <button @click="changePage(currentPage.value - 1)" :disabled="currentPage.value <= 1">上一页</button>
 	  <span>第 {{ currentPage }}/{{ totalPages }} 页</span>
 	  <button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
-	  <button @click="changePage(currentPage.value + 1)" :disabled="currentPage.value >= totalPages">下一页</button>
+	  <button @click="changePage(currentPage.value + 1)" :disabled="currentPage.value >= totalPages.value">下一页</button>
 	  </div>
 	</div>
 	
