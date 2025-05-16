@@ -354,7 +354,6 @@ const changePage = (page) => {
 	.upload-row {
 	  display: flex;
 	  align-items: center; /* 垂直居中 */
-	  gap: 16px; /* 元素间距 */
 	}
 	/* 文件选择 input 和说明文字包裹容器 */.file-input-wrapper {
 	  display: flex;
@@ -428,7 +427,7 @@ const changePage = (page) => {
 	/* 每组文件类型块区 */
 	.asset-group {
 	  border: 1px solid #ddd;
-	  padding: 2px;
+	  padding: 12px;
 	  margin-bottom: 16px;
 	  border-radius: 8px;
 	  background-color: #fff;
