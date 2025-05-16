@@ -485,6 +485,9 @@ function changePage(type, newPage) {
 		flex-direction: row;
 		justify-content: space-evenly; /* 均匀分布子元素，首尾也留间距 */
 	}
+	.pageController span {
+	  color: black;
+	}
 	.delete-button:hover {
 	  background-color: #c0392b;
 	}
