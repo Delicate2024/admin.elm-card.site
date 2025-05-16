@@ -368,7 +368,7 @@ const paginatedAssets = computed(() => {
 });
 const changePage = (page) => {
   if (page < 1 || page > totalPages.value) currentPage.value = 1;
-  currentPage.value = pageNumber;
+  currentPage.value = page;
 };
 
 </script>
