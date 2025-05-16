@@ -367,7 +367,7 @@ const paginatedAssets = computed(() => {
   return result;
 });
 const changePage = (page) => {
-  if (page < 1 || page > totalPages.value) return 1;
+  if (page < 1 || page > totalPages.value) currentPage=1;
   currentPage.value = page;
 };
 
