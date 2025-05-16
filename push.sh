@@ -39,7 +39,7 @@ fi
 
 # 计算新 tag 的整数形式并格式化为 X.XX
 NEW_INT=$((LATEST_INT + 1))
-NEW_TAG=$(printf "%d.%02d" $((NEW_INT / 1000)) $((NEW_INT % 1000)))
+NEW_TAG=$(printf "%d.%03d" $((NEW_INT / 1000)) $((NEW_INT % 1000)))
 
 echo "Calculated new tag: $NEW_TAG"
 
