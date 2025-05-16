@@ -38,7 +38,7 @@
 					<!-- 分页控件 --><div>
 						<button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">上一页</button>
 						<span>第 {{ currentPage }}/{{ totalPages }} 页</span>
-						<button @click="changePage(currentPage + 1)" :disabled="currentPage > totalPages">下一页</button>
+						<button @click="changePage(currentPage + 1)">下一页</button>
 					</div>
 				</div>
 			</div>
@@ -346,7 +346,7 @@ const paginatedAssets = computed(() => {
 });
 const changePage = (page) => {
   if (page < 1 || page > totalPages.value) currentPage.value = 1;
-  currentPage.value = page;
+  else currentPage.value = page;
 };
 
 </script>
@@ -416,6 +416,7 @@ const changePage = (page) => {
 	
 /* 文件清单区 */
 	.asset-group {
+	  width: 960px;
 	  border: 1px solid #ddd;
 	  padding: 12px;
 	  margin-bottom: 16px;
@@ -427,6 +428,7 @@ const changePage = (page) => {
 	  flex-direction: row;
 	}
 	/* 每个子分组样式 */.asset-subgroup {
+	  width: calc((100% - 32px) / 3);
 	  height: 320px;              /* 或你想要的固定高度 */
 	  display: flex;
 	  flex-direction: column;
