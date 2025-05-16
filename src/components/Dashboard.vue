@@ -377,11 +377,10 @@ const changePage = (page) => {
 		.upload-group h4 {
 		  margin: 0 0 10px 0;
 		  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
-		  margin-bottom: 10px;
 		}
 		.upload-row {
 		  display: flex;
-		  align-items: center; /* 垂直居中 */
+		  align-items: center; 
 		}
 		/* 文件选择 input 和说明文字包裹容器 */.file-input-wrapper {
 		  display: flex;
@@ -447,6 +446,7 @@ const changePage = (page) => {
 	  margin-bottom: 16px;       /* 留出分页控件间距 */
 	  padding-right: 4px;        /* 防止滚动条遮挡内容 */
 	  list-style: none;
+	  scrollbar-width: thin;  /* 现代浏览器更细的滚动条 */
 	  padding: 0;
 	  margin: 0 0 16px 0;
 	}
@@ -497,6 +497,7 @@ const changePage = (page) => {
 	button:disabled {
 	  background-color: #ccc;
 	  cursor: not-allowed;
+	  opacity: 0.7; /* 更明显的禁用状态 */
 	}
 	/* 按钮区结尾 */
 </style>
