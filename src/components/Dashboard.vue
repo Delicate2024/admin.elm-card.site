@@ -146,7 +146,7 @@ const handleImageChange = async (event) => {
   const batchSize = 5;
   webpFiles.value = [];
 
-  for (let i = 0; i < handlefiles.length; i += batchSize) {
+  for (let i = 0; i < handlefiles.value.length; i += batchSize) {
     const batch = handlefiles.slice(i, i + batchSize);
     const converted = await Promise.all(
       batch.map(file => convertToWebP(file).catch(() => null))
