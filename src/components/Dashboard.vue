@@ -3,8 +3,8 @@
 	<div v-if="loading">
 		<h2>加载中...</h2>
 	</div>
-
-	<div v-else-if="authenticated">
+	
+	<div v-else-if="authenticated" class="main-content">
 		<h2>欢迎来到 Dashboard !!</h2>
 		
 		<!-- 图片上传区 -->
@@ -423,6 +423,18 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 </script>
 
 <style scoped>
+/* 基组件 */
+.main-content {
+  position: fixed;           /* 固定定位 */
+  top: 60px;                 /* ✅ 距离顶部固定 60px */
+  left: 0;
+  right: 0;                  /* 与 left 配合使宽度 auto */
+  height: 80vh;              /* ✅ 高度占视口的 80% */
+  overflow-y: auto;          /* 内容溢出时可滚动 */
+  padding: 16px;             /* 可选内边距 */
+  box-sizing: border-box;
+}
+
 /* 图片上传区 */	
 	/* 消息提示区 */
 	.success-message,
