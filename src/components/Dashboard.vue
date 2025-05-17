@@ -481,22 +481,22 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 /* ========== 公共通用类 ========== */
 .box {
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 0.69vw;
   background-color: #fff;
-  border: 1px solid #ddd;
+  border: 0.086vw solid #ddd;
 }
 
 .section {
-  padding: 12px;
-  margin-bottom: 16px;
+  padding: 1.04vw;
+  margin-bottom: 1.38vw;
 }
 
 .standard-button {
-  padding: 10px;
-  height: 40px;
-  font-size: 14px;
+  padding: 0.86vw;
+  height: 3.45vh;
+  font-size: 1.21vw;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.35vw;
   cursor: pointer;
   background-color: #007bff;
   color: white;
@@ -511,7 +511,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 }
 .danger-button {
   background-color: #ff0000;
-  border-radius: 6px;
+  border-radius: 0.52vw;
 }
 .danger-button:hover {
   background-color: #b80303;
@@ -520,135 +520,126 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 .label-checkbox {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 1.21vw;
   font-weight: normal;
   color: black;
-  margin-bottom: 4px;
+  margin-bottom: 0.35vw;
 }
 
 /* ========== 基组件 ========== */
 .main-content {
-  position: fixed;           
-  top: 5vh;                  
+  position: fixed;
+  top: 5vh;
   left: 0;
-  right: 0;                  
-  height: 90vh;              
-  overflow-y: auto;          
-  padding: 16px;             
+  right: 0;
+  height: 90vh;
+  overflow-y: auto;
+  padding: 1.38vw;
   box-sizing: border-box;
-  display: flex;                   
-  flex-direction: column;         
-  align-items: center;            
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ========== 图片上传区 ========== */
-  /* 消息提示区 */
-  .success-message,
-  .error-message {
-    height: 24px;
-    font-size: 14px;
-    padding-left: 4px;
-    line-height: 1.4;
-  }
-  .success-message {
-    color: green;
-  }
-  .error-message {
-    color: #d9534f;
-  }
-  /* 消息提示区结尾 */
+.success-message,
+.error-message {
+  height: 2.57vh;
+  font-size: 1.21vw;
+  padding-left: 0.35vw;
+  line-height: 1.4;
+}
+.success-message {
+  color: green;
+}
+.error-message {
+  color: #d9534f;
+}
 
-  /* 选择文件区 */
-  .column-group {
-    width: 960px;
-    border: 1px solid #ddd;
-    padding: 12px;
-    margin-bottom: 16px;
-    border-radius: 8px;
-    background-color: #fff;
-    box-sizing: border-box;
+.column-group {
+  width: 83vw;
+  border: 0.086vw solid #ddd;
+  padding: 1.04vw;
+  margin-bottom: 1.38vw;
+  border-radius: 0.69vw;
+  background-color: #fff;
+  box-sizing: border-box;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .column-group--uploadAssets {
-    height: 130px;
-    flex-shrink: 0;
-    flex-grow: 0;
-  }
-  .column-group--getAssets {
-    height: auto;
-  }
-  .column-group h4 {
-    margin: 0 0 6px 0;
-    color: #2c3e50;
-    font-size: 16px;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.column-group--uploadAssets {
+  height: 13.94vh;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.column-group--getAssets {
+  height: auto;
+}
+.column-group h4 {
+  margin: 0 0 0.52vw 0;
+  color: #2c3e50;
+  font-size: 1.38vw;
+}
 
-  /* 上传控件行 */
-  .upload-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
+.upload-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.04vw;
+}
 
-  /* 包裹 input 和说明文字的容器 */
-  .file-input-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-    height: 40px;
-    padding: 0 12px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
-    cursor: pointer;
-    position: relative;
-  }
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.69vw;
+  flex: 1;
+  height: 3.45vh;
+  padding: 0 1.04vw;
+  background-color: #fff;
+  border: 0.086vw solid #ccc;
+  border-radius: 0.35vw;
+  font-size: 1.21vw;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+}
 
-  /* 隐藏原始文件选择框 */
-  .file-input-wrapper input[type="file"] {
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
 
-  /* 显示的提示文字 */
-  .file-input-wrapper span {
-    display: inline-block;
-    white-space: nowrap;
-    color: #555;
-    font-size: 14px;
-  }
-  /* 选择文件区结尾 */
+.file-input-wrapper span {
+  display: inline-block;
+  white-space: nowrap;
+  color: #555;
+  font-size: 1.21vw;
+}
 
 /* ========== 文件清单区 ========== */
 .asset-group {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  gap: 16px;
-  padding: 0 12px;
+  gap: 1.38vw;
+  padding: 0 1.04vw;
 }
 
-/* 每个子分组样式 */
 .asset-subgroup {
-  width: calc((100% - 32px) / 3);
-  height: 480px;
+  width: calc((100% - 2.76vw) / 3);
+  height: 51.5vh;
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 12px;
+  border: 0.086vw solid #ccc;
+  border-radius: 0.69vw;
+  padding: 1.04vw;
   background-color: #f9f9f9;
   box-sizing: border-box;
 }
@@ -657,9 +648,9 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 4px;
+  margin-bottom: 0.35vw;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 1.21vw;
 }
 .select-all label {
   color: black;
@@ -668,33 +659,31 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 .file-list {
   flex: 1 1 auto;
   overflow-y: auto;
-  margin-bottom: 12px;
-  padding-right: 4px;
+  margin-bottom: 1.38vw;
+  padding-right: 0.35vw;
   list-style: none;
   scrollbar-width: thin;
-  padding: 4px;
-  margin: 0 0 16px 0;
+  padding: 0.35vw;
+  margin: 0 0 1.38vw 0;
 }
 
-/* 单个文件项样式 */
 .file-item {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 6px;
+  padding: 0.69vw 1.04vw;
+  border: 0.086vw solid #ccc;
+  border-radius: 0.52vw;
+  margin-bottom: 0.52vw;
   background-color: #fafafa;
   color: #555;
 }
 
-/* 复选框间距 */
 input[type="checkbox"] {
-  margin-right: 10px;
+  margin-right: 0.86vw;
 }
 
 .pageController {
-  padding: 4px;
+  padding: 0.35vw;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -704,13 +693,12 @@ input[type="checkbox"] {
   color: black;
 }
 
-/* 批量操作栏 */
 .batch-actions {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 1.04vw;
+  margin-top: 1.04vw;
   flex-wrap: wrap;
 }
 
@@ -718,13 +706,8 @@ input[type="checkbox"] {
   color: #333;
 }
 
-/* ========== 公共按钮样式区 ========== */
-button {
-  /* 继承 standard-button 复用类 */
-}
-
 button.delete-button {
-  padding: 10px 16px;
-  margin-top: 2px;
+  padding: 0.86vw 1.38vw;
+  margin-top: 0.17vw;
 }
 </style>
