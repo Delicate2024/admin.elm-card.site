@@ -512,12 +512,12 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   opacity: 0.7;
 }
 
-.danger-button {
+button.danger-button {
   background-color: #ff0000;
   border-radius: 0.3138vw;
 }
 
-.danger-button:hover {
+button.danger-button:hover {
   background-color: #a10000;
 }
 
