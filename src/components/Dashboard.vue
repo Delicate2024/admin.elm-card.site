@@ -726,15 +726,16 @@ button.delete-button {
   .error-message,
   .selected-summary,
   .file-input-wrapper span  {
-    font-size: 1vw !important;
+    font-size: 0.4vw !important;
 	padding: 0.4vw;
   }
   .column-group{
 	width:90vw;
   }
   .asset-group {
-    flex-direction: column;
-    flex-wrap: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
   }
   .asset-subgroup {
     width: 100% !important;
