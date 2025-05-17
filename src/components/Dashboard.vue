@@ -481,22 +481,22 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 /* ========== 公共通用类 ========== */
 .box {
   box-sizing: border-box;
-  border-radius: 0.69vw;
+  border-radius: 0.4184vw;
   background-color: #fff;
-  border: 0.086vw solid #ddd;
+  border: 0.0523vw solid #ddd;
 }
 
 .section {
-  padding: 1.04vw;
-  margin-bottom: 1.38vw;
+  padding: 0.628vw;
+  margin-bottom: 0.8375vw;
 }
 
 .standard-button {
-  padding: 0.86vw;
-  height: 3.45vh;
-  font-size: 1.21vw;
+  padding: 0.523vw;
+  height: 4.2917vh;
+  font-size: 0.732vw;
   border: none;
-  border-radius: 0.35vw;
+  border-radius: 0.2092vw;
   cursor: pointer;
   background-color: #007bff;
   color: white;
@@ -511,7 +511,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 }
 .danger-button {
   background-color: #ff0000;
-  border-radius: 0.52vw;
+  border-radius: 0.3138vw;
 }
 .danger-button:hover {
   background-color: #b80303;
@@ -520,10 +520,10 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 .label-checkbox {
   display: flex;
   align-items: center;
-  font-size: 1.21vw;
+  font-size: 0.732vw;
   font-weight: normal;
   color: black;
-  margin-bottom: 0.35vw;
+  margin-bottom: 0.2092vw;
 }
 
 /* ========== 基组件 ========== */
@@ -534,7 +534,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   right: 0;
   height: 90vh;
   overflow-y: auto;
-  padding: 1.38vw;
+  padding: 0.8375vw;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -544,9 +544,9 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 /* ========== 图片上传区 ========== */
 .success-message,
 .error-message {
-  height: 2.57vh;
-  font-size: 1.21vw;
-  padding-left: 0.35vw;
+  height: 2.575vh;
+  font-size: 0.732vw;
+  padding-left: 0.2092vw;
   line-height: 1.4;
 }
 .success-message {
@@ -557,11 +557,11 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 }
 
 .column-group {
-  width: 83vw;
-  border: 0.086vw solid #ddd;
-  padding: 1.04vw;
-  margin-bottom: 1.38vw;
-  border-radius: 0.69vw;
+  width: 50.2096vw;
+  border: 0.0523vw solid #ddd;
+  padding: 0.628vw;
+  margin-bottom: 0.8375vw;
+  border-radius: 0.4184vw;
   background-color: #fff;
   box-sizing: border-box;
 
@@ -570,7 +570,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   justify-content: space-between;
 }
 .column-group--uploadAssets {
-  height: 13.94vh;
+  height: 13.9442vh;
   flex-shrink: 0;
   flex-grow: 0;
 }
@@ -578,29 +578,29 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   height: auto;
 }
 .column-group h4 {
-  margin: 0 0 0.52vw 0;
+  margin: 0 0 0.3138vw 0;
   color: #2c3e50;
-  font-size: 1.38vw;
+  font-size: 0.8375vw;
 }
 
 .upload-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.04vw;
+  gap: 0.628vw;
 }
 
 .file-input-wrapper {
   display: flex;
   align-items: center;
-  gap: 0.69vw;
+  gap: 0.4184vw;
   flex: 1;
-  height: 3.45vh;
-  padding: 0 1.04vw;
+  height: 4.2917vh;
+  padding: 0 0.628vw;
   background-color: #fff;
-  border: 0.086vw solid #ccc;
-  border-radius: 0.35vw;
-  font-size: 1.21vw;
+  border: 0.0523vw solid #ccc;
+  border-radius: 0.2092vw;
+  font-size: 0.732vw;
   box-sizing: border-box;
   cursor: pointer;
   position: relative;
@@ -620,7 +620,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   display: inline-block;
   white-space: nowrap;
   color: #555;
-  font-size: 1.21vw;
+  font-size: 0.732vw;
 }
 
 /* ========== 文件清单区 ========== */
@@ -628,18 +628,18 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  gap: 1.38vw;
-  padding: 0 1.04vw;
+  gap: 0.8375vw;
+  padding: 0 0.628vw;
 }
 
 .asset-subgroup {
-  width: calc((100% - 2.76vw) / 3);
-  height: 51.5vh;
+  width: calc((100% - 1.674vw) / 3);
+  height: 51.5021vh;
   display: flex;
   flex-direction: column;
-  border: 0.086vw solid #ccc;
-  border-radius: 0.69vw;
-  padding: 1.04vw;
+  border: 0.0523vw solid #ccc;
+  border-radius: 0.4184vw;
+  padding: 0.628vw;
   background-color: #f9f9f9;
   box-sizing: border-box;
 }
@@ -648,9 +648,9 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 0.35vw;
+  margin-bottom: 0.2092vw;
   font-weight: normal;
-  font-size: 1.21vw;
+  font-size: 0.732vw;
 }
 .select-all label {
   color: black;
@@ -659,31 +659,31 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 .file-list {
   flex: 1 1 auto;
   overflow-y: auto;
-  margin-bottom: 1.38vw;
-  padding-right: 0.35vw;
+  margin-bottom: 0.6438vh;
+  padding-right: 0.2092vw;
   list-style: none;
   scrollbar-width: thin;
-  padding: 0.35vw;
-  margin: 0 0 1.38vw 0;
+  padding: 0.2092vw;
+  margin: 0 0 0.8375vw 0;
 }
 
 .file-item {
   display: flex;
   align-items: center;
-  padding: 0.69vw 1.04vw;
-  border: 0.086vw solid #ccc;
-  border-radius: 0.52vw;
-  margin-bottom: 0.52vw;
+  padding: 0.4184vw 0.628vw;
+  border: 0.0523vw solid #ccc;
+  border-radius: 0.3138vw;
+  margin-bottom: 0.3138vw;
   background-color: #fafafa;
   color: #555;
 }
 
 input[type="checkbox"] {
-  margin-right: 0.86vw;
+  margin-right: 0.523vw;
 }
 
 .pageController {
-  padding: 0.35vw;
+  padding: 0.2092vw;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -697,8 +697,8 @@ input[type="checkbox"] {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 1.04vw;
-  margin-top: 1.04vw;
+  gap: 0.628vw;
+  margin-top: 0.6438vh;
   flex-wrap: wrap;
 }
 
@@ -707,7 +707,8 @@ input[type="checkbox"] {
 }
 
 button.delete-button {
-  padding: 0.86vw 1.38vw;
-  margin-top: 0.17vw;
+  padding: 0.523vw 0.8375vw;
+  margin-top: 0.2146vh;
 }
 </style>
+
