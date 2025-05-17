@@ -710,5 +710,66 @@ button.delete-button {
   padding: 0.523vw 0.8375vw;
   margin-top: 0.2146vh;
 }
+
+@media (max-width: 768px) {
+  .box.section {
+    margin: 0.5em;
+    padding: 0.8em;
+  }
+
+  .upload-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .file-input-wrapper {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  .standard-button {
+    width: 100%;
+    margin: 0.5em 0 0 0;
+  }
+
+  .pageController {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+  }
+
+  .file-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5em 0;
+  }
+
+  .batch-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5em;
+  }
+
+  .success-message,
+  .error-message {
+    font-size: 0.95em;
+    text-align: center;
+  }
+
+  .asset-subgroup h4 {
+    font-size: 1.1em;
+  }
+
+  .scrollable-list {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  label,
+  input[type="checkbox"] {
+    font-size: 1em;
+  }
+}
 </style>
 
