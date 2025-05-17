@@ -87,7 +87,7 @@ const totalPagesMap = computed(() => {
   }
   return result;
 });
-const getCurrentPage = (type) => currentPageMap.value[type] || 1;
+const getCurrentPage = (type) => currentPageMap.value[type] || totalPagesMap[type];
 
   
 // 函数——基区
@@ -348,7 +348,6 @@ function convertImageFileToWebP(file, objectURLTracker) {
     img.src = objectURL;
   });
 }
-
 async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAssets') {
   const uploadPromises = files.map(file => {
     const formData = new FormData();
