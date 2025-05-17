@@ -27,8 +27,11 @@
 			<div class="asset-group">
 				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgroup">
 					<h4>{{ formatAssetType(type) }}({{ getTotalSize(assets[type] || []) }})</h4>
-					<!-- 列表控件 -->
-					<ul class="file-list">
+					<!-- 全选按钮控件 --><div class="select-all">
+						<input type="checkbox" :id="`select-all-${type}`" :checked="isPageSelected(type)" @change="toggleSelectAll(type)"/>
+						<label :for="`select-all-${type}`">全选本页</label>
+					</div>
+					<!-- 列表控件 --><ul class="file-list">
 						<li v-for="(file, index) in files" :key="file.name" class="file-item">
 							<input type="checkbox" v-model="selectedFiles" :value="{ type, name: file.name }" :id="`${type}-${file.name}`" />
 							<label :for="`${type}-${file.name}`">{{ file.name }}</label>
@@ -207,6 +210,29 @@ const fetchAssets = async () => {
 const hasAssets = computed(() => {
   return Object.keys(assets.value).length > 0;
 });
+function isPageSelected(type) {
+  const currentFiles = paginatedAssets.value[type] || [];
+  return currentFiles.every(file =>
+    selectedFiles.value.some(selected => selected.type === type && selected.name === file.name)
+  );
+}
+function toggleSelectAll(type) {
+  const currentFiles = paginatedAssets.value[type] || [];
+
+  const allSelected = isPageSelected(type);
+
+  if (allSelected) {// 取消选中本页
+    selectedFiles.value = selectedFiles.value.filter(
+      selected => !currentFiles.some(file => selected.type === type && selected.name === file.name)
+    );
+  } else {// 添加本页文件（排除已选中的）
+    const newSelections = currentFiles.filter(
+      file => !selectedFiles.value.some(selected => selected.type === type && selected.name === file.name)
+    ).map(file => ({ type, name: file.name }));
+
+    selectedFiles.value.push(...newSelections);
+  }
+}
 const deleteFile = async (type, name) => {
   try {
     const csrfToken = localStorage.getItem('csrfToken');
@@ -452,6 +478,11 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  padding: 12px;
 	  background-color: #f9f9f9;
 	  box-sizing: border-box;
+	}
+	.select-all {
+	  margin-bottom: 4px;
+	  font-weight: normal;
+	  font-size: 14px;
 	}
 	.file-list {
 	  flex: 1 1 auto;            /* 填满剩余空间 */
