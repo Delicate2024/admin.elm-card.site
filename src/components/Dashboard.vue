@@ -8,51 +8,109 @@
 		<h2>欢迎来到 Dashboard !!</h2>
 		
 		<!-- 图片上传区 -->
-		<div class="column-group column-group--uploadAssets">
+		<div class="column-group column-group--uploadAssets box section">
 			<h4>文件上传</h4>
-			<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
-			<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
-			<!-- 文件上传控件 --><div class="upload-row">
+			
+			<!-- 上传成功消息 -->
+			<div v-if="uploadSuccess" class="success-message">
+				✓ 上传成功！已上传{{ uploadedCount }}个文件
+			</div>
+			
+			<!-- 上传失败消息 -->
+			<div v-if="uploadError" class="error-message">
+				⚠ {{ errorMessage }}
+			</div>
+			
+			<!-- 文件上传控件 -->
+			<div class="upload-row">
 				<label class="file-input-wrapper">
 					<input type="file" ref="fileInput" accept="image/*" multiple @change="handleImageChange" />
-					<span v-if="webpFiles.length > 0"> 已生成{{ webpFiles.length }}个webp图片，还剩{{ handleImageFiles.length - webpFiles.length}}个图片文件未被转换。 </span>
+					
+					<!-- 上传提示文字 -->
+					<span v-if="webpFiles.length > 0">
+						已生成{{ webpFiles.length }}个webp图片，还剩{{ handleImageFiles.length - webpFiles.length}}个图片文件未被转换。
+					</span>
 					<span v-else>选择文件</span>
 				</label>
-				<button @click="uploadImages" :disabled="!webpFiles.length || (handleImageFiles.length-webpFiles.length) || uploading"> {{ uploading ? '上传中...' : '上传图片' }} </button>
+				
+				<!-- 上传按钮 -->
+				<button
+					class="standard-button"
+					@click="uploadImages"
+					:disabled="!webpFiles.length || (handleImageFiles.length - webpFiles.length) || uploading"
+				>
+					{{ uploading ? '上传中...' : '上传图片' }}
+				</button>
 			</div>
 		</div>
 		
 		<!-- 文件清单区 -->
-		<div class="column-group column-group--getAssets">
+		<div class="column-group column-group--getAssets box section">
 			<div class="asset-group">
+			
+				<!-- 单个分类子组 -->
 				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgroup">
 					<h4>{{ formatAssetType(type) }}({{ getTotalSize(assets[type] || []) }})</h4>
-					<!-- 全选按钮控件 --><div class="select-all">
-						<input type="checkbox" :id="`select-all-${type}`" :checked="isPageSelected(type)" @change="toggleSelectAll(type)"/>
+					
+					<!-- 全选按钮控件 -->
+					<div class="select-all label-checkbox">
+						<input
+							type="checkbox"
+							:id="`select-all-${type}`"
+							:checked="isPageSelected(type)"
+							@change="toggleSelectAll(type)"
+						/>
 						<label :for="`select-all-${type}`">全选本页</label>
 					</div>
-					<!-- 列表控件 --><ul class="file-list">
+					
+					<!-- 列表控件 -->
+					<ul class="file-list scrollable-list">
 						<li v-for="(file, index) in files" :key="file.name" class="file-item">
-							<input type="checkbox" v-model="selectedFiles" :value="{ type, name: file.name }" :id="`${type}-${file.name}`" />
+							<input
+								type="checkbox"
+								v-model="selectedFiles"
+								:value="{ type, name: file.name }"
+								:id="`${type}-${file.name}`"
+							/>
 							<label :for="`${type}-${file.name}`">{{ file.name }}</label>
 						</li>
 					</ul>
-					<!-- 分页控件 --><div class="pageController">
-						<button @click="changePage(type, getCurrentPage(type) - 1)" :disabled="getCurrentPage(type) <= 1">上一页</button>
+					
+					<!-- 分页控件 -->
+					<div class="pageController">
+						<button
+							class="standard-button"
+							@click="changePage(type, getCurrentPage(type) - 1)"
+							:disabled="getCurrentPage(type) <= 1"
+						>上一页</button>
+						
 						<span>第 {{ getCurrentPage(type) }}/{{ totalPagesMap[type] }} 页</span>
-						<button @click="changePage(type, getCurrentPage(type) + 1)" :disabled="getCurrentPage(type) >= totalPagesMap[type]">下一页</button>
+						
+						<button
+							class="standard-button"
+							@click="changePage(type, getCurrentPage(type) + 1)"
+							:disabled="getCurrentPage(type) >= totalPagesMap[type]"
+						>下一页</button>
 					</div>
-				</div>
-			</div>
-			<div v-if="selectedFiles.length > 0" style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+				</div><!-- 单个分类子组结尾 -->
+				
+			</div><!-- asset-group 结尾 -->
+			
+			<!-- 操作栏：批量操作 -->
+			<div
+				v-if="selectedFiles.length > 0"
+				style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;"
+			>
 				<span style="color: #333;">{{ selectedFileSummary }}</span>
-				<button @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
-				<button @click="selectedFiles = []">取消全选</button>
+				<button @click="deleteSelectedFiles" class="standard-button danger-button delete-button">
+					删除选中的文件
+				</button>
+				<button class="standard-button" @click="selectedFiles = []">取消全选</button>
 			</div>
-		</div>
+		</div><!-- 文件清单区结尾 -->
 	
-	</div><!-- 图片上传区结尾 -->
-  
+	</div><!-- Dashboard 主内容结尾 -->
+	
 	<div v-else class="error">
 		<h2>身份验证失败，正在返回登录页...</h2>
 	</div>
@@ -423,9 +481,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 </script>
 
 <style scoped>
-/* ============================================
-   通用复用类
-============================================ */
+/* ========== 公共通用类 ========== */
 .box {
   box-sizing: border-box;
   border-radius: 8px;
@@ -438,6 +494,32 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   margin-bottom: 16px;
 }
 
+.standard-button {
+  padding: 10px;
+  height: 40px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+.standard-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+.standard-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.danger-button {
+  background-color: #ff0000;
+  border-radius: 6px;
+}
+.danger-button:hover {
+  background-color: #b80303;
+}
+
 .label-checkbox {
   display: flex;
   align-items: center;
@@ -447,174 +529,157 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   margin-bottom: 4px;
 }
 
-.scrollable-list {
-  overflow-y: auto;
-  scrollbar-width: thin;
-  padding-right: 4px;
-  margin: 0 0 16px 0;
-}
-
-.standard-button {
-  padding: 10px;
-  height: 40px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  color: white;
-  background-color: #007bff;
-}
-
-.standard-button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.standard-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.danger-button {
-  background-color: #ff0000;
-  border-radius: 6px;
-}
-
-.danger-button:hover {
-  background-color: #b80303;
-}
-
-/* ============================================
-   主体结构
-============================================ */
+/* ========== 基组件 ========== */
 .main-content {
-  position: fixed;
-  top: 6vh;
+  position: fixed;           
+  top: 6vh;                  
   left: 0;
-  right: 0;
-  height: 94vh;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  right: 0;                  
+  height: 94vh;              
+  overflow-y: auto;          
+  padding: 16px;             
+  box-sizing: border-box;
+  display: flex;                   
+  flex-direction: column;         
+  align-items: center;            
 }
 
-/* ============================================
-   上传区样式
-============================================ */
-.column-group {
-  width: 960px;
-}
-.column-group--uploadAssets {
-  @extend .box;
-  @extend .section;
-  height: 130px;
-  flex-shrink: 0;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.column-group--getAssets {
-  @extend .box;
-  @extend .section;
-}
+/* ========== 图片上传区 ========== */
+  /* 消息提示区 */
+  .success-message,
+  .error-message {
+    height: 24px;
+    font-size: 14px;
+    padding-left: 4px;
+    line-height: 1.4;
+  }
+  .success-message {
+    color: green;
+  }
+  .error-message {
+    color: #d9534f;
+  }
+  /* 消息提示区结尾 */
 
-.column-group h4 {
-  margin: 0 0 6px 0;
-  color: #2c3e50;
-  font-size: 16px;
-}
+  /* 选择文件区 */
+  .column-group {
+    width: 960px;
+    border: 1px solid #ddd;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-sizing: border-box;
 
-/* 消息提示 */
-.success-message,
-.error-message {
-  height: 24px;
-  font-size: 14px;
-  padding-left: 4px;
-  line-height: 1.4;
-}
-.success-message {
-  color: green;
-}
-.error-message {
-  color: #d9534f;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .column-group--uploadAssets {
+    height: 130px;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+  .column-group--getAssets {
+    height: auto;
+  }
+  .column-group h4 {
+    margin: 0 0 6px 0;
+    color: #2c3e50;
+    font-size: 16px;
+  }
 
-/* 上传控件 */
-.upload-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
+  /* 上传控件行 */
+  .upload-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
 
-.file-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  height: 40px;
-  padding: 0 12px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  position: relative;
-  cursor: pointer;
-}
+  /* 包裹 input 和说明文字的容器 */
+  .file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    height: 40px;
+    padding: 0 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+  }
 
-.file-input-wrapper input[type="file"] {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
+  /* 隐藏原始文件选择框 */
+  .file-input-wrapper input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
 
-.file-input-wrapper span {
-  white-space: nowrap;
-  color: #555;
-  font-size: 14px;
-}
+  /* 显示的提示文字 */
+  .file-input-wrapper span {
+    display: inline-block;
+    white-space: nowrap;
+    color: #555;
+    font-size: 14px;
+  }
+  /* 选择文件区结尾 */
 
-/* ============================================
-   资产清单区域
-============================================ */
+/* ========== 文件清单区 ========== */
 .asset-group {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   gap: 16px;
   padding: 0 12px;
 }
 
+/* 每个子分组样式 */
 .asset-subgroup {
   width: calc((100% - 32px) / 3);
   height: 450px;
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 12px;
+  background-color: #f9f9f9;
   box-sizing: border-box;
 }
 
 .select-all {
-  @extend .label-checkbox;
+  display: flex;
+  align-items: center;
   justify-content: flex-start;
+  margin-bottom: 4px;
+  font-weight: normal;
+  font-size: 14px;
+}
+.select-all label {
+  color: black;
 }
 
 .file-list {
-  @extend .scrollable-list;
   flex: 1 1 auto;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 4px;
   list-style: none;
+  scrollbar-width: thin;
   padding: 4px;
+  margin: 0 0 16px 0;
 }
 
+/* 单个文件项样式 */
 .file-item {
   display: flex;
   align-items: center;
@@ -626,29 +691,28 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   color: #555;
 }
 
+/* 复选框间距 */
 input[type="checkbox"] {
   margin-right: 10px;
 }
 
-/* 分页控制 */
 .pageController {
   padding: 4px;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   justify-content: space-evenly;
 }
 .pageController span {
   color: black;
 }
 
-/* ============================================
-   按钮区
-============================================ */
+/* ========== 公共按钮样式区 ========== */
 button {
-  @extend .standard-button;
+  /* 继承 standard-button 复用类 */
 }
+
 button.delete-button {
-  @extend .danger-button;
   padding: 10px 16px;
   margin-top: 2px;
 }
