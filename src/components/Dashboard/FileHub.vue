@@ -418,16 +418,17 @@ button.delete-button {
 
 /* ========== 基组件 ========== */
 .fileHub {
+  position: fixed;
+  top: 5vh;
+  left: 0;
+  right: 0;
   height: 90dvh;
   overflow-y: auto;
-  width: 100%;
-  max-width: 960px; /* 你可根据需要设置 */
   padding: 0.8375vw;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto;
 }
 
 /* ========== 图片上传区 ========== */
