@@ -2,10 +2,16 @@
 	<div class="dashboard-container">
 		<!-- Sidebar 区域 -->
 		<aside class="sidebar">
-			<h2 class="logo">📁 FileHub</h2>
+			<h2 class="logo">🃏Elm-Card</h2>
 			<ul class="menu">
-				<li :class="{ active: currentViewName === 'FileHub' }" @click="currentViewName = 'FileHub'">文件管理</li>
-				<li :class="{ active: currentViewName === 'CardTable' }" @click="currentViewName = 'CardTable'">卡片表格</li>
+				<li
+					:class="{ active: currentViewName === 'FileHub' }"
+					@click="selectView('FileHub')"
+				>文件管理</li>
+				<li
+					:class="{ active: currentViewName === 'CardTable' }"
+					@click="selectView('CardTable')"
+				>卡片表格</li>
 			</ul>
 		</aside>
 
@@ -15,10 +21,7 @@
 				<h2>加载中...</h2>
 			</div>
 
-			<component
-				:is="currentView"
-				v-else-if="authenticated"
-			/>
+			<component :is="currentView" v-else-if="authenticated" />
 
 			<div v-else class="error">
 				<h2>身份验证失败，正在返回登录页...</h2>
@@ -28,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
@@ -40,11 +43,29 @@ const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
 
-// 使用映射表 + 组件对象绑定
+// 当前激活组件名
 const currentViewName = ref('FileHub');
-const componentMap = { FileHub, CardTable };
+
+// 组件映射表
+const componentMap = {
+	FileHub,
+	CardTable
+};
+
+// 当前组件对象
 const currentView = computed(() => componentMap[currentViewName.value]);
 
+// 切换视图方法
+function selectView(name) {
+	currentViewName.value = name;
+}
+
+// 可选调试日志
+watch(currentViewName, (val) => {
+	console.log('✅ 当前视图切换为:', val);
+});
+
+// 验证身份并加载内容
 onMounted(() => {
 	setTimeout(() => { loading.value = false; }, 1000);
 
@@ -94,14 +115,12 @@ function redirectToLogin(delay = 2000) {
 </script>
 
 <style scoped>
-/* 防止外部继承中心布局 */
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 
-/* 页面整体为左右分栏 */
 .dashboard-container {
 	display: flex;
 	flex-direction: row;
@@ -112,7 +131,6 @@ function redirectToLogin(delay = 2000) {
 	font-family: 'Segoe UI', sans-serif;
 }
 
-/* Sidebar */
 .sidebar {
 	width: 240px;
 	background-color: #2c3e50;
@@ -129,7 +147,6 @@ function redirectToLogin(delay = 2000) {
 	font-weight: bold;
 }
 
-/* 菜单 */
 .menu {
 	list-style: none;
 	display: flex;
@@ -142,6 +159,7 @@ function redirectToLogin(delay = 2000) {
 	padding: 0.75rem 1rem;
 	border-radius: 6px;
 	transition: background-color 0.2s ease;
+	user-select: none;
 }
 
 .menu li:hover {
@@ -150,16 +168,16 @@ function redirectToLogin(delay = 2000) {
 
 .menu li.active {
 	background-color: #007bff;
+	color: white;
+	font-weight: bold;
 }
 
-/* 主内容 */
 .main-content {
 	flex: 1;
 	padding: 2rem;
 	overflow-y: auto;
 }
 
-/* 错误提示 */
 .error {
 	color: red;
 	text-align: center;
