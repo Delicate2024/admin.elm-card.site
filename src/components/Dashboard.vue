@@ -1,20 +1,19 @@
 <template>
   <div class="dashboard-container">
     <!-- Sidebar -->
-	<aside class="sidebar" :class="{ collapsed: isCollapsed }">
-		<h2 class="logo">🃏Elm</h2>
-		<button class="collapse-btn" @click="toggleSidebar">
-		{{ isCollapsed ? '➡️' : '⬅️' }}
-		</button>
-		<ul class="menu">
-		<li :class="{ active: currentViewName === 'FileHub' }" @click="selectView('FileHub')">
-		  📁 <span v-if="!isCollapsed">文件管理</span>
-		</li>
-		<li :class="{ active: currentViewName === 'CardTable' }" @click="selectView('CardTable')">
-		  📊 <span v-if="!isCollapsed">卡片表格</span>
-		</li>
-		</ul>
-	</aside>
+    <aside class="sidebar">
+      <h2 class="logo">🃏Elm-Card</h2>
+      <ul class="menu">
+        <li
+          :class="{ active: currentViewName === 'FileHub' }"
+          @click="selectView('FileHub')"
+        >文件管理</li>
+        <li
+          :class="{ active: currentViewName === 'CardTable' }"
+          @click="selectView('CardTable')"
+        >卡片表格</li>
+      </ul>
+    </aside>
 
     <!-- 主内容区域 -->
     <main class="main-content">
@@ -45,18 +44,15 @@ const loading = ref(true);
 
 // 当前视图名
 const currentViewName = ref('FileHub');
+
+// 组件映射表
 const componentMap = {
   FileHub,
   CardTable
 };
 
+// 根据 currentViewName 映射到具体组件
 const currentView = computed(() => componentMap[currentViewName.value]);
-const isCollapsed = ref(false);
-
-// 点击收缩/展开导航栏。
-function toggleSidebar() {
-  isCollapsed.value = !isCollapsed.value;
-}
 
 // 点击切换视图
 function selectView(name) {
@@ -129,45 +125,38 @@ function redirectToLogin(delay = 2000) {
   height: 100vh;
 }
 
-.logo {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
 .sidebar {
   width: 200px;
   background-color: #2c3e50;
   color: white;
   padding: 1rem;
-  transition: width 0.3s ease;
+  pointer-events: auto;
   z-index: 100;
 }
 
-.sidebar.collapsed {
-  width: 60px;
+.logo {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.sidebar .collapse-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
+.menu {
+  list-style: none;
+  padding: 0;
 }
 
 .menu li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0.75rem 0.5rem;
+  padding: 0.75rem 1rem;
   cursor: pointer;
+  transition: all 0.2s ease;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
 }
 
 .menu li:hover {
   background-color: #34495e;
+}
+
+.menu li:active {
+  transform: scale(0.95);
 }
 
 .menu li.active {
