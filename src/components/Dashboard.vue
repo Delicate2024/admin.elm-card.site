@@ -758,6 +758,29 @@ button.delete-button {
     padding: 0.5vw;
   }
 }
+  .asset-group {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1.5vw; /* 调整竖排间距 */
+    padding: 0;
+  }
+
+  .asset-subgroup {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 60vh; /* 可视区域内分页（可调） */
+    overflow-y: auto;
+  }
+
+  .file-list {
+    max-height: 40vh; /* 避免超出卡片 */
+    overflow-y: auto;
+  }
+
+  .pageController {
+    justify-content: space-between;
+    padding: 0.3vw 0.5vw;
+  }
 
 </style>
 
