@@ -455,7 +455,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  justify-content: space-between;
 	}
 	.column-group--uploadAssets {
-	  height: 120px;
+	  height: 130px;
 	}
 	.column-group--getAssets {
 	  height: auto;
@@ -512,7 +512,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
 	  flex-direction: row;
 	  gap: 16px;       /* 子组之间留白 */
-	  padding: 12px
+	  padding: 0 12px;
 	}
 	/* 每个子分组样式 */.asset-subgroup {
 	  width: calc((100% - 32px) / 3);
