@@ -17,25 +17,27 @@
     </aside>
 
     <!-- 主内容区域 -->
-<main class="main-content">
-  <div v-if="loading">
-    <h2>加载中...</h2>
-  </div>
+	<main class="main-content">
+	  <div v-if="loading">
+		<h2>加载中...</h2>
+	  </div>
 
-  <template v-else>
-    <Transition name="fade" mode="out-in">
-      <component
-        v-if="authenticated"
-        :is="currentView"
-        :key="currentViewName"
-      />
-    </Transition>
+	  <!-- 不使用 v-else，完全独立控制 authenticated -->
+	  <div v-else>
+		<template v-if="authenticated">
+		  <Transition name="fade" mode="out-in">
+			<!-- ✅ 强制 key 改变，且组件实际渲染 -->
+			<component :is="currentView" :key="currentViewName" />
+		  </Transition>
+		</template>
 
-    <div v-if="!authenticated" class="error">
-      <h2>身份验证失败，正在返回登录页...</h2>
-    </div>
-  </template>
-</main>
+		<template v-else>
+		  <div class="error">
+			<h2>身份验证失败，正在返回登录页...</h2>
+		  </div>
+		</template>
+	  </div>
+	</main>
   </div>
 </template>
 
