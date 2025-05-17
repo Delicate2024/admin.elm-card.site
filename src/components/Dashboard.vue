@@ -673,7 +673,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   padding: 0.1184vw 0.628vw;
   border: 0.0523vw solid #ccc;
   border-radius: 0.3138vw;
-  margin-bottom: 0.1638vw;
+  margin-bottom: 0.1438vw;
   background-color: #fafafa;
   color: #555;  
 }
