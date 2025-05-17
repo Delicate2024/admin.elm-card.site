@@ -23,7 +23,7 @@
 		</div>
 		
 		<!-- 文件清单区 -->
-		<div class="column-group--getAssets">>
+		<div class="column-group--getAssets">
 			<div class="asset-group">
 				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgroup">
 					<h4>{{ formatAssetType(type) }}({{ getTotalSize(assets[type] || []) }})</h4>
