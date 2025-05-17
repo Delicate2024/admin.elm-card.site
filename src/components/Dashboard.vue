@@ -47,7 +47,7 @@
 			<div v-if="selectedFiles.length > 0" style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
 				<span style="color: #333;">{{ selectedFileSummary }}</span>
 				<button @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
-				<button @click="selectedFiles = []" class="delete-button" style="background-color: #999;">取消全选</button>
+				<button @click="selectedFiles = []">取消全选</button>
 			</div>
 		</div>
 	
@@ -551,16 +551,22 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	.pageController span {
 	  color: black;
 	}
-	.delete-button.cancel-button {
-	  background-color: #999;
-	}
-	.delete-button.cancel-button:hover {
-	  background-color: #777;
-	}
 /* 文件清单区结尾 */
 
 /* 公共资源区 */ 
 	/* 按钮区 */
+	.delete-button {
+	  padding: 10px 16px;
+	  background-color: #e74c3c;
+	  color: white;
+	  border: none;
+	  border-radius: 6px;
+	  cursor: pointer;
+	  margin-top: 2px;
+	}
+	.delete-button:hover {
+	  background-color: #c0392b;
+	}
 	/* 普通按钮 */button {
 	  padding: 10px;
 	  height: 40px;
@@ -571,6 +577,9 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  border: none;
 	  border-radius: 4px;
 	  cursor: pointer;
+	}
+	button:hover:not(:disabled) {
+	  background-color: #0056b3; /* 深一点的蓝色 */
 	}
 	button:disabled {
 	  background-color: #ccc;
