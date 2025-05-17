@@ -87,7 +87,7 @@ const totalPagesMap = computed(() => {
   }
   return result;
 });
-const getCurrentPage = (type) => currentPageMap.value[type] || totalPagesMap[type];
+const getCurrentPage = (type) => currentPageMap.value[type] || totalPagesMap.value[type];
 
   
 // 函数——基区
