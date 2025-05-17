@@ -668,14 +668,11 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 }
 
 .file-item {
+  flex: 0 0 10%;
   display: flex;
   align-items: center;
-  padding: 0.4184vw 0.628vw;
-  border: 0.0523vw solid #ccc;
-  border-radius: 0.3138vw;
-  margin-bottom: 0.3138vw;
-  background-color: #fafafa;
-  color: #555;
+  padding: 0 0.4vw;
+  box-sizing: border-box;
 }
 
 input[type="checkbox"] {
@@ -709,52 +706,6 @@ input[type="checkbox"] {
 button.delete-button {
   padding: 0.523vw 0.8375vw;
   margin-top: 0.2146vh;
-}
-
-@media screen and (max-width: 900px) and (orientation: landscape) {
-  .standard-button,
-  .danger-button,
-  .file-input-wrapper,
-  .label-checkbox,
-  .pageController,
-  .select-all,
-  .file-item,
-  .column-group h4,
-  .success-message,
-  .error-message,
-  .selected-summary,
-  .file-input-wrapper span {
-    font-size: 12px !important;
-    padding: 0.4vw;
-  }
-
-  .column-group {
-    width: 90vw !important;
-    max-width: 100% !important;
-  }
-
-  .asset-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-  }
-
-  .asset-subgroup {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 60vh;
-    overflow-y: auto;
-  }
-
-  .file-list {
-    max-height: 40vh;
-    overflow-y: auto;
-  }
-
-  .pageController {
-    justify-content: space-between;
-    padding: 0.3vw 0.5vw;
-  }
 }
 </style>
 
