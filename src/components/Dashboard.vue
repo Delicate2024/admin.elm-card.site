@@ -22,18 +22,18 @@
     <h2>加载中...</h2>
   </div>
 
-  <!-- 👇 v-else 包一层逻辑 -->
   <template v-else>
     <Transition name="fade" mode="out-in">
-      <template v-if="authenticated">
-        <component :is="currentView" :key="currentViewName" />
-      </template>
-      <template v-else>
-        <div class="error">
-          <h2>身份验证失败，正在返回登录页...</h2>
-        </div>
-      </template>
+      <component
+        v-if="authenticated"
+        :is="currentView"
+        :key="currentViewName"
+      />
     </Transition>
+
+    <div v-if="!authenticated" class="error">
+      <h2>身份验证失败，正在返回登录页...</h2>
+    </div>
   </template>
 </main>
   </div>
