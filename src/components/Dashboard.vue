@@ -426,10 +426,10 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 /* 基组件 */
 .main-content {
   position: fixed;           /* 固定定位 */
-  top: 60px;                 /* 距离顶部固定 60px */
+  top: 6vh;                 /* 距离顶部固定 60px */
   left: 0;
   right: 0;                  /* 与 left 配合使宽度 auto */
-  height: 90vh;              /* 高度占视口的 90% */
+  height: 94vh;              /* 高度占视口的 90% */
   overflow-y: auto;          /* 内容溢出时可滚动 */
   padding: 16px;             /* 可选内边距 */
   box-sizing: border-box;
