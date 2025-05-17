@@ -40,7 +40,7 @@ import CardTable from './Dashboard/CardTable.vue';
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
-const currentView = ref('FileHub'); // 默认视图为 FileHub
+const currentView = ref(FileHub); // 默认组件对象
 
 onMounted(() => {
 	setTimeout(() => { loading.value = false; }, 1000);
