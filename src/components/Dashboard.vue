@@ -700,13 +700,16 @@ input[type="checkbox"] {
   color: #333;
 }
 
+.danger-button {
+  background-color: #ff0000;
+  border-radius: 0.3138vw;
+}
+.danger-button:hover {
+  background-color: #a10000;
+}
 button.delete-button {
   padding: 0.523vw 0.8375vw;
   margin-top: 0.2146vh;
-}
-
-button.delete-button:hover {
-  background-color: #a10000;
 }
 </style>
 
