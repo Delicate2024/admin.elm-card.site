@@ -122,6 +122,7 @@ function redirectToLogin(delay = 2000) {
 <style scoped>
 .dashboard-container {
   display: flex;
+  justify-content: center;
   height: 100vh;
 }
 
