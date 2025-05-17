@@ -97,11 +97,8 @@
 			</div><!-- asset-group 结尾 -->
 			
 			<!-- 操作栏：批量操作 -->
-			<div
-				v-if="selectedFiles.length > 0"
-				style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;"
-			>
-				<span style="color: #333;">{{ selectedFileSummary }}</span>
+			<div v-if="selectedFiles.length > 0" class="batch-actions">
+				<span class="selected-summary">{{ selectedFileSummary }}</span>
 				<button @click="deleteSelectedFiles" class="standard-button danger-button delete-button">
 					删除选中的文件
 				</button>
@@ -705,6 +702,20 @@ input[type="checkbox"] {
 }
 .pageController span {
   color: black;
+}
+
+/* 批量操作栏 */
+.batch-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.selected-summary {
+  color: #333;
 }
 
 /* ========== 公共按钮样式区 ========== */
