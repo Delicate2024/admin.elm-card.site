@@ -455,10 +455,10 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  justify-content: space-between;
 	}
 	.column-group--uploadAssets {
-	  height: 220px;
+	  height: 120px;
 	}
 	.column-group--getAssets {
-	  height: 500px;
+	  height: auto;
 	}
 	.column-group h4 {
 	  margin: 0 0 6px 0;
