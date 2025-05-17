@@ -723,64 +723,32 @@ button.delete-button {
   .file-item,
   .column-group h4,
   .success-message,
-  .error-message {
-    font-size: 0.55vw !important;
+  .error-message,
+  .selected-summary,
+  .file-input-wrapper span  {
+    font-size: 1vw !important;
+	padding: 0.4vw;
   }
-
-  .standard-button,
-  .danger-button,
-  .file-input-wrapper {
-    height: 3vh !important;
-    padding: 0.3vw 0.5vw !important;
+  .column-group{
+	width:90vw;
   }
-
-  .asset-subgroup {
-    padding: 0.4vw;
-  }
-
-  .file-item {
-    padding: 0.3vw 0.5vw;
-  }
-
-  .batch-actions {
-    gap: 0.4vw;
-  }
-
-  .selected-summary {
-    font-size: 0.6vw;
-  }
-
-  .file-input-wrapper span {
-    font-size: 0.6vw;
-  }
-
-  .column-group {
-    padding: 0.5vw;
-  }
-}
   .asset-group {
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 1.5vw; /* 调整竖排间距 */
-    padding: 0;
   }
-
   .asset-subgroup {
     width: 100% !important;
     height: auto !important;
     max-height: 60vh; /* 可视区域内分页（可调） */
     overflow-y: auto;
   }
-
   .file-list {
     max-height: 40vh; /* 避免超出卡片 */
     overflow-y: auto;
   }
-
   .pageController {
     justify-content: space-between;
     padding: 0.3vw 0.5vw;
   }
-
 </style>
 
