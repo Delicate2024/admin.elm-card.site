@@ -534,7 +534,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	}
 	/* 每个子分组样式 */.asset-subgroup {
 	  width: calc((100% - 32px) / 3);
-	  height: 500px;              /* 或你想要的固定高度 */
+	  height: 400px;              /* 或你想要的固定高度 */
 	  display: flex;
 	  flex-direction: column;
 	  border: 1px solid #ccc;
