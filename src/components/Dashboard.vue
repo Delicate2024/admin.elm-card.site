@@ -20,7 +20,7 @@
       <div v-if="loading">
         <h2>加载中...</h2>
       </div>
-      <component :is="currentViewName" v-else-if="authenticated" />
+      <component :is="currentView" v-else-if="authenticated" />
       <div v-else class="error">
         <h2>身份验证失败，正在返回登录页...</h2>
       </div>
@@ -34,6 +34,7 @@ import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
+// 子组件
 import FileHub from './Dashboard/FileHub.vue';
 import CardTable from './Dashboard/CardTable.vue';
 
@@ -41,29 +42,34 @@ const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
 
-// 当前激活组件名
+// 当前视图名
 const currentViewName = ref('FileHub');
 
-// 注册组件（确保 Vue 3 script setup 识别）
-defineExpose({
+// 组件映射表
+const componentMap = {
   FileHub,
   CardTable
-});
+};
 
-// 切换视图方法
+// 根据 currentViewName 映射到具体组件
+const currentView = computed(() => componentMap[currentViewName.value]);
+
+// 点击切换视图
 function selectView(name) {
   currentViewName.value = name;
 }
 
-// 可选调试日志
+// 控制台日志（可选）
 watch(currentViewName, (val) => {
   console.log('✅ 当前视图切换为:', val);
 });
 
-// 验证身份并加载内容
+// 页面加载时进行身份验证
 onMounted(() => {
-  // 模拟加载状态
-  setTimeout(() => { loading.value = false; }, 1000);
+  // 模拟加载动画
+  setTimeout(() => {
+    loading.value = false;
+  }, 1000);
 
   const decodedToken = getDecodedRedirectToken();
   if (!decodedToken || isTokenExpired(decodedToken)) {
@@ -86,7 +92,7 @@ onMounted(() => {
     });
 });
 
-// 解码 token
+// 获取 token 并解码
 function getDecodedRedirectToken() {
   const token = localStorage.getItem('redirectToken');
   if (!token) return null;
@@ -98,7 +104,7 @@ function getDecodedRedirectToken() {
   }
 }
 
-// 判断是否过期
+// 判断 token 是否过期
 function isTokenExpired(decodedToken) {
   const exp = decodedToken?.exp;
   const currentTime = Math.floor(Date.now() / 1000);
