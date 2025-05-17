@@ -418,10 +418,6 @@ button.delete-button {
 
 /* ========== 基组件 ========== */
 .fileHub {
-  position: fixed;
-  top: 5vh;
-  left: 0;
-  right: 0;
   height: 90dvh;
   overflow-y: auto;
   padding: 0.8375vw;
