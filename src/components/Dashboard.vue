@@ -18,17 +18,15 @@
 
 		<!-- 主内容区域 -->
 		<main class="main-content">
-		  <div v-show="loading">
+		  <div v-if="loading">
 			<h2>加载中...</h2>
 		  </div>
 
-		  <component
-			:is="currentView"
-			:key="currentViewName"
-			v-show="!loading && authenticated"
-		  />
+		  <div v-else-if="authenticated">
+			<component :is="currentView" :key="currentViewName" />
+		  </div>
 
-		  <div v-show="!loading && !authenticated" class="error">
+		  <div v-else class="error">
 			<h2>身份验证失败，正在返回登录页...</h2>
 		  </div>
 		</main>
@@ -63,7 +61,14 @@ const currentView = computed(() => componentMap[currentViewName.value]);
 
 // 点击切换视图
 function selectView(name) {
-  currentViewName.value = name;
+  if (currentViewName.value === name) return;
+
+  loading.value = true;
+
+  setTimeout(() => {
+    currentViewName.value = name;
+    loading.value = false;
+  }, 1000);
 }
 
 // 控制台日志（可选）
