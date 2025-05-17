@@ -66,7 +66,7 @@ function selectView(name) {
   currentViewName.value = name;
   setTimeout(() => {
     loading.value = false;
-  }, 500);
+  }, 3000);
 }
 
 // 控制台日志（可选）
