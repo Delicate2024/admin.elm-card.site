@@ -99,7 +99,7 @@
 			<!-- 操作栏：批量操作 -->
 			<div v-if="selectedFiles.length > 0" class="batch-actions">
 				<span class="selected-summary">{{ selectedFileSummary }}</span>
-				<button @click="deleteSelectedFiles" class="standard-button delete-button">
+				<button @click="deleteSelectedFiles" class="standard-button danger-button delete-button">
 					删除选中的文件
 				</button>
 				<button class="standard-button" @click="selectedFiles = []">取消全选</button>
@@ -501,13 +501,29 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   background-color: #007bff;
   color: white;
 }
+
 .standard-button:hover:not(:disabled) {
   background-color: #0056b3;
 }
+
 .standard-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
   opacity: 0.7;
+}
+
+.danger-button {
+  background-color: #ff0000;
+  border-radius: 0.3138vw;
+}
+
+.danger-button:hover {
+  background-color: #a10000;
+}
+
+button.delete-button {
+  padding: 0.523vw 0.8375vw;
+  margin-top: 0.2146vh;
 }
 
 .label-checkbox {
@@ -698,18 +714,6 @@ input[type="checkbox"] {
 
 .selected-summary {
   color: #333;
-}
-
-.danger-button {
-  background-color: #ff0000;
-  border-radius: 0.3138vw;
-}
-.danger-button:hover {
-  background-color: #a10000;
-}
-button.delete-button {
-  padding: 0.523vw 0.8375vw;
-  margin-top: 0.2146vh;
 }
 </style>
 
