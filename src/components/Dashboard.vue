@@ -8,7 +8,7 @@
 		<h2>欢迎来到 Dashboard !!</h2>
 		
 		<!-- 图片上传区 -->
-		<div class="column-group">
+		<div class="column-group column-group--uploadAssets">
 			<h4>文件上传</h4>
 			<!-- 上传成功消息 --><div v-if="uploadSuccess" class="success-message"> ✓ 上传成功！已上传{{ uploadedCount }}个文件 </div>
 			<!-- 上传失败消息 --><div v-if="uploadError" class="error-message"> ⚠ {{ errorMessage }} </div>
@@ -23,7 +23,7 @@
 		</div>
 		
 		<!-- 文件清单区 -->
-		<div class="column-group">
+		<div class="column-group column-group--getAssets">>
 			<div class="asset-group">
 				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgroup">
 					<h4>{{ formatAssetType(type) }}({{ getTotalSize(assets[type] || []) }})</h4>
@@ -443,7 +443,6 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	/* 选择文件区 */
 	.column-group {
 	  width: 960px;
-	  height: 220px;                 /* ✅ 固定高度 */
 	  border: 1px solid #ddd;
 	  padding: 12px;
 	  margin-bottom: 16px;
@@ -451,9 +450,15 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  background-color: #fff;
 	  box-sizing: border-box;
 
-	  display: flex;                 /* ✅ 垂直布局 */
+	  display: flex;
 	  flex-direction: column;
 	  justify-content: space-between;
+	}
+	.column-group--uploadAssets {
+	  height: 500px;
+	}
+	.column-group--getAssets {
+	  height: 220px;
 	}
 	.column-group h4 {
 	  margin: 0 0 6px 0;
