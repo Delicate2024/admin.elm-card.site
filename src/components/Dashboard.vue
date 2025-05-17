@@ -423,204 +423,233 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 </script>
 
 <style scoped>
-/* 基组件 */
-.main-content {
-  position: fixed;           /* 固定定位 */
-  top: 6vh;                 /* 距离顶部固定 60px */
-  left: 0;
-  right: 0;                  /* 与 left 配合使宽度 auto */
-  height: 94vh;              /* 高度占视口的 90% */
-  overflow-y: auto;          /* 内容溢出时可滚动 */
-  padding: 16px;             /* 可选内边距 */
+/* ============================================
+   通用复用类
+============================================ */
+.box {
   box-sizing: border-box;
-  
-  display: flex;                   /* 启用 Flex 布局 */
-  flex-direction: column;         /* 垂直方向排列子组件 */
-  align-items: center;            /* 水平居中子组件 */
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
 
-/* 图片上传区 */	
-	/* 消息提示区 */
-	.success-message,
-	.error-message {
-	  height: 24px;
-	  font-size: 14px;
-	  padding-left: 4px;
-	  line-height: 1.4;
-	}
-	.success-message {
-	  color: green;
-	}
-	.error-message {
-	  color: #d9534f;
-	}
-	/* 消息提示区结尾 */
+.section {
+  padding: 12px;
+  margin-bottom: 16px;
+}
 
-	/* 选择文件区 */
-	.column-group {
-	  width: 960px;
-	  border: 1px solid #ddd;
-	  padding: 12px;
-	  margin-bottom: 16px;
-	  border-radius: 8px;
-	  background-color: #fff;
-	  box-sizing: border-box;
+.label-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: normal;
+  color: black;
+  margin-bottom: 4px;
+}
 
-	  display: flex;
-	  flex-direction: column;
-	  justify-content: space-between;
-	}
-	.column-group--uploadAssets {
-	  height: 130px;
-	  flex-shrink: 0; /* 防止被压缩 */
-	  flex-grow: 0;   /* 防止被拉伸 */
-	}
-	.column-group--getAssets {
-	  height: auto;
-	}
-	.column-group h4 {
-	  margin: 0 0 6px 0;
-	  color: #2c3e50;
-	  font-size: 16px;
-	}
-	/* 上传控件行 */.upload-row {
-	  display: flex;
-	  align-items: center;
-	  justify-content: space-between; /* ✅ 两端对齐 */
-	  gap: 12px;
-	}
-	/* 包裹 input 和说明文字的容器 */.file-input-wrapper {
-	  display: flex;
-	  align-items: center;
-	  gap: 8px;
-	  flex: 1;
-	  height: 40px;
-	  padding: 0 12px;
-	  background-color: #fff;
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	  font-size: 14px;
-	  box-sizing: border-box;
-	  cursor: pointer;
-	  position: relative;
-	}
-	/* 隐藏原始文件选择框 */.file-input-wrapper input[type="file"] {
-	  position: absolute;
-	  left: 0;
-	  top: 0;
-	  opacity: 0;
-	  width: 100%;
-	  height: 100%;
-	  cursor: pointer;
-	}
-	/* 显示的提示文字 */.file-input-wrapper span {
-	  display: inline-block;
-	  white-space: nowrap;
-	  color: #555;
-	  font-size: 14px;
-	}
-	/* 选择文件区结尾 */
-	
-/* 图片上传区结尾 */	
-	
-	
-/* 文件清单区 */
-	.asset-group {
-	  display: flex;
-	  flex-wrap: wrap; /* 多行自动换行，防止过窄溢出 */
-	  flex-direction: row;
-	  gap: 16px;       /* 子组之间留白 */
-	  padding: 0 12px;
-	}
-	/* 每个子分组样式 */.asset-subgroup {
-	  width: calc((100% - 32px) / 3);
-	  height: 450px;              /* 或你想要的固定高度 */
-	  display: flex;
-	  flex-direction: column;
-	  border: 1px solid #ccc;
-	  border-radius: 8px;
-	  padding: 12px;
-	  background-color: #f9f9f9;
-	  box-sizing: border-box;
-	}
-	.select-all {
-	  display: flex;
-	  align-items: center;
-	  justify-content: flex-start; /* ✅ 靠左对齐 */
-	  margin-bottom: 4px;
-	  font-weight: normal;
-	  font-size: 14px;
-	}
-	.select-all label{
-	  color: black;
-	}
-	.file-list {
-	  flex: 1 1 auto;            /* 填满剩余空间 */
-	  overflow-y: auto;          /* 内容超出时滚动 */
-	  margin-bottom: 12px;       /* 留出分页控件间距 */
-	  padding-right: 4px;        /* 防止滚动条遮挡内容 */
-	  list-style: none;
-	  scrollbar-width: thin;  /* 现代浏览器更细的滚动条 */
-	  padding: 4px;
-	  margin: 0 0 16px 0;
-	}
-	/* 单个文件项样式 */.file-item {
-	  display: flex;
-	  align-items: center;
-	  padding: 8px 12px;
-	  border: 1px solid #ccc;
-	  border-radius: 6px;
-	  margin-bottom: 6px;
-	  background-color: #fafafa;
-	  color: #555; /* 加上字体颜色，更浅一些 */
-	}
-	/* 复选框间距 */input[type="checkbox"] {
-	  margin-right: 10px;
-	}
-	.pageController {
-		padding: 4px;
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: row;
-		justify-content: space-evenly; /* 均匀分布子元素，首尾也留间距 */
-	}
-	.pageController span {
-	  color: black;
-	}
-/* 文件清单区结尾 */
+.scrollable-list {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-right: 4px;
+  margin: 0 0 16px 0;
+}
 
-/* 公共资源区 */ 
-	/* 按钮区 */
-	/* 普通按钮 */button {
-	  padding: 10px;
-	  height: 40px;
-	  box-sizing: border-box;
-	  font-size: 14px;
-	  background-color: #007bff;
-	  color: white;
-	  border: none;
-	  border-radius: 4px;
-	  cursor: pointer;
-	}
-	button:hover:not(:disabled) {
-	  background-color: #0056b3; /* 深一点的蓝色 */
-	}
-	button:disabled {
-	  background-color: #ccc;
-	  cursor: not-allowed;
-	  opacity: 0.7; /* 更明显的禁用状态 */
-	}
-	button.delete-button {
-	  padding: 10px 16px;
-	  background-color: #ff0000;
-	  color: white;
-	  border: none;
-	  border-radius: 6px;
-	  cursor: pointer;
-	  margin-top: 2px;
-	}
-	button.delete-button:hover {
-	  background-color: #b80303;
-	}
-	/* 按钮区结尾 */
+.standard-button {
+  padding: 10px;
+  height: 40px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  background-color: #007bff;
+}
+
+.standard-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.standard-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.danger-button {
+  background-color: #ff0000;
+  border-radius: 6px;
+}
+
+.danger-button:hover {
+  background-color: #b80303;
+}
+
+/* ============================================
+   主体结构
+============================================ */
+.main-content {
+  position: fixed;
+  top: 6vh;
+  left: 0;
+  right: 0;
+  height: 94vh;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ============================================
+   上传区样式
+============================================ */
+.column-group {
+  width: 960px;
+}
+.column-group--uploadAssets {
+  @extend .box;
+  @extend .section;
+  height: 130px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.column-group--getAssets {
+  @extend .box;
+  @extend .section;
+}
+
+.column-group h4 {
+  margin: 0 0 6px 0;
+  color: #2c3e50;
+  font-size: 16px;
+}
+
+/* 消息提示 */
+.success-message,
+.error-message {
+  height: 24px;
+  font-size: 14px;
+  padding-left: 4px;
+  line-height: 1.4;
+}
+.success-message {
+  color: green;
+}
+.error-message {
+  color: #d9534f;
+}
+
+/* 上传控件 */
+.upload-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  position: relative;
+  cursor: pointer;
+}
+
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-input-wrapper span {
+  white-space: nowrap;
+  color: #555;
+  font-size: 14px;
+}
+
+/* ============================================
+   资产清单区域
+============================================ */
+.asset-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0 12px;
+}
+
+.asset-subgroup {
+  width: calc((100% - 32px) / 3);
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.select-all {
+  @extend .label-checkbox;
+  justify-content: flex-start;
+}
+
+.file-list {
+  @extend .scrollable-list;
+  flex: 1 1 auto;
+  list-style: none;
+  padding: 4px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  background-color: #fafafa;
+  color: #555;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* 分页控制 */
+.pageController {
+  padding: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.pageController span {
+  color: black;
+}
+
+/* ============================================
+   按钮区
+============================================ */
+button {
+  @extend .standard-button;
+}
+button.delete-button {
+  @extend .danger-button;
+  padding: 10px 16px;
+  margin-top: 2px;
+}
 </style>
