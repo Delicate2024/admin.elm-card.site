@@ -114,7 +114,7 @@ function redirectToLogin(delay = 2000) {
 }
 </script>
 
-<style scoped>
+<style>
 * {
 	margin: 0;
 	padding: 0;
