@@ -129,57 +129,10 @@ const handleImageChange = async (event) => {
   for (let i = 0; i < handleImageFiles.value.length; i += batchSize) {
     const batch = handleImageFiles.value.slice(i, i + batchSize);
     const converted = await Promise.all(
-      batch.map(file => convertToWebP(file).catch(() => null))
+      batch.map(file => convertImageFileToWebP(file, objectURLs.value).catch(() => null))
     );
     webpFiles.value.push(...converted.filter(f => f));
   }
-};
-const convertToWebP = (file) => {
-  if (!HTMLCanvasElement.prototype.toBlob) {
-    console.warn('当前浏览器不支持WebP转换');
-    return Promise.resolve(file);
-  }
-
-  if (!file.type.startsWith('image/')) {
-    return Promise.resolve(null);
-  }
-
-  return new Promise((resolve) => {
-    const img = new Image();
-    const objectURL = URL.createObjectURL(file);
-    objectURLs.value.add(objectURL); // 添加至Set
-
-    img.onerror = () => {
-      URL.revokeObjectURL(objectURL);
-      objectURLs.value.delete(objectURL);
-      resolve(null);
-    };
-    img.onload = () => {
-      URL.revokeObjectURL(objectURL);
-      objectURLs.value.delete(objectURL);
-
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const webpFile = new File(
-            [blob],
-            file.name.replace(/\.[^/.]+$/, '.webp'),
-            { type: 'image/webp' }
-          );
-          resolve(webpFile);
-        } else {
-          resolve(null);
-        }
-      }, 'image/webp', 0.8);
-    };
-    img.src = objectURL;
-  });
 };
 const uploadFiles = async (options) => {
   const {
@@ -368,6 +321,55 @@ function redirectToLogin(delay = 2000) {
   setTimeout(() => {
     router.replace('/login');
   }, delay);
+}
+function convertImageFileToWebP(file, objectURLTracker) {
+  if (!(!!HTMLCanvasElement.prototype.toBlob)) {
+    console.warn('当前浏览器不支持 WebP 转换');
+    return Promise.resolve(file);
+  }
+
+  if (!file.type.startsWith('image/')) {
+    return Promise.resolve(null);
+  }
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    const objectURL = URL.createObjectURL(file);
+    objectURLTracker.add(objectURL);
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectURL);
+      objectURLTracker.delete(objectURL);
+      resolve(null);
+    };
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectURL);
+      objectURLTracker.delete(objectURL);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const webpFile = new File(
+            [blob],
+            file.name.replace(/\.[^/.]+$/, '.webp'),
+            { type: 'image/webp' }
+          );
+          resolve(webpFile);
+        } else {
+          resolve(null);
+        }
+      }, 'image/webp', 0.8);
+    };
+
+    img.src = objectURL;
+  });
 }
 
 </script>
