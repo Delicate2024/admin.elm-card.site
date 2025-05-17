@@ -18,15 +18,17 @@
 
 		<!-- 主内容区域 -->
 		<main class="main-content">
-		  <div v-if="loading">
+		  <div v-show="loading">
 			<h2>加载中...</h2>
 		  </div>
 
-		  <div v-else-if="authenticated">
-			<component :is="currentView" :key="currentViewName" />
-		  </div>
+		  <component
+			:is="currentView"
+			:key="currentViewName"
+			v-show="!loading && authenticated"
+		  />
 
-		  <div v-else class="error">
+		  <div v-show="!loading && !authenticated" class="error">
 			<h2>身份验证失败，正在返回登录页...</h2>
 		  </div>
 		</main>
