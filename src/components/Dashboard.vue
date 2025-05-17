@@ -750,5 +750,6 @@ button.delete-button {
     justify-content: space-between;
     padding: 0.3vw 0.5vw;
   }
+}
 </style>
 
