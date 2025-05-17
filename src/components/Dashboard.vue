@@ -670,7 +670,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 .file-item {
   display: flex;
   align-items: center;
-  padding: 0.4184vw 0.628vw;
+  padding: 0.1184vw 0.628vw;
   border: 0.0523vw solid #ccc;
   border-radius: 0.3138vw;
   margin-bottom: 0.3138vw;
