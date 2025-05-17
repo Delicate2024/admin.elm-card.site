@@ -134,67 +134,43 @@ const handleImageChange = async (event) => {
     webpFiles.value.push(...converted.filter(f => f));
   }
 };
-const uploadFiles = async (options) => {
-  const {
-    fieldName,
-    files,
-    url = '/api/uploadAssets',
-  } = options;
-	uploading.value = true;
-	uploadSuccess.value = false;
-	uploadError.value = false;
-	errorMessage.value = ''; // 可选：显示错误原因
-	try {
-	  const csrfToken = localStorage.getItem('csrfToken');
+const uploadFiles = async ({ fieldName, files }) => {
+  uploading.value = true;
+  uploadSuccess.value = false;
+  uploadError.value = false;
+  errorMessage.value = '';
 
-	  const uploadPromises = files.map(file => {
-		const formData = new FormData();
-		formData.append(fieldName, file);
+  try {
+    const csrfToken = localStorage.getItem('csrfToken');
+    const results = await uploadFileBatch(files, fieldName, csrfToken);
 
-		return axios.post(url, formData, {
-		  timeout: 20000,
-		  headers: {
-			'X-CSRF-Token': csrfToken,
-			'Content-Type': 'multipart/form-data',
-		  },
-		  withCredentials: true,
-		});
-	  });
+    const successCount = results.filter(r => r.status === 'fulfilled').length;
+    const failCount = results.filter(r => r.status === 'rejected').length;
+    uploadedCount.value = successCount;
 
-	  const results = await Promise.allSettled(uploadPromises);
+    if (failCount > 0) {
+      uploadError.value = true;
+      errorMessage.value = `共 ${failCount} 个文件上传失败`;
+      console.warn(`${failCount} files failed`, results.filter(r => r.status === 'rejected'));
+    } else {
+      uploadSuccess.value = true;
+      setTimeout(() => uploadSuccess.value = false, 3000);
+    }
 
-	  const successCount = results.filter(r => r.status === 'fulfilled').length;
-	  const failCount = results.filter(r => r.status === 'rejected').length;
+    return { successCount, failCount, results };
 
-	  uploadedCount.value = successCount;
-
-	  if (failCount > 0) {
-		uploadError.value = true;
-		errorMessage.value = `共 ${failCount} 个文件上传失败`;
-		console.warn(`${failCount} files failed to upload`, results.filter(r => r.status === 'rejected'));
-	  } else {
-		uploadSuccess.value = true;
-		setTimeout(() => uploadSuccess.value = false, 3000);
-	  }
-	  
-	  return {
-		  successCount,
-		  failCount,
-		  results,
-	  };
-
-	} catch (err) {
-	  uploadError.value = true;
-	  errorMessage.value = '上传过程中发生未知错误';
-	  console.error('Unexpected error during upload:', err);
-	} finally {
-	  fetchAssets?.();
-	  files.length = 0;
-	  if (fileInput.value instanceof HTMLInputElement) {
-		fileInput.value.value = '';
-	  }
-	  uploading.value = false;
-	}
+  } catch (err) {
+    uploadError.value = true;
+    errorMessage.value = '上传过程中发生未知错误';
+    console.error('Unexpected error:', err);
+  } finally {
+    fetchAssets?.();
+    files.length = 0;
+    if (fileInput.value instanceof HTMLInputElement) {
+      fileInput.value.value = '';
+    }
+    uploading.value = false;
+  }
 };
 const uploadImages = () => {
   uploadFiles({
@@ -322,6 +298,7 @@ function redirectToLogin(delay = 2000) {
     router.replace('/login');
   }, delay);
 }
+
 function convertImageFileToWebP(file, objectURLTracker) {
   if (!(!!HTMLCanvasElement.prototype.toBlob)) {
     console.warn('当前浏览器不支持 WebP 转换');
@@ -370,6 +347,24 @@ function convertImageFileToWebP(file, objectURLTracker) {
 
     img.src = objectURL;
   });
+}
+
+async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAssets') {
+  const uploadPromises = files.map(file => {
+    const formData = new FormData();
+    formData.append(fieldName, file);
+
+    return axios.post(url, formData, {
+      timeout: 20000,
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'multipart/form-data',
+      },
+      withCredentials: true,
+    });
+  });
+
+  return await Promise.allSettled(uploadPromises);
 }
 
 </script>
