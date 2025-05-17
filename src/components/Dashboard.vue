@@ -557,7 +557,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	/* 按钮区 */
 	.delete-button {
 	  padding: 10px 16px;
-	  background-color: #e74c3c;
+	  background-color: #ff0000;
 	  color: white;
 	  border: none;
 	  border-radius: 6px;
@@ -565,7 +565,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  margin-top: 2px;
 	}
 	.delete-button:hover {
-	  background-color: #c0392b;
+	  background-color: #7d0000;
 	}
 	/* 普通按钮 */button {
 	  padding: 10px;
