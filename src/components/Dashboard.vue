@@ -711,5 +711,9 @@ button.delete-button {
   padding: 0.523vw 0.8375vw;
   margin-top: 0.2146vh;
 }
+
+.button.delete-button:hover {
+  background-color: #a10000;
+}
 </style>
 
