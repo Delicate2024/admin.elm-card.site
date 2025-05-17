@@ -4,8 +4,8 @@
 		<aside class="sidebar">
 			<h2 class="logo">📁 FileHub</h2>
 			<ul class="menu">
-				<li :class="{ active: currentView === 'FileHub' }" @click="currentView = 'FileHub'">文件管理</li>
-				<li :class="{ active: currentView === 'CardTable' }" @click="currentView = 'CardTable'">卡片表格</li>
+				<li :class="{ active: currentViewName === 'FileHub' }" @click="currentViewName = 'FileHub'">文件管理</li>
+				<li :class="{ active: currentViewName === 'CardTable' }" @click="currentViewName = 'CardTable'">卡片表格</li>
 			</ul>
 		</aside>
 
@@ -28,19 +28,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
-// 引入子组件
 import FileHub from './Dashboard/FileHub.vue';
 import CardTable from './Dashboard/CardTable.vue';
 
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
-const currentView = ref(FileHub); // 默认组件对象
+
+// 使用映射表 + 组件对象绑定
+const currentViewName = ref('FileHub');
+const componentMap = { FileHub, CardTable };
+const currentView = computed(() => componentMap[currentViewName.value]);
 
 onMounted(() => {
 	setTimeout(() => { loading.value = false; }, 1000);
@@ -69,7 +72,6 @@ onMounted(() => {
 function getDecodedRedirectToken() {
 	const token = localStorage.getItem('redirectToken');
 	if (!token) return null;
-
 	try {
 		return jwtDecode(token);
 	} catch (err) {
@@ -92,44 +94,53 @@ function redirectToLogin(delay = 2000) {
 </script>
 
 <style scoped>
+/* 防止外部继承中心布局 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* 页面整体为左右分栏 */
 .dashboard-container {
 	display: flex;
+	flex-direction: row;
+	align-items: stretch;
 	height: 100vh;
+	width: 100vw;
+	background-color: #f4f6f8;
 	font-family: 'Segoe UI', sans-serif;
 }
 
-/* Sidebar 样式 */
+/* Sidebar */
 .sidebar {
-	width: 220px; /* 固定宽度 */
+	width: 240px;
 	background-color: #2c3e50;
 	color: #ecf0f1;
 	padding: 2rem 1rem;
 	display: flex;
 	flex-direction: column;
-	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
 	margin-bottom: 2rem;
-	font-size: 1.25rem;
-	font-weight: bold;
+	font-size: 1.5rem;
 	text-align: center;
+	font-weight: bold;
 }
 
-/* 菜单样式 */
+/* 菜单 */
 .menu {
 	list-style: none;
-	padding: 0;
-	margin: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 0.75rem;
+	gap: 1rem;
 }
 
 .menu li {
 	cursor: pointer;
 	padding: 0.75rem 1rem;
-	border-radius: 4px;
+	border-radius: 6px;
 	transition: background-color 0.2s ease;
 }
 
@@ -141,16 +152,14 @@ function redirectToLogin(delay = 2000) {
 	background-color: #007bff;
 }
 
-/* 主内容区域 */
+/* 主内容 */
 .main-content {
 	flex: 1;
-	background-color: #f4f6f8;
 	padding: 2rem;
 	overflow-y: auto;
-	box-sizing: border-box;
 }
 
-/* 错误提示样式 */
+/* 错误提示 */
 .error {
 	color: red;
 	text-align: center;
