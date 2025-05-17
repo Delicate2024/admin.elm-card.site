@@ -427,62 +427,75 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	/* 消息提示区 */
 	.success-message,
 	.error-message {
-	  min-height: 24px; /* 即使没内容也占位，防止跳动 */
+	  min-height: 24px;
 	  font-size: 14px;
 	  padding-left: 4px;
-	  color: green;     /* error-message 也可设置 red */
+	  line-height: 1.4;
+	}
+	.success-message {
+	  color: green;
 	}
 	.error-message {
 	  color: #d9534f;
 	}
 	/* 消息提示区结尾 */
-	
+
 	/* 选择文件区 */
-		.column-group {
-		  width: 960px;
-		  border: 1px solid #ddd;
-		  padding: 12px;
-		  margin-bottom: 16px;
-		  border-radius: 8px;
-		  background-color: #fff;
-		}
-		.column-group h4 {
-		  margin: 0 0 10px 0;
-		  color: #2c3e50; /* 深一点的字体颜色，更好区分 */
-		}
-		.upload-row {
-		  display: flex;
-		  align-items: center; 
-		}
-		/* 文件选择 input 和说明文字包裹容器 */.file-input-wrapper {
-		  display: flex;
-		  align-items: center;
-		  gap: 8px;
-		  flex: 5;
-		  height: 40px;
-		  padding: 0 10px;
-		  background-color: #fff;
-		  border: 1px solid #ccc;
-		  border-radius: 4px;
-		  font-size: 14px;
-		  box-sizing: border-box;
-		  cursor: pointer;
-		  position: relative;
-		}
-		/* 隐藏原始文件选择框 */.file-input-wrapper input[type="file"] {
-		  position: absolute;
-		  left: 0;
-		  top: 0;
-		  opacity: 0;
-		  width: 100%;
-		  height: 100%;
-		  cursor: pointer;
-		}
-		/* 文字提示 */.file-input-wrapper span {
-		  display: inline-block;
-		  white-space: nowrap;
-		  color: #555;
-		}
+	.column-group {
+	  width: 960px;
+	  height: 220px;                 /* ✅ 固定高度 */
+	  border: 1px solid #ddd;
+	  padding: 12px;
+	  margin-bottom: 16px;
+	  border-radius: 8px;
+	  background-color: #fff;
+	  box-sizing: border-box;
+
+	  display: flex;                 /* ✅ 垂直布局 */
+	  flex-direction: column;
+	  justify-content: space-between;
+	}
+	.column-group h4 {
+	  margin: 0 0 6px 0;
+	  color: #2c3e50;
+	  font-size: 16px;
+	}
+	/* 上传控件行 */.upload-row {
+	  display: flex;
+	  align-items: center;
+	  justify-content: space-between; /* ✅ 两端对齐 */
+	  gap: 12px;
+	}
+	/* 包裹 input 和说明文字的容器 */.file-input-wrapper {
+	  display: flex;
+	  align-items: center;
+	  gap: 8px;
+	  flex: 1;
+	  height: 40px;
+	  padding: 0 12px;
+	  background-color: #fff;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	  font-size: 14px;
+	  box-sizing: border-box;
+	  cursor: pointer;
+	  position: relative;
+	}
+	/* 隐藏原始文件选择框 */.file-input-wrapper input[type="file"] {
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+	  opacity: 0;
+	  width: 100%;
+	  height: 100%;
+	  cursor: pointer;
+	}
+	/* 显示的提示文字 */.file-input-wrapper span {
+	  display: inline-block;
+	  white-space: nowrap;
+	  color: #555;
+	  font-size: 14px;
+	}
 	/* 选择文件区结尾 */
 	
 /* 图片上传区结尾 */	
