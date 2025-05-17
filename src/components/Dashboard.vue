@@ -480,9 +480,15 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  box-sizing: border-box;
 	}
 	.select-all {
+	  display: flex;
+	  align-items: center;
+	  justify-content: flex-start; /* ✅ 靠左对齐 */
 	  margin-bottom: 4px;
 	  font-weight: normal;
 	  font-size: 14px;
+	}
+	.select-all label{
+	  color: black;
 	}
 	.file-list {
 	  flex: 1 1 auto;            /* 填满剩余空间 */
