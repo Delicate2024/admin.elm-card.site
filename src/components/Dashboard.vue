@@ -668,11 +668,14 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 }
 
 .file-item {
-  flex: 0 0 10%;
   display: flex;
   align-items: center;
-  padding: 0 0.4vw;
-  box-sizing: border-box;
+  padding: 0.4184vw 0.628vw;
+  border: 0.0523vw solid #ccc;
+  border-radius: 0.3138vw;
+  margin-bottom: 0.3138vw;
+  background-color: #fafafa;
+  color: #555;  
 }
 
 input[type="checkbox"] {
