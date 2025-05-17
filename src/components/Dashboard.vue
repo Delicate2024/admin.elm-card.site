@@ -100,30 +100,35 @@ function redirectToLogin(delay = 2000) {
 
 /* Sidebar 样式 */
 .sidebar {
-	width: 15vw;
+	width: 220px; /* 固定宽度 */
 	background-color: #2c3e50;
 	color: #ecf0f1;
-	padding: 1.5vh 1vw;
-	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+	padding: 2rem 1rem;
 	display: flex;
 	flex-direction: column;
+	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-	margin-bottom: 2vh;
-	font-size: 1.2vw;
+	margin-bottom: 2rem;
+	font-size: 1.25rem;
+	font-weight: bold;
+	text-align: center;
 }
 
+/* 菜单样式 */
 .menu {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
 }
 
 .menu li {
 	cursor: pointer;
-	padding: 1vh 0.5vw;
-	margin-bottom: 1vh;
+	padding: 0.75rem 1rem;
 	border-radius: 4px;
 	transition: background-color 0.2s ease;
 }
@@ -140,7 +145,15 @@ function redirectToLogin(delay = 2000) {
 .main-content {
 	flex: 1;
 	background-color: #f4f6f8;
-	padding: 2vh 2vw;
+	padding: 2rem;
 	overflow-y: auto;
+	box-sizing: border-box;
+}
+
+/* 错误提示样式 */
+.error {
+	color: red;
+	text-align: center;
+	margin-top: 2rem;
 }
 </style>
