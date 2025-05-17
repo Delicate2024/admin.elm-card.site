@@ -25,7 +25,7 @@
 	  <template v-else>
 		<Transition name="fade" mode="out-in">
 		  <component
-			v-if="authenticated"
+			v-else if="authenticated"
 			:is="currentView"
 			:key="currentViewName"
 		  />
