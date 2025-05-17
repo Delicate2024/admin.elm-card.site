@@ -91,32 +91,12 @@ const getCurrentPage = (type) => currentPageMap.value[type] || 1;
 
   
 // 函数——基区
-const redirectToLogin = () => {
-  setTimeout(() => {
-    router.replace('/login');
-  }, 2000);
-};
 onMounted(() => {
   setTimeout(() => { loading.value = false; }, 1000);
-  
-  const redirectToken = localStorage.getItem('redirectToken');
-  if (!redirectToken) {
-    redirectToLogin();
-    return;
-  }
 
-  try {
-    const decoded = jwtDecode(redirectToken);
-    const exp = decoded?.exp;
-    const currentTime = Math.floor(Date.now() / 1000);
-
-    if (!exp || currentTime >= exp) {
-      console.warn('redirectToken 已过期');
-      redirectToLogin();
-      return;
-    }
-  } catch (err) {
-    console.error('redirectToken 解码失败:', err);
+  const decodedToken = getDecodedRedirectToken();
+  if (!decodedToken || isTokenExpired(decodedToken)) {
+    console.warn('无效或过期的 redirectToken');
     redirectToLogin();
     return;
   }
@@ -124,7 +104,7 @@ onMounted(() => {
   axios.get('/api/verifyToken', { withCredentials: true })
     .then((response) => {
       if (response.data.success) {
-		fetchAssets();
+        fetchAssets();
         authenticated.value = true;
       } else {
         redirectToLogin();
@@ -295,14 +275,6 @@ const fetchAssets = async () => {
     loading.value = false;
   }
 };
-function formatAssetType(type) {
-  const typeMapping = {
-    images: '图片',
-    documents: '文档',
-    audio: '音频'
-  };
-  return typeMapping[type] || '其他';
-}
 const hasAssets = computed(() => {
   return Object.keys(assets.value).length > 0;
 });
@@ -354,6 +326,16 @@ function changePage(type, newPage) {
     currentPageMap.value[type] = newPage;
   }
 }
+
+// 函数——工具类函数区
+function formatAssetType(type) {
+  const typeMapping = {
+    images: '图片',
+    documents: '文档',
+    audio: '音频'
+  };
+  return typeMapping[type] || '其他';
+}
 function formatFileSize(bytes) {
   if (bytes === 0) return '0 B'
   const k = 1024
@@ -365,6 +347,29 @@ function getTotalSize(files) {
   const totalBytes = files.reduce((sum, file) => sum + (file.size || 0), 0)
   return formatFileSize(totalBytes)
 }
+
+function getDecodedRedirectToken() {
+  const token = localStorage.getItem('redirectToken');
+  if (!token) return null;
+
+  try {
+    return jwtDecode(token);
+  } catch (err) {
+    console.error('Token 解码失败:', err);
+    return null;
+  }
+}
+function isTokenExpired(decodedToken) {
+  const exp = decodedToken?.exp;
+  const currentTime = Math.floor(Date.now() / 1000);
+  return !exp || currentTime >= exp;
+}
+function redirectToLogin(delay = 2000) {
+  setTimeout(() => {
+    router.replace('/login');
+  }, delay);
+}
+
 </script>
 
 <style scoped>
