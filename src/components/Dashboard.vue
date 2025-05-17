@@ -1,44 +1,36 @@
 <!-- src/components/Dashboard.vue -->
 <template>
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h2 class="logo">🃏Elm-Card</h2>
-      <ul class="menu">
-        <li
-          :class="{ active: currentViewName === 'FileHub' }"
-          @click="selectView('FileHub')"
-        >文件管理</li>
-        <li
-          :class="{ active: currentViewName === 'CardTable' }"
-          @click="selectView('CardTable')"
-        >卡片表格</li>
-      </ul>
-    </aside>
+	  <div class="dashboard-container">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+		  <h2 class="logo">🃏Elm-Card</h2>
+		  <ul class="menu">
+			<li
+			  :class="{ active: currentViewName === 'FileHub' }"
+			  @click="selectView('FileHub')"
+			>文件管理</li>
+			<li
+			  :class="{ active: currentViewName === 'CardTable' }"
+			  @click="selectView('CardTable')"
+			>卡片表格</li>
+		  </ul>
+		</aside>
 
-    <!-- 主内容区域 -->
-	<main class="main-content">
-	  <div v-if="loading">
-		<h2>加载中...</h2>
-	  </div>
+		<!-- 主内容区域 -->
+		<main class="main-content">
+		  <div v-if="loading">
+			<h2>加载中...</h2>
+		  </div>
 
-	  <!-- 不使用 v-else，完全独立控制 authenticated -->
-	  <div v-else>
-		<template v-if="authenticated">
-		  <Transition name="fade" mode="out-in">
-			<!-- ✅ 强制 key 改变，且组件实际渲染 -->
+		  <div v-else-if="authenticated">
 			<component :is="currentView" :key="currentViewName" />
-		  </Transition>
-		</template>
+		  </div>
 
-		<template v-else>
-		  <div class="error">
+		  <div v-else class="error">
 			<h2>身份验证失败，正在返回登录页...</h2>
 		  </div>
-		</template>
+		</main>
 	  </div>
-	</main>
-  </div>
 </template>
 
 <script setup>
@@ -196,18 +188,6 @@ function redirectToLogin(delay = 2000) {
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
   color: white;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 1;
 }
 
 .error {
