@@ -26,7 +26,7 @@
 		<div class="column-group">
 			<div class="asset-group">
 				<div v-for="(files, type) in paginatedAssets" :key="type" class="asset-subgroup">
-					<h4>{{ formatAssetType(type) }}</h4>
+					<h4>{{ formatAssetType(type) }}({{ getTotalSize(assets[type] || []) }})</h4>
 					<!-- 列表控件 -->
 					<ul class="file-list">
 						<li v-for="(file, index) in files" :key="file.name" class="file-item">
@@ -89,6 +89,7 @@ const totalPagesMap = computed(() => {
 });
 const getCurrentPage = (type) => currentPageMap.value[type] || 1;
 
+  
 // 函数——基区
 const redirectToLogin = () => {
   setTimeout(() => {
@@ -353,7 +354,17 @@ function changePage(type, newPage) {
     currentPageMap.value[type] = newPage;
   }
 }
-
+function formatFileSize(bytes) {
+  if (bytes === 0) return '0 B'
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+function getTotalSize(files) {
+  const totalBytes = files.reduce((sum, file) => sum + (file.size || 0), 0)
+  return formatFileSize(totalBytes)
+}
 </script>
 
 <style scoped>
