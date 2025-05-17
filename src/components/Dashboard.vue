@@ -712,7 +712,7 @@ button.delete-button {
   margin-top: 0.2146vh;
 }
 
-.button.delete-button:hover {
+button.delete-button:hover {
   background-color: #a10000;
 }
 </style>
