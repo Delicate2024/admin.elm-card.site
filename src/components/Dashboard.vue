@@ -529,10 +529,10 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 /* ========== 基组件 ========== */
 .main-content {
   position: fixed;           
-  top: 6vh;                  
+  top: 5vh;                  
   left: 0;
   right: 0;                  
-  height: 94vh;              
+  height: 90vh;              
   overflow-y: auto;          
   padding: 16px;             
   box-sizing: border-box;
@@ -643,7 +643,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 /* 每个子分组样式 */
 .asset-subgroup {
   width: calc((100% - 32px) / 3);
-  height: 450px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
