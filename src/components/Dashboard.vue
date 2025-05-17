@@ -443,7 +443,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	/* 消息提示区 */
 	.success-message,
 	.error-message {
-	  min-height: 24px;
+	  height: 24px;
 	  font-size: 14px;
 	  padding-left: 4px;
 	  line-height: 1.4;
