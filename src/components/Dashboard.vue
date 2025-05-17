@@ -472,6 +472,8 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	}
 	.column-group--uploadAssets {
 	  height: 130px;
+	  flex-shrink: 0; /* 防止被压缩 */
+	  flex-grow: 0;   /* 防止被拉伸 */
 	}
 	.column-group--getAssets {
 	  height: auto;
