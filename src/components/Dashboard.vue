@@ -711,6 +711,53 @@ button.delete-button {
   margin-top: 0.2146vh;
 }
 
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  /* 缩小字体和按钮等 UI 元素尺寸 */
+
+  .standard-button,
+  .danger-button,
+  .file-input-wrapper,
+  .label-checkbox,
+  .pageController,
+  .select-all,
+  .file-item,
+  .column-group h4,
+  .success-message,
+  .error-message {
+    font-size: 0.55vw !important;
+  }
+
+  .standard-button,
+  .danger-button,
+  .file-input-wrapper {
+    height: 3vh !important;
+    padding: 0.3vw 0.5vw !important;
+  }
+
+  .asset-subgroup {
+    padding: 0.4vw;
+  }
+
+  .file-item {
+    padding: 0.3vw 0.5vw;
+  }
+
+  .batch-actions {
+    gap: 0.4vw;
+  }
+
+  .selected-summary {
+    font-size: 0.6vw;
+  }
+
+  .file-input-wrapper span {
+    font-size: 0.6vw;
+  }
+
+  .column-group {
+    padding: 0.5vw;
+  }
+}
 
 </style>
 
