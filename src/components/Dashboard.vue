@@ -425,16 +425,16 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 <style scoped>
 /* 图片上传区 */	
 	/* 消息提示区 */
-		.success-message {
-		  color: green;
-		  font-weight: bold;
-		  margin-bottom: 10px;
-		}
-		.error-message {
-		  color: red;
-		  font-weight: bold;
-		  margin-bottom: 10px;
-		}
+	.success-message,
+	.error-message {
+	  min-height: 24px; /* 即使没内容也占位，防止跳动 */
+	  font-size: 14px;
+	  padding-left: 4px;
+	  color: green;     /* error-message 也可设置 red */
+	}
+	.error-message {
+	  color: #d9534f;
+	}
 	/* 消息提示区结尾 */
 	
 	/* 选择文件区 */
