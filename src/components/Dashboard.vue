@@ -1,3 +1,4 @@
+<!-- src/components/Dashboard.vue -->
 <template>
   <div class="dashboard-container">
     <!-- Sidebar -->
@@ -20,7 +21,9 @@
       <div v-if="loading">
         <h2>加载中...</h2>
       </div>
-      <component :is="currentView" v-else-if="authenticated" />
+        <Transition name="fade" mode="out-in">
+			<component :is="currentView" v-if="authenticated" :key="currentViewName" />
+		</Transition>
       <div v-else class="error">
         <h2>身份验证失败，正在返回登录页...</h2>
       </div>
@@ -143,22 +146,18 @@ function redirectToLogin(delay = 2000) {
   list-style: none;
   padding: 0;
 }
-
 .menu li {
   padding: 0.75rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   border-radius: 4px;
 }
-
 .menu li:hover {
   background-color: #34495e;
 }
-
 .menu li:active {
   transform: scale(0.95);
 }
-
 .menu li.active {
   background-color: #1abc9c;
   color: white;
@@ -176,7 +175,6 @@ function redirectToLogin(delay = 2000) {
     background-position: 0% 50%;
   }
 }
-
 .main-content {
   flex-grow: 1;
   display: flex;
@@ -188,6 +186,18 @@ function redirectToLogin(delay = 2000) {
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
   color: white;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 
 .error {
