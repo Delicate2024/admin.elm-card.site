@@ -44,7 +44,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="selectedFiles.length > 0" style="display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+			<div v-if="selectedFiles.length > 0" style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
 				<span style="color: #333;">{{ selectedFileSummary }}</span>
 				<button @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
 				<button @click="selectedFiles = []" class="delete-button" style="background-color: #999;">取消全选</button>
