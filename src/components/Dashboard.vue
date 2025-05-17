@@ -17,25 +17,25 @@
     </aside>
 
     <!-- 主内容区域 -->
-	<main class="main-content">
-	  <div v-if="loading">
-		<h2>加载中...</h2>
-	  </div>
+<main class="main-content">
+  <div v-if="loading">
+    <h2>加载中...</h2>
+  </div>
 
-	  <template v-else>
-		<Transition name="fade" mode="out-in">
-		  <component
-			v-else-if="authenticated"
-			:is="currentView"
-			:key="currentViewName"
-		  />
-		</Transition>
-
-		<div v-else class="error">
-		  <h2>身份验证失败，正在返回登录页...</h2>
-		</div>
-	  </template>
-	</main>
+  <!-- 👇 v-else 包一层逻辑 -->
+  <template v-else>
+    <Transition name="fade" mode="out-in">
+      <template v-if="authenticated">
+        <component :is="currentView" :key="currentViewName" />
+      </template>
+      <template v-else>
+        <div class="error">
+          <h2>身份验证失败，正在返回登录页...</h2>
+        </div>
+      </template>
+    </Transition>
+  </template>
+</main>
   </div>
 </template>
 
