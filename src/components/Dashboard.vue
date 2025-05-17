@@ -44,7 +44,11 @@
 					</div>
 				</div>
 			</div>
-			<button v-if="selectedFiles.length > 0" @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
+			<div v-if="selectedFiles.length > 0" style="display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+				<span style="color: #333;">{{ selectedFileSummary }}</span>
+				<button @click="deleteSelectedFiles" class="delete-button">删除选中的文件</button>
+				<button @click="selectedFiles = []" class="delete-button" style="background-color: #999;">取消全选</button>
+			</div>
 		</div>
 	
 	</div><!-- 图片上传区结尾 -->
@@ -233,6 +237,45 @@ function toggleSelectAll(type) {
     selectedFiles.value.push(...newSelections);
   }
 }
+const paginatedAssets = computed(() => {
+  const result = {};
+  for (const type in assets.value) {
+    const page = getCurrentPage(type);
+    const start = (page - 1) * pageSize.value;
+    result[type] = assets.value[type].slice(start, start + pageSize.value);
+  }
+  return result;
+});
+function changePage(type, newPage) {
+  const total = totalPagesMap.value[type];
+  if (newPage >= 1 && newPage <= total) {
+    currentPageMap.value[type] = newPage;
+  }
+}
+const selectedFileSummary = computed(() => {
+  const typeCountMap = {};
+
+  selectedFiles.value.forEach(file => {
+    if (!typeCountMap[file.type]) {
+      typeCountMap[file.type] = 1;
+    } else {
+      typeCountMap[file.type]++;
+    }
+  });
+
+  const total = selectedFiles.value.length;
+  const typeLabels = {
+    images: '图片',
+    documents: '文档',
+    audio: '音频',
+  };
+
+  const typeSummary = Object.entries(typeCountMap)
+    .map(([type, count]) => `${typeLabels[type] || type} ${count}`)
+    .join('，');
+
+  return `已选中 ${total} 个文件(${typeSummary})`;
+});
 const deleteFile = async (type, name) => {
   try {
     const csrfToken = localStorage.getItem('csrfToken');
@@ -266,21 +309,6 @@ const deleteSelectedFiles = async () => {
     console.error('删除文件失败:', err);
   }
 };
-const paginatedAssets = computed(() => {
-  const result = {};
-  for (const type in assets.value) {
-    const page = getCurrentPage(type);
-    const start = (page - 1) * pageSize.value;
-    result[type] = assets.value[type].slice(start, start + pageSize.value);
-  }
-  return result;
-});
-function changePage(type, newPage) {
-  const total = totalPagesMap.value[type];
-  if (newPage >= 1 && newPage <= total) {
-    currentPageMap.value[type] = newPage;
-  }
-}
 
 // 函数——工具类函数区
 function formatAssetType(type) {
@@ -513,15 +541,6 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	/* 复选框间距 */input[type="checkbox"] {
 	  margin-right: 10px;
 	}
-	/* 删除按钮样式 */.delete-button {
-	  padding: 10px 16px;
-	  background-color: #e74c3c;
-	  color: white;
-	  border: none;
-	  border-radius: 6px;
-	  cursor: pointer;
-	  margin-top: 2px;
-	}
 	.pageController {
 		padding: 4px;
 		display: flex;
@@ -532,8 +551,11 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	.pageController span {
 	  color: black;
 	}
-	.delete-button:hover {
-	  background-color: #c0392b;
+	.delete-button.cancel-button {
+	  background-color: #999;
+	}
+	.delete-button.cancel-button:hover {
+	  background-color: #777;
 	}
 /* 文件清单区结尾 */
 
