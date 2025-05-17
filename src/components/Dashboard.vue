@@ -555,18 +555,6 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 
 /* 公共资源区 */ 
 	/* 按钮区 */
-	button.delete-button {
-	  padding: 10px 16px;
-	  background-color: #ff0000;
-	  color: white;
-	  border: none;
-	  border-radius: 6px;
-	  cursor: pointer;
-	  margin-top: 2px;
-	}
-	button.delete-button:hover {
-	  background-color: #7d0000;
-	}
 	/* 普通按钮 */button {
 	  padding: 10px;
 	  height: 40px;
@@ -585,6 +573,18 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
 	  background-color: #ccc;
 	  cursor: not-allowed;
 	  opacity: 0.7; /* 更明显的禁用状态 */
+	}
+	delete-button {
+	  padding: 10px 16px;
+	  background-color: #ff0000;
+	  color: white;
+	  border: none;
+	  border-radius: 6px;
+	  cursor: pointer;
+	  margin-top: 2px;
+	}
+	delete-button:hover {
+	  background-color: #7d0000;
 	}
 	/* 按钮区结尾 */
 </style>
