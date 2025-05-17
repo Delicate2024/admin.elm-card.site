@@ -165,12 +165,29 @@ function redirectToLogin(delay = 2000) {
   font-weight: bold;
 }
 
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .main-content {
   flex-grow: 1;
-  display: flex;           /* 必须有：启用 Flex 布局 */
-  justify-content: center; /* 水平居中子元素 */
-  align-items: flex-start; /* 可选：顶部对齐 */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   padding: 2rem;
+
+  background: linear-gradient(-45deg, #2c3e50, #1abc9c, #3498db, #9b59b6);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: white;
 }
 
 .error {
