@@ -167,6 +167,9 @@ function redirectToLogin(delay = 2000) {
 
 .main-content {
   flex-grow: 1;
+  display: flex;           /* 必须有：启用 Flex 布局 */
+  justify-content: center; /* 水平居中子元素 */
+  align-items: flex-start; /* 可选：顶部对齐 */
   padding: 2rem;
 }
 
