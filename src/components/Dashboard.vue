@@ -62,13 +62,11 @@ const currentView = computed(() => componentMap[currentViewName.value]);
 // 点击切换视图
 function selectView(name) {
   if (currentViewName.value === name) return;
-
   loading.value = true;
-
+  currentViewName.value = name;
   setTimeout(() => {
-    currentViewName.value = name;
     loading.value = false;
-  }, 1000);
+  }, 500);
 }
 
 // 控制台日志（可选）
@@ -81,7 +79,7 @@ onMounted(() => {
   // 模拟加载动画
   setTimeout(() => {
     loading.value = false;
-  }, 1000);
+  }, 500);
 
   const decodedToken = getDecodedRedirectToken();
   if (!decodedToken || isTokenExpired(decodedToken)) {
