@@ -23,7 +23,9 @@
 		  </div>
 
 		  <div v-else-if="authenticated">
-			<component :is="currentView" :key="currentViewName" />
+			<keep-alive>
+			  <component :is="currentView" :key="currentViewName" v-if="authenticated" />
+			</keep-alive>
 		  </div>
 
 		  <div v-else class="error">
@@ -61,12 +63,7 @@ const currentView = computed(() => componentMap[currentViewName.value]);
 
 // 点击切换视图
 function selectView(name) {
-  if (currentViewName.value === name) return;
-  loading.value = true;
   currentViewName.value = name;
-  setTimeout(() => {
-    loading.value = false;
-  }, 3000);
 }
 
 // 控制台日志（可选）
@@ -79,7 +76,7 @@ onMounted(() => {
   // 模拟加载动画
   setTimeout(() => {
     loading.value = false;
-  }, 500);
+  }, 1000);
 
   const decodedToken = getDecodedRedirectToken();
   if (!decodedToken || isTokenExpired(decodedToken)) {
