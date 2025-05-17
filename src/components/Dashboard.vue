@@ -17,17 +17,25 @@
     </aside>
 
     <!-- 主内容区域 -->
-    <main class="main-content">
-      <div v-if="loading">
-        <h2>加载中...</h2>
-      </div>
-        <Transition name="fade" mode="out-in">
-			<component :is="currentView" v-if="authenticated" :key="currentViewName" />
-		</Transition>
-      <div v-else class="error">
-        <h2>身份验证失败，正在返回登录页...</h2>
-      </div>
-    </main>
+	<main class="main-content">
+		<div v-if="loading">
+			<h2>加载中...</h2>
+		</div>
+
+		<!-- 解决 v-else 报错的方法：用 template 来控制条件 -->
+		<template v-else>
+			<Transition name="fade" mode="out-in">
+				<component
+				  v-if="authenticated"
+				  :is="currentView"
+				  :key="currentViewName"
+				/>
+			</Transition>
+			<div v-else class="error">
+				<h2>身份验证失败，正在返回登录页...</h2>
+			</div>
+		</template>
+	</main>
   </div>
 </template>
 
