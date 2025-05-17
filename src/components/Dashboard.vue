@@ -532,7 +532,7 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   top: 5vh;
   left: 0;
   right: 0;
-  height: 90vh;
+  height: 90dvh;
   overflow-y: auto;
   padding: 0.8375vw;
   box-sizing: border-box;
