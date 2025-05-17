@@ -1,3 +1,4 @@
+<!-- src/components/Dashboard/FileHub.vue -->
 <template>
 	<div class="fileHub">
 		<h2>欢迎来到 FileHub !!</h2>
@@ -107,6 +108,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import axios from 'axios';
 
+// 变量——上传区
 const uploading = ref(false);
 const handleImageFiles = ref([]);
 const webpFiles = ref([]);
@@ -117,6 +119,7 @@ const uploadedCount = ref(0);
 const fileInput = ref(null);
 const objectURLs = ref(new Set());
 
+// 变量——清单区
 const assets = ref({});
 const selectedFiles = ref([]);
 const pageSize = ref(10);
@@ -138,6 +141,7 @@ onUnmounted(() => {
 	objectURLs.value.clear();
 });
 
+// 函数——上传区
 const handleImageChange = async (event) => {
 	handleImageFiles.value = Array.from(event.target.files);
 	const batchSize = 3;
@@ -193,6 +197,7 @@ const uploadImages = () => {
 	});
 };
 
+// 函数——清单区(又分列表区、全选区、分页区、删除区)
 const fetchAssets = async () => {
 	try {
 		const csrfToken = localStorage.getItem('csrfToken');
@@ -210,7 +215,6 @@ const fetchAssets = async () => {
 		console.error('获取文件失败', err);
 	}
 };
-
 function isPageSelected(type) {
 	const currentFiles = paginatedAssets.value[type] || [];
 	return currentFiles.every(file =>
@@ -281,6 +285,7 @@ const deleteSelectedFiles = async () => {
 	selectedFiles.value = [];
 };
 
+// 函数——工具区
 function formatAssetType(type) {
 	const typeMapping = {
 		images: '图片',
@@ -382,26 +387,21 @@ async function uploadFileBatch(files, fieldName, csrfToken, url = '/api/uploadAs
   background-color: #007bff;
   color: white;
 }
-
 .standard-button:hover:not(:disabled) {
   background-color: #0056b3;
 }
-
 .standard-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
   opacity: 0.7;
 }
-
 .danger-button {
   background-color: #ff0000; 
   border-radius: 0.3138vw;
 }
-
 .danger-button:hover:not(:disabled){
   background-color: #a10000; 
 }
-
 button.delete-button {
   padding: 0.523vw 0.8375vw;
   margin-top: 0.2146vh;
@@ -495,7 +495,6 @@ button.delete-button {
   cursor: pointer;
   position: relative;
 }
-
 .file-input-wrapper input[type="file"] {
   position: absolute;
   left: 0;
@@ -505,7 +504,6 @@ button.delete-button {
   height: 100%;
   cursor: pointer;
 }
-
 .file-input-wrapper span {
   display: inline-block;
   white-space: nowrap;
@@ -521,7 +519,6 @@ button.delete-button {
   gap: 0.8375vw;
   padding: 0 0.628vw;
 }
-
 .asset-subgroup {
   width: calc((100% - 1.674vw) / 3);
   height: 51.5021vh;
@@ -556,7 +553,6 @@ button.delete-button {
   padding: 0.2092vw;
   margin: 0 0 0.8375vw 0;
 }
-
 .file-item {
   display: flex;
   align-items: center;
@@ -568,7 +564,6 @@ button.delete-button {
   font-size: 0.818vw;
   color: #555;  
 }
-
 input[type="checkbox"] {
   margin-right: 0.523vw;
 }
@@ -583,7 +578,6 @@ input[type="checkbox"] {
 .pageController span {
   color: black;
 }
-
 .batch-actions {
   display: flex;
   justify-content: flex-end;
@@ -592,7 +586,6 @@ input[type="checkbox"] {
   margin-top: 0.6438vh;
   flex-wrap: wrap;
 }
-
 .selected-summary {
   color: #333;
 }

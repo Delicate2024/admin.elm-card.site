@@ -1,13 +1,29 @@
-<!-- src/components/Dashboard.vue -->
 <template>
-	<div v-if="loading">
-		<h2>加载中...</h2>
-	</div>
+	<div class="dashboard-container">
+		<!-- Sidebar 区域 -->
+		<aside class="sidebar">
+			<h2 class="logo">📁 FileHub</h2>
+			<ul class="menu">
+				<li :class="{ active: currentView === 'FileHub' }" @click="currentView = 'FileHub'">文件管理</li>
+				<li :class="{ active: currentView === 'CardTable' }" @click="currentView = 'CardTable'">卡片表格</li>
+			</ul>
+		</aside>
 
-	<FileHub v-else-if="authenticated" />
+		<!-- 主内容区域 -->
+		<main class="main-content">
+			<div v-if="loading">
+				<h2>加载中...</h2>
+			</div>
 
-	<div v-else class="error">
-		<h2>身份验证失败，正在返回登录页...</h2>
+			<component
+				:is="currentView"
+				v-else-if="authenticated"
+			/>
+
+			<div v-else class="error">
+				<h2>身份验证失败，正在返回登录页...</h2>
+			</div>
+		</main>
 	</div>
 </template>
 
@@ -16,14 +32,16 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
-import FileHub from './Dashboard/FileHub.vue'; // 
 
-// 变量——身份验证区
+// 引入子组件
+import FileHub from './Dashboard/FileHub.vue';
+import CardTable from './Dashboard/CardTable.vue';
+
 const router = useRouter();
 const authenticated = ref(false);
 const loading = ref(true);
+const currentView = ref('FileHub'); // 默认视图为 FileHub
 
-// 函数——生命周期钩子
 onMounted(() => {
 	setTimeout(() => { loading.value = false; }, 1000);
 
@@ -48,7 +66,6 @@ onMounted(() => {
 		});
 });
 
-// 函数——工具类
 function getDecodedRedirectToken() {
 	const token = localStorage.getItem('redirectToken');
 	if (!token) return null;
@@ -75,5 +92,55 @@ function redirectToLogin(delay = 2000) {
 </script>
 
 <style scoped>
-</style>
+.dashboard-container {
+	display: flex;
+	height: 100vh;
+	font-family: 'Segoe UI', sans-serif;
+}
 
+/* Sidebar 样式 */
+.sidebar {
+	width: 15vw;
+	background-color: #2c3e50;
+	color: #ecf0f1;
+	padding: 1.5vh 1vw;
+	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+}
+
+.logo {
+	margin-bottom: 2vh;
+	font-size: 1.2vw;
+}
+
+.menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.menu li {
+	cursor: pointer;
+	padding: 1vh 0.5vw;
+	margin-bottom: 1vh;
+	border-radius: 4px;
+	transition: background-color 0.2s ease;
+}
+
+.menu li:hover {
+	background-color: #34495e;
+}
+
+.menu li.active {
+	background-color: #007bff;
+}
+
+/* 主内容区域 */
+.main-content {
+	flex: 1;
+	background-color: #f4f6f8;
+	padding: 2vh 2vw;
+	overflow-y: auto;
+}
+</style>
