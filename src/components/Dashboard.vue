@@ -733,9 +733,9 @@ button.delete-button {
 	width:90vw;
   }
   .asset-group {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh; 
   }
   .asset-subgroup {
     width: 100% !important;
